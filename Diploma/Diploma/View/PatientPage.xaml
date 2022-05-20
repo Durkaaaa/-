@@ -1,0 +1,46 @@
+﻿<Page x:Class="Diploma.View.PatientPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Diploma.View"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" 
+      d:DesignWidth="800"
+      Title="PatientPage">
+
+    <Grid Background="White">
+        <StackPanel HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+            <TextBlock Text="Фамилия"/>
+            <TextBox Text="{Binding Surname}"/>
+            
+            <TextBlock Text="Имя"/>
+            <TextBox Text="{Binding Name}"/>
+            
+            <TextBlock Text="Отчество"/>
+            <TextBox Text="{Binding Lastname}"/>
+            
+            <TextBlock Text="Пол"/>
+            <ComboBox/>
+
+            <TextBlock Text="Дата рождения"/>
+            <DatePicker/>
+
+            <TextBlock Text="ПОЛИС"/>
+            <TextBox Text="{Binding Policy}"/>
+            
+            <TextBlock Text="СНИЛС"/>
+            <TextBox Text="{Binding Snils}"/>
+            
+            <TextBlock Text="Серия паспорта"/>
+            <TextBox Text="{Binding PassportSeries}"/>
+            
+            <TextBlock Text="Номер паспорта"/>
+            <TextBox Text="{Binding PassportNumber}"/>
+            
+            <TextBlock Text="Место прописки"/>
+            <TextBox Text="{Binding Address}"/>
+        </StackPanel>
+    </Grid>
+</Page>
