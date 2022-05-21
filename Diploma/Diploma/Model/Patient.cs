@@ -11,10 +11,10 @@ namespace Diploma.Model
         public int GenderId { get; set; }
         public virtual Gender Gender { get; set; }
         public DateTime DateOfBirth { get; set; }
-        public ulong Policy { get; set; }
-        public ulong Snils { get; set; }
-        public long PassportSeries { get; set; }
-        public long PassportNumber { get; set; }
+        public string Policy { get; set; }
+        public string Snils { get; set; }
+        public string PassportSeries { get; set; }
+        public string PassportNumber { get; set; }
         public string Address { get; set; }
     }
 }

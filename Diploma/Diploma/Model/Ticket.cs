@@ -10,7 +10,6 @@ namespace Diploma.Model
         public int DoctorId { get; set; }
         public virtual Doctor Doctor { get; set; }
         public DateTime DateOfReceipt { get; set; }
-        public DateTime TimeOfReceipt { get; set; }
         public int CabinetId { get; set; }
         public virtual Cabinet Cabinet { get; set; }
     }

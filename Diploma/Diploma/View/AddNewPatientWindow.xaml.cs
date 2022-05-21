@@ -10,17 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Diploma.View
 {
     /// <summary>
-    /// Логика взаимодействия для PatientPage.xaml
+    /// Логика взаимодействия для AddNewPatientWindow.xaml
     /// </summary>
-    public partial class PatientPage : Page
+    public partial class AddNewPatientWindow : Window
     {
-        public PatientPage()
+        public AddNewPatientWindow()
         {
             InitializeComponent();
         }

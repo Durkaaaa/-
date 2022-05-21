@@ -1,9 +1,18 @@
-﻿using System.Windows.Controls;
+﻿using Diploma.Command;
+using Diploma.Model;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace Diploma.ViewModel
 {
     public class DataMainWindowVM : ViewModelBase
     {
+        
+
+        public DataMainWindowVM() { }
+
+        
+
         private Page _page;
         public Page Page
         {
@@ -14,5 +23,6 @@ namespace Diploma.ViewModel
                 NotifyPropertyChanged(nameof(Page));
             }
         }
+
     }
 }
