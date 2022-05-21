@@ -10,7 +10,8 @@ namespace Diploma.Model.Data
         public DbSet<Speciality> Speciality { get; set; }
         public DbSet<Ticket> Ticket { get; set; }
         public DbSet<Cabinet> Cabinets { get; set;}
-        public DbSet<Reception> Receptions { get; set; }
+        public DbSet<MedicalСard> MedicalСards { get; set; }
+        public DbSet<Medicine> Medicines { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

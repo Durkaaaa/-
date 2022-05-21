@@ -18,25 +18,37 @@ namespace Diploma.ViewModel
         public static string PassportSeries { get; set; }
         public static string PassportNumber { get; set; }
         public static string Address { get; set; }
+        public static int IndexGender { get; set; }
         public static Patient SelectedPatient { get; set; }
 
         public DataEditPatientVM(Patient selectedPatient)
         {
             SelectedPatient = selectedPatient;
+            Surname = SelectedPatient.Surname;
+            Name = SelectedPatient.Name;
+            Lastname = SelectedPatient.Lastname;
+            SelectedGender = SelectedPatient.Gender;
+            DateOfBirth = SelectedPatient.DateOfBirth;
+            Policy = SelectedPatient.Policy;
+            Snils = SelectedPatient.Snils;
+            PassportSeries = SelectedPatient.PassportSeries;
+            PassportNumber = SelectedPatient.PassportNumber;
+            Address = SelectedPatient.Address;
+            IndexGender = DataWorker.GetIndexGender(SelectedPatient.GenderId);
         }
 
-        private List<Gender> allGender = DataWorker.GetAllGender();
+        private List<Gender> _allGender = DataWorker.GetAllGender();
         public List<Gender> AllGender
         {
-            get { return allGender; }
+            get { return _allGender; }
             set
             {
-                allGender = value;
+                _allGender = value;
                 NotifyPropertyChanged("AllGender");
             }
         }
 
-        public RelayCommand AddNewPatient
+        public RelayCommand EditPatient
         {
             get
             {
@@ -73,10 +85,18 @@ namespace Diploma.ViewModel
                             if (SelectedGender == null)
                                 ShowMessageToUser("Не выбран пол");
 
+                            if (DateOfBirth > DateTime.Now)
+                                ShowMessageToUser("Не правильная дата");
+
                             if (Policy == null || Policy.Replace(" ", "").Length == 0)
                                 SetRedBlockControll(window, "PolicyBlock");
                             else
                                 SetBlackBlockControll(window, "PolicyBlock");
+
+                            if (Snils == null || Snils.Replace(" ", "").Length == 0)
+                                SetRedBlockControll(window, "SnilsBlock");
+                            else
+                                SetBlackBlockControll(window, "SnilsBlock");
 
                             if (PassportSeries == null || PassportSeries.Replace(" ", "").Length == 0)
                                 SetRedBlockControll(window, "PassportSeriesBlock");
@@ -95,6 +115,14 @@ namespace Diploma.ViewModel
                         }
                         else
                         {
+                            SetBlackBlockControll(window, "SurnameBlock");
+                            SetBlackBlockControll(window, "NameBlock");
+                            SetBlackBlockControll(window, "LastnameBlock");
+                            SetBlackBlockControll(window, "PolicyBlock");
+                            SetBlackBlockControll(window, "SnilsBlock");
+                            SetBlackBlockControll(window, "PassportSeriesBlock");
+                            SetBlackBlockControll(window, "PassportNumberBlock");
+                            SetBlackBlockControll(window, "AddressBlock");
                             var result = DataWorker.EditPatient(SelectedPatient, Surname, Name, Lastname, SelectedGender, DateOfBirth,
                                 Policy, Snils, PassportSeries, PassportNumber, Address);
                             ShowMessageToUser(result);
@@ -118,6 +146,7 @@ namespace Diploma.ViewModel
             PassportNumber = null;
             Address = null;
             SelectedPatient = null;
+            IndexGender = 0;
         }
     }
 }

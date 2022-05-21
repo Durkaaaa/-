@@ -21,13 +21,13 @@ namespace Diploma.ViewModel
 
         public DataAddNewPatientVM() { }
 
-        private List<Gender> allGender = DataWorker.GetAllGender();
+        private List<Gender> _allGender = DataWorker.GetAllGender();
         public List<Gender> AllGender
         {
-            get { return allGender; }
+            get { return _allGender; }
             set
             {
-                allGender = value;
+                _allGender = value;
                 NotifyPropertyChanged("AllGender");
             }
         }
@@ -67,10 +67,18 @@ namespace Diploma.ViewModel
                         if (SelectedGender == null)
                             ShowMessageToUser("Не выбран пол");
 
+                        if (DateOfBirth > DateTime.Now)
+                            ShowMessageToUser("Не правильная дата");
+
                         if (Policy == null || Policy.Replace(" ", "").Length == 0)
                             SetRedBlockControll(window, "PolicyBlock");
                         else
                             SetBlackBlockControll(window, "PolicyBlock");
+                        
+                        if (Snils == null || Snils.Replace(" ", "").Length == 0)
+                            SetRedBlockControll(window, "SnilsBlock");
+                        else
+                            SetBlackBlockControll(window, "SnilsBlock");
 
                         if (PassportSeries == null || PassportSeries.Replace(" ", "").Length == 0)
                             SetRedBlockControll(window, "PassportSeriesBlock");
@@ -89,6 +97,14 @@ namespace Diploma.ViewModel
                     }
                     else
                     {
+                        SetBlackBlockControll(window, "SurnameBlock");
+                        SetBlackBlockControll(window, "NameBlock");
+                        SetBlackBlockControll(window, "LastnameBlock");
+                        SetBlackBlockControll(window, "PolicyBlock");
+                        SetBlackBlockControll(window, "SnilsBlock");
+                        SetBlackBlockControll(window, "PassportSeriesBlock");
+                        SetBlackBlockControll(window, "PassportNumberBlock");
+                        SetBlackBlockControll(window, "AddressBlock");
                         var result = DataWorker.AddNewPatient(Surname, Name, Lastname, SelectedGender,DateOfBirth,
                             Policy, Snils, PassportSeries, PassportNumber, Address);
                         ShowMessageToUser(result);

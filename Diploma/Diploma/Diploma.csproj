@@ -178,7 +178,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Command\DataWorker.cs" />
+    <Compile Include="Model\Medicine.cs" />
+    <Compile Include="ViewModel\DataAddNewDoctorVM.cs" />
+    <Compile Include="ViewModel\DataAddNewMedicalСardVM.cs" />
     <Compile Include="ViewModel\DataAddNewPatientVM.cs" />
+    <Compile Include="ViewModel\DataEditDoctorVM.cs" />
+    <Compile Include="ViewModel\DataEditMedicalСardVM.cs" />
     <Compile Include="ViewModel\DataEditPatientVM.cs" />
     <Compile Include="ViewModel\DataMainWindowVM.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
@@ -199,7 +204,7 @@
     <Compile Include="Model\Doctor.cs" />
     <Compile Include="Model\Gender.cs" />
     <Compile Include="Model\Patient.cs" />
-    <Compile Include="Model\Reception.cs" />
+    <Compile Include="Model\MedicalСard.cs" />
     <Compile Include="Model\Speciality.cs" />
     <Compile Include="Model\Ticket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

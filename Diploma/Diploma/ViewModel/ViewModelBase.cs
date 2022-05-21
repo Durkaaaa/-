@@ -1,4 +1,6 @@
-﻿using Diploma.View;
+﻿using Diploma.Model;
+using Diploma.View;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -8,8 +10,27 @@ namespace Diploma.ViewModel
 {
     public class ViewModelBase : INotifyPropertyChanged
     {
+        private List<Doctor> _listDoctor;
+        public List<Doctor> ListDoctor
+        {
+            get => _listDoctor;
+            set
+            {
+                _listDoctor = value;
+                NotifyPropertyChanged(nameof(ListDoctor));
+            }
+        }
 
-
+        private List<Patient> _listPatient;
+        public List<Patient> ListPatient
+        {
+            get => _listPatient;
+            set
+            {
+                _listPatient = value;
+                NotifyPropertyChanged(nameof(ListPatient));
+            }
+        }
 
 
 
