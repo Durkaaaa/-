@@ -12,11 +12,16 @@ namespace Diploma.ViewModel
         public static string Name { get; set; }
         public static string Lastname { get; set; }
         public static Speciality SelectedSpeciality { get; set; }
-        public static int WorkExperience { get; set; }
-        public static DateTime WorkWith { get; set; }
-        public static DateTime WorkUntil { get; set; }
+        public static DateTime DateOfEmployment { get; set; }
+        public static int WorkWithHour { get; set; }
+        public static int WorkWithMinute { get; set; }
+        public static int WorkUntilHour { get; set; }
+        public static int WorkUntilMinute { get; set; }
 
-        public DataAddNewDoctorVM() { }
+        public DataAddNewDoctorVM()
+        {
+            DateOfEmployment = DateTime.Now;
+        }
 
         private List<Speciality> _allSpeciality = DataWorker.GetAllSpeciality();
         public List<Speciality> AllSpeciality
@@ -40,7 +45,11 @@ namespace Diploma.ViewModel
                         Name == null || Name.Replace(" ", "").Length == 0 ||
                         Lastname == null || Lastname.Replace(" ", "").Length == 0 ||
                         SelectedSpeciality == null ||
-                        WorkWith >= WorkUntil)
+                        DateOfEmployment > DateTime.Now ||
+                        WorkWithHour >= 24 ||
+                        WorkWithMinute >= 60 ||
+                        WorkUntilHour >= 24 ||
+                        WorkUntilMinute >= 60)
                     {
                         if (Surname == null || Surname.Replace(" ", "").Length == 0)
                             SetRedBlockControll(window, "SurnameBlock");
@@ -60,16 +69,41 @@ namespace Diploma.ViewModel
                         if (SelectedSpeciality == null)
                             ShowMessageToUser("Не выбрана специальность");
 
-                        if ((WorkWith.Hour >= WorkUntil.Hour) && (WorkUntil.Minute > WorkUntil.Minute))
-                            ShowMessageToUser("Не праильное время");
+                        if (DateOfEmployment > DateTime.Now)
+                            ShowMessageToUser("Неправильная дата");
+
+                        if (WorkWithHour >= 24)
+                            SetRedBlockControll(window, "WorkWithHourBlock");
+                        else
+                            SetBlackBlockControll(window, "WorkWithHourBlock");
+
+                        if (WorkWithMinute >= 60)
+                            SetRedBlockControll(window, "WorkWithMinuteBlock");
+                        else
+                            SetBlackBlockControll(window, "WorkWithMinuteBlock");
+
+                        if (WorkUntilHour >= 24)
+                            SetRedBlockControll(window, "WorkUntilHourBlock");
+                        else
+                            SetBlackBlockControll(window, "WorkUntilHourBlock");
+
+                        if (WorkUntilMinute >= 60)
+                            SetRedBlockControll(window, "WorkUntilMinuteBlock");
+                        else
+                            SetBlackBlockControll(window, "WorkUntilMinuteBlock");
                     }
                     else
                     {
                         SetBlackBlockControll(window, "SurnameBlock");
                         SetBlackBlockControll(window, "NameBlock");
                         SetBlackBlockControll(window, "LastnameBlock");
-                        var result = DataWorker.AddNewDoctor(Surname, Name, Lastname, 
-                            SelectedSpeciality, WorkExperience, WorkWith, WorkUntil);
+                        SetBlackBlockControll(window, "WorkWithHourBlock");
+                        SetBlackBlockControll(window, "WorkWithMinuteBlock");
+                        SetBlackBlockControll(window, "WorkUntilHourBlock");
+                        SetBlackBlockControll(window, "WorkUntilMinuteBlock");
+                        var result = DataWorker.AddNewDoctor(Surname, Name, Lastname,
+                            SelectedSpeciality, DateOfEmployment, WorkWithHour, WorkWithMinute,
+                            WorkUntilHour, WorkUntilMinute);
                         ShowMessageToUser(result);
                         Zeroing();
                         window.Close();
@@ -84,9 +118,11 @@ namespace Diploma.ViewModel
             Name = null;
             Lastname = null;
             SelectedSpeciality = null;
-            WorkExperience = 0;
-            WorkWith = DateTime.Now;
-            WorkUntil = DateTime.Now;
+            DateOfEmployment = DateTime.Now;
+            WorkWithHour = 0;
+            WorkWithMinute = 0;
+            WorkUntilHour = 0;
+            WorkUntilMinute = 0;
         }
     }
 }

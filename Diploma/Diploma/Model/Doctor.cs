@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Diploma.Command;
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Diploma.Model
 {
@@ -10,8 +12,17 @@ namespace Diploma.Model
         public string Lastname { get; set; }
         public int SpecialityId { get; set; }
         public virtual Speciality Speciality { get; set; }
-        public int WorkExperience { get; set; }
+        public DateTime DateOfEmployment { get; set; }
         public DateTime WorkWith { get; set; }
         public DateTime WorkUntil { get; set; }
+
+        [NotMapped]
+        public Speciality DoctorSpeciality
+        {
+            get
+            {
+                return DataWorker.GetSpecialityById(SpecialityId);
+            }
+        }
     }
 }

@@ -7,12 +7,44 @@
         mc:Ignorable="d"
         Title="Главная" 
         Height="450"
-        Width="800">
+        Width="800"
+        x:Name="MainWnd">
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.25*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+
+        <Border>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="1"
+                            VerticalAlignment="Center"
+                            Margin="5">
+                    
+                    <Button Content="Все врачи"
+                            Width="150" 
+                            Height="40"
+                            Margin="5"
+                            Command="{Binding OpenDoctorPage}"
+                            CommandParameter="{Binding ElementName=MainWnd}"/>
+                    
+                    <Button Width="150" 
+                            Height="40"
+                            Margin="5"/>
+                    
+                    <Button Width="150" 
+                            Height="40"
+                            Margin="5"/>
+                </StackPanel>
+            </Grid>    
+        </Border>
 
         <Frame x:Name="FrameBlock"
                Grid.Column="1"

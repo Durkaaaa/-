@@ -182,13 +182,24 @@
     <Compile Include="ViewModel\DataAddNewDoctorVM.cs" />
     <Compile Include="ViewModel\DataAddNewMedicalСardVM.cs" />
     <Compile Include="ViewModel\DataAddNewPatientVM.cs" />
+    <Compile Include="ViewModel\DataDoctorVM.cs" />
     <Compile Include="ViewModel\DataEditDoctorVM.cs" />
     <Compile Include="ViewModel\DataEditMedicalСardVM.cs" />
     <Compile Include="ViewModel\DataEditPatientVM.cs" />
     <Compile Include="ViewModel\DataMainWindowVM.cs" />
+    <Compile Include="ViewModel\DataMedicalCardVM.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="View\AddNewDoctorWindow.xaml.cs">
+      <DependentUpon>AddNewDoctorWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\AddNewPatientWindow.xaml.cs">
       <DependentUpon>AddNewPatientWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DoctorPage.xaml.cs">
+      <DependentUpon>DoctorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\EditDoctorWindow.xaml.cs">
+      <DependentUpon>EditDoctorWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -235,7 +246,19 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Page Include="View\AddNewDoctorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\AddNewPatientWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DoctorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EditDoctorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using Diploma.ViewModel;
+using System.Windows;
 
 namespace Diploma.View
 {
@@ -10,6 +11,7 @@ namespace Diploma.View
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new DataMainWindowVM();
         }
     }
 }

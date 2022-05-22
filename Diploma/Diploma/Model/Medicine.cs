@@ -2,8 +2,9 @@
 {
     public class Medicine
     {
-        public static int MedicalСardId { get; set; }
+        public int Id { get; set; }
+        public int MedicalСardId { get; set; }
         public virtual MedicalСard MedicalСard { get; set; }
-        public static string Titl { get; set; }
+        public string Titl { get; set; }
     }
 }
