@@ -1,4 +1,5 @@
-﻿using Diploma.Model;
+﻿using Diploma.Command;
+using Diploma.Model;
 using Diploma.View;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -32,7 +33,23 @@ namespace Diploma.ViewModel
             }
         }
 
+        public void UpdateAllDoctorPage()
+        {
+            ListDoctor = DataWorker.GetAllDoctor();
+            DoctorPage.DoctorList.ItemsSource = null;
+            DoctorPage.DoctorList.Items.Clear();
+            DoctorPage.DoctorList.ItemsSource = ListDoctor;
+            DoctorPage.DoctorList.Items.Refresh();
+        }
 
+        public void UpdateAllPatientPage()
+        {
+            ListPatient = DataWorker.GetAllPatient();
+            PatientPage.PatientList.ItemsSource = null;
+            PatientPage.PatientList.Items.Clear();
+            PatientPage.PatientList.ItemsSource = ListPatient;
+            PatientPage.PatientList.Items.Refresh();
+        }
 
         #region [Изменение цвета TextBox]
         //Изменение цвета TextBox на красный

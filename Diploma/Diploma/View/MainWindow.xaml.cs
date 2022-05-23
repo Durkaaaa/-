@@ -1,4 +1,5 @@
-﻿using Diploma.ViewModel;
+﻿using Diploma.Model.Data;
+using Diploma.ViewModel;
 using System.Windows;
 
 namespace Diploma.View

@@ -9,14 +9,19 @@ namespace Diploma.ViewModel
     {
         public static Doctor SelectedDoctor { get; set; }
 
-        private List<Doctor> _allDoctor = DataWorker.GetAllDoctor();
+        public DataDoctorVM()
+        {
+            _allDoctor = DataWorker.GetAllDoctor();
+        }
+
+        private List<Doctor> _allDoctor;
         public List<Doctor> AllDoctor
         {
-            get { return _allDoctor; }
+            get => _allDoctor;
             set
             {
                 _allDoctor = value;
-                NotifyPropertyChanged("AllDoctor");
+                NotifyPropertyChanged(nameof(AllDoctor));
             }
         }
 
@@ -28,7 +33,7 @@ namespace Diploma.ViewModel
                 {
                     AddNewDoctorWindow addNewDoctorWindow = new AddNewDoctorWindow();
                     SetCenterPositionAndOpen(addNewDoctorWindow);
-                    _allDoctor = DataWorker.GetAllDoctor();
+                    UpdateAllDoctorPage();
                 });
             }
         }
@@ -44,7 +49,7 @@ namespace Diploma.ViewModel
                         EditDoctorWindow editDoctorWindow = new EditDoctorWindow(SelectedDoctor);
                         SetCenterPositionAndOpen(editDoctorWindow);
                         SelectedDoctor = null;
-                        _allDoctor = DataWorker.GetAllDoctor();
+                        UpdateAllDoctorPage();
                     }
                 });
             }
@@ -61,7 +66,7 @@ namespace Diploma.ViewModel
                         var result = DataWorker.DeleteDoctor(SelectedDoctor);
                         ShowMessageToUser(result);
                         SelectedDoctor = null;
-                        _allDoctor = DataWorker.GetAllDoctor();
+                        UpdateAllDoctorPage();
                     }
                 });
             }

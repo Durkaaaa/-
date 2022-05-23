@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Diploma.View"
         mc:Ignorable="d"
-        Title="AddNewDoctorWindow" 
-        Height="450"
-        Width="800"
+        Title="Добавление врача" 
+        Height="350"
+        Width="250"
         x:Name="AddNewDoctorWnd">
     
     <Grid>
@@ -56,7 +56,7 @@
             <TextBlock Text="Время работы до:"/>
             <StackPanel Orientation="Horizontal">
                 <TextBox x:Name="WorkUntilHourBlock"
-                         Text="{Binding WorkUntilhHour}"
+                         Text="{Binding WorkUntilHour}"
                          Width="20"/>
 
                 <TextBlock Text=":"/>

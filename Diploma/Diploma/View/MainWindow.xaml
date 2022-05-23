@@ -35,9 +35,12 @@
                             Command="{Binding OpenDoctorPage}"
                             CommandParameter="{Binding ElementName=MainWnd}"/>
                     
-                    <Button Width="150" 
+                    <Button Content="Все пациенты"
+                            Width="150" 
                             Height="40"
-                            Margin="5"/>
+                            Margin="5"
+                            Command="{Binding OpenPatientPage}"
+                            CommandParameter="{Binding ElementName=MainWnd}"/>
                     
                     <Button Width="150" 
                             Height="40"

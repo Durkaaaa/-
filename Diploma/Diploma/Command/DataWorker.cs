@@ -34,6 +34,15 @@ namespace Diploma.Command
                 return result;
             }
         }
+        
+        public static Gender GetGenderById(int Id)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var result = db.Genders.FirstOrDefault(p => p.Id == Id);
+                return result;
+            }
+        }
 
 
 
@@ -156,6 +165,18 @@ namespace Diploma.Command
                         result = "Ошибка";
                     }
                 }
+                return result;
+            }
+        }
+
+        public static string DeletePatient(Patient selectedPatient)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var patient = db.Patients.FirstOrDefault(p => p.Id == selectedPatient.Id);
+                db.Patients.Remove(patient);
+                db.SaveChanges();
+                var result = "Запись удалена";
                 return result;
             }
         }

@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Diploma.View"
         mc:Ignorable="d"
-        Title="MessageWindow" Height="450" Width="800"
+        Title="" 
+        Height="250"
+        Width="250"
         Name="MessageWnd">
     
     <Grid>
@@ -25,7 +27,6 @@
                 Grid.Row="1" 
                 FontSize="15"  
                 FontFamily="Comic Sans MS"
-                Command="{Binding CloseWindow}" 
-                CommandParameter="{Binding ElementName=MessageWnd}"/>
+                Click="Button_Click"/>
     </Grid>
 </Window>

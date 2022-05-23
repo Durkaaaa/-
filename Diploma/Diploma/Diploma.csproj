@@ -178,6 +178,11 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Command\DataWorker.cs" />
+    <Compile Include="Migrations\20220523075241_q.cs" />
+    <Compile Include="Migrations\20220523075241_q.designer.cs">
+      <DependentUpon>20220523075241_q.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\ApplicationContextModelSnapshot.cs" />
     <Compile Include="Model\Medicine.cs" />
     <Compile Include="ViewModel\DataAddNewDoctorVM.cs" />
     <Compile Include="ViewModel\DataAddNewMedicalСardVM.cs" />
@@ -188,6 +193,7 @@
     <Compile Include="ViewModel\DataEditPatientVM.cs" />
     <Compile Include="ViewModel\DataMainWindowVM.cs" />
     <Compile Include="ViewModel\DataMedicalCardVM.cs" />
+    <Compile Include="ViewModel\DataPatientVM.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\AddNewDoctorWindow.xaml.cs">
       <DependentUpon>AddNewDoctorWindow.xaml</DependentUpon>
@@ -201,11 +207,17 @@
     <Compile Include="View\EditDoctorWindow.xaml.cs">
       <DependentUpon>EditDoctorWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\EditPatientWindow.xaml.cs">
+      <DependentUpon>EditPatientWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MessageWindow.xaml.cs">
       <DependentUpon>MessageWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PatientPage.xaml.cs">
+      <DependentUpon>PatientPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -262,11 +274,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\EditPatientWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\MessageWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\PatientPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -18,7 +18,19 @@ namespace Diploma.ViewModel
                     Page = doctorPage;
                 });
             }
-        }   
+        }
+
+        public RelayCommand OpenPatientPage
+        {
+            get
+            {
+                return null ?? new RelayCommand(obj =>
+                {
+                    PatientPage patientPage = new PatientPage();
+                    Page = patientPage;
+                });
+            }
+        }
 
         private Page _page;
         public Page Page

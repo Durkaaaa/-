@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Diploma.Command;
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Diploma.Model
 {
@@ -16,5 +18,14 @@ namespace Diploma.Model
         public string PassportSeries { get; set; }
         public string PassportNumber { get; set; }
         public string Address { get; set; }
+
+        [NotMapped]
+        public Gender PatientGender
+        {
+            get
+            {
+                return DataWorker.GetGenderById(GenderId);
+            }
+        }
     }
 }
