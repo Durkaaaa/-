@@ -108,19 +108,32 @@ namespace Diploma.ViewModel
                         }
                         else
                         {
-                            SetBlackBlockControll(window, "SurnameBlock");
-                            SetBlackBlockControll(window, "NameBlock");
-                            SetBlackBlockControll(window, "LastnameBlock");
-                            SetBlackBlockControll(window, "WorkWithHourBlock");
-                            SetBlackBlockControll(window, "WorkWithMinuteBlock");
-                            SetBlackBlockControll(window, "WorkUntilHourBlock");
-                            SetBlackBlockControll(window, "WorkUntilMinuteBlock");
-                            var result = DataWorker.EditDoctor(SelectedDoctor, Surname, Name, Lastname,
-                            SelectedSpeciality, DateOfEmployment, WorkWithHour, WorkWithMinute,
-                            WorkUntilHour, WorkUntilMinute);
-                            ShowMessageToUser(result);
-                            Zeroing();
-                            window.Close();
+                            var workWith = new DateTime(1, 1, 1, WorkWithHour, WorkWithMinute, 00);
+                            var workUntil = new DateTime(1, 1, 1, WorkUntilHour, WorkUntilMinute, 00);
+
+                            if (workWith >= workUntil)
+                            {
+                                ShowMessageToUser("Не правильное время работы");
+                                SetRedBlockControll(window, "WorkWithHourBlock");
+                                SetRedBlockControll(window, "WorkWithMinuteBlock");
+                                SetRedBlockControll(window, "WorkUntilHourBlock");
+                                SetRedBlockControll(window, "WorkUntilMinuteBlock");
+                            }
+                            else
+                            {
+                                SetBlackBlockControll(window, "SurnameBlock");
+                                SetBlackBlockControll(window, "NameBlock");
+                                SetBlackBlockControll(window, "LastnameBlock");
+                                SetBlackBlockControll(window, "WorkWithHourBlock");
+                                SetBlackBlockControll(window, "WorkWithMinuteBlock");
+                                SetBlackBlockControll(window, "WorkUntilHourBlock");
+                                SetBlackBlockControll(window, "WorkUntilMinuteBlock");
+                                var result = DataWorker.EditDoctor(SelectedDoctor, Surname, Name, Lastname,
+                                SelectedSpeciality, DateOfEmployment, workWith, workUntil);
+                                ShowMessageToUser(result);
+                                Zeroing();
+                                window.Close();
+                            }
                         }
                     }
                 });

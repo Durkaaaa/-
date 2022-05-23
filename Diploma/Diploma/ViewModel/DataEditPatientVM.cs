@@ -123,8 +123,9 @@ namespace Diploma.ViewModel
                             SetBlackBlockControll(window, "PassportSeriesBlock");
                             SetBlackBlockControll(window, "PassportNumberBlock");
                             SetBlackBlockControll(window, "AddressBlock");
-                            var result = DataWorker.EditPatient(SelectedPatient, Surname, Name, Lastname, SelectedGender, DateOfBirth,
-                                Policy, Snils, PassportSeries, PassportNumber, Address);
+                            var result = DataWorker.EditPatient(SelectedPatient, Surname, Name,
+                                Lastname, SelectedGender, DateOfBirth, Policy, Snils, PassportSeries,
+                                PassportNumber, Address);
                             ShowMessageToUser(result);
                             Zeroing();
                             window.Close();
@@ -140,6 +141,7 @@ namespace Diploma.ViewModel
             Name = null;
             Lastname = null;
             SelectedGender = null;
+            DateOfBirth = DateTime.Now;
             Policy = null;
             Snils = null;
             PassportSeries = null;

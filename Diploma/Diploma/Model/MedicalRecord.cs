@@ -1,28 +1,31 @@
 ﻿using Diploma.Command;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Diploma.Model
 {
-    public class MedicalСard
+    public class MedicalRecord
     {
         public int Id { get; set; }
-        public int PatientId { get; set; }
-        public virtual Patient Patient { get; set; }
+        public int MedicalСardId { get; set; }
+        public virtual MedicalCard MedicalСard { get; set; }
         public int DoctorId { get; set; }
         public virtual Doctor Doctor { get; set; }
         public string Diagnosis { get; set; }
+        public DateTime StartOfTreatment { get; set; }
+        public DateTime? EndOfTreatment { get; set; }
 
         [NotMapped]
-        public Patient MedicalСardPatient
+        public MedicalCard MedicalRecordsMedicalСard
         {
             get
             {
-                return DataWorker.GetPatientById(PatientId);
+                return DataWorker.GetMedicalСardById(MedicalСardId);
             }
         }
         
         [NotMapped]
-        public Doctor MedicalСardDoctor
+        public Doctor MedicalRecordsDoctor
         {
             get
             {

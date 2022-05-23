@@ -183,6 +183,7 @@
       <DependentUpon>20220523075241_q.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\ApplicationContextModelSnapshot.cs" />
+    <Compile Include="Model\MedicalRecord.cs" />
     <Compile Include="Model\Medicine.cs" />
     <Compile Include="ViewModel\DataAddNewDoctorVM.cs" />
     <Compile Include="ViewModel\DataAddNewMedicalСardVM.cs" />
@@ -197,6 +198,12 @@
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\AddNewDoctorWindow.xaml.cs">
       <DependentUpon>AddNewDoctorWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\AddNewMedicalRecordWindow.xaml.cs">
+      <DependentUpon>AddNewMedicalRecordWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\AddNewMedicalСardWindow.xaml.cs">
+      <DependentUpon>AddNewMedicalСardWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\AddNewPatientWindow.xaml.cs">
       <DependentUpon>AddNewPatientWindow.xaml</DependentUpon>
@@ -213,6 +220,9 @@
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\MedicalCardPage.xaml.cs">
+      <DependentUpon>MedicalCardPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\MessageWindow.xaml.cs">
       <DependentUpon>MessageWindow.xaml</DependentUpon>
     </Compile>
@@ -227,7 +237,7 @@
     <Compile Include="Model\Doctor.cs" />
     <Compile Include="Model\Gender.cs" />
     <Compile Include="Model\Patient.cs" />
-    <Compile Include="Model\MedicalСard.cs" />
+    <Compile Include="Model\MedicalCard.cs" />
     <Compile Include="Model\Speciality.cs" />
     <Compile Include="Model\Ticket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -262,6 +272,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\AddNewMedicalRecordWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\AddNewMedicalСardWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\AddNewPatientWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -279,6 +297,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MedicalCardPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

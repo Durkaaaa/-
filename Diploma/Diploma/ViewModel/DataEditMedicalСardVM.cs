@@ -8,19 +8,13 @@ namespace Diploma.ViewModel
     public class DataEditMedicalСardVM : ViewModelBase
     {
         public static Patient SelectedPatient { get; set; }
-        public static Doctor SelectedDoctor { get; set; }
-        public string Diagnosis { get; set; }
-        public static int IndexDoctor { get; set; }
         public static int IndexPatient { get; set; }
-        public static MedicalСard SelectedMedicalСard { get; set; }
+        public static MedicalCard SelectedMedicalСard { get; set; }
 
-        public DataEditMedicalСardVM(MedicalСard selectedMedicalСard)
+        public DataEditMedicalСardVM(MedicalCard selectedMedicalСard)
         {
             SelectedMedicalСard = selectedMedicalСard;
-            SelectedDoctor = SelectedMedicalСard.Doctor;
             SelectedPatient = SelectedMedicalСard.Patient;
-            Diagnosis = SelectedMedicalСard.Diagnosis;
-            IndexDoctor = DataWorker.GetIndexDoctor(SelectedMedicalСard.DoctorId);
             IndexPatient = DataWorker.GetIndexPatient(SelectedMedicalСard.PatientId);
         }
 
@@ -35,17 +29,6 @@ namespace Diploma.ViewModel
             }
         }
 
-        private List<Doctor> _allDoctor = DataWorker.GetAllDoctor();
-        public List<Doctor> AllDoctor
-        {
-            get { return _allDoctor; }
-            set
-            {
-                _allDoctor = value;
-                NotifyPropertyChanged("AllDoctor");
-            }
-        }
-
         public RelayCommand EditMedicalСard
         {
             get
@@ -55,42 +38,30 @@ namespace Diploma.ViewModel
                     Window window = obj as Window;
                     if (SelectedMedicalСard != null)
                     {
-                        if (SelectedDoctor == null ||
-                            SelectedPatient == null ||
-                            Diagnosis == null || Diagnosis.Replace(" ", "").Length == 0)
+                        if (SelectedPatient == null)
                         {
-                            if (SelectedDoctor == null)
-                                ShowMessageToUser("Не выбран доктор");
-
-                            if (SelectedPatient == null)
-                                ShowMessageToUser("Не выбран пациент");
-
-                            if (Diagnosis == null || Diagnosis.Replace(" ", "").Length == 0)
-                                SetRedBlockControll(window, "DiagnosisBlock");
-                            else
-                                SetBlackBlockControll(window, "DiagnosisBlock");
+                            ShowMessageToUser("Не выбран пациент");
                         }
                         else
                         {
-                            SetBlackBlockControll(window, "DiagnosisBlock");
-                            var result = DataWorker.EditMedicalСard(SelectedMedicalСard, SelectedDoctor, SelectedPatient, Diagnosis);
-                            ShowMessageToUser(result);
-                            Zeroing();
-                            window.Close();
+                            var count = DataWorker.GetMedicalСardByPatientId(SelectedPatient).Count;
+                            if (count >= 1)
+                            {
+                                ShowMessageToUser("У этого пациента уже есть Мед. карта");
+                            }
+                            else
+                            {
+                                var result = DataWorker.EditMedicalСard(SelectedMedicalСard, SelectedPatient);
+                                ShowMessageToUser(result);
+                                SelectedMedicalСard = null;
+                                SelectedPatient = null;
+                                IndexPatient = 0;
+                                window.Close();
+                            }
                         }
                     }
                 });
             }
-        }
-
-        private void Zeroing()
-        {
-            SelectedDoctor = null;
-            SelectedPatient = null;
-            Diagnosis = null;
-            SelectedMedicalСard = null;
-            IndexDoctor = 0;
-            IndexPatient = 0;
         }
     }
 }

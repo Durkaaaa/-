@@ -31,17 +31,5 @@ namespace Diploma.ViewModel
                 });
             }
         }
-
-        private Page _page;
-        public Page Page
-        {
-            get => _page;
-            set
-            {
-                _page = value;
-                NotifyPropertyChanged(nameof(Page));
-            }
-        }
-
     }
 }

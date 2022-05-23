@@ -71,5 +71,20 @@ namespace Diploma.ViewModel
                 });
             }
         }
+
+        public RelayCommand OpenMedicalCardPage
+        {
+            get
+            {
+                return null ?? new RelayCommand(obj =>
+                {
+                    if (SelectedPatient != null)
+                    {
+                        MedicalCardPage medicalCardPage = new MedicalCardPage(SelectedPatient);
+                        Page = medicalCardPage;
+                    }
+                });
+            }
+        }
     }
 }

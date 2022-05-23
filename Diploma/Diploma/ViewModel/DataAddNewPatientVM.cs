@@ -19,8 +19,6 @@ namespace Diploma.ViewModel
         public static string PassportNumber { get; set; }
         public static string Address { get; set; }
 
-        public DataAddNewPatientVM() { }
-
         private List<Gender> _allGender = DataWorker.GetAllGender();
         public List<Gender> AllGender
         {
@@ -74,7 +72,7 @@ namespace Diploma.ViewModel
                             SetRedBlockControll(window, "PolicyBlock");
                         else
                             SetBlackBlockControll(window, "PolicyBlock");
-                        
+
                         if (Snils == null || Snils.Replace(" ", "").Length == 0)
                             SetRedBlockControll(window, "SnilsBlock");
                         else
@@ -105,8 +103,8 @@ namespace Diploma.ViewModel
                         SetBlackBlockControll(window, "PassportSeriesBlock");
                         SetBlackBlockControll(window, "PassportNumberBlock");
                         SetBlackBlockControll(window, "AddressBlock");
-                        var result = DataWorker.AddNewPatient(Surname, Name, Lastname, SelectedGender,DateOfBirth,
-                            Policy, Snils, PassportSeries, PassportNumber, Address);
+                        var result = DataWorker.AddNewPatient(Surname, Name, Lastname, SelectedGender,
+                            DateOfBirth, Policy, Snils, PassportSeries, PassportNumber, Address);
                         ShowMessageToUser(result);
                         Zeroing();
                         window.Close();
@@ -121,6 +119,7 @@ namespace Diploma.ViewModel
             Name = null;
             Lastname = null;
             SelectedGender = null;
+            DateOfBirth = DateTime.Now;
             Policy = null;
             Snils = null;
             PassportSeries = null;
