@@ -16,7 +16,7 @@ namespace Diploma.Model.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Data Source=PC-232-07\SQLEXPRESS;Initial Catalog=Hospital;Persist Security Info=True;User ID=U-19;Password=19$RPEe");
+            optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-EEV71E7\SQLEXPRESS;Initial Catalog=Hospital;Integrated Security=True");
         }
     }
 }

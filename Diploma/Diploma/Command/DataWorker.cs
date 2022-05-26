@@ -8,8 +8,94 @@ namespace Diploma.Command
 {
     public class DataWorker
     {
-        public static MedicalRecord AddNewMedicalRecord(MedicalCard selectedMedicalCard, 
-            Doctor selectedDoctor, string diagnosis, DateTime startOfTreatment, 
+        //Удаление мед карты
+        public static void DeleteMedicalCard(MedicalCard medicalCard)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                bool boolMedicalRecord = db.MedicalRecords.Any(p => p.MedicalСardId == medicalCard.Id);
+                if (boolMedicalRecord)
+                {
+                    int allRecord = db.MedicalRecords.Where(p => p.MedicalСardId == medicalCard.Id).Count();
+                    for (int i = 0; i <= allRecord; i++)
+                    {
+                        var record = db.MedicalRecords.FirstOrDefault(p => p.MedicalСardId == medicalCard.Id);
+                        if (record != null)
+                        {
+                            bool boolMedicine = db.Medicines.Any(p => p.MedicalRecordId == record.Id);
+                            if (boolMedicine)
+                            {
+                                int allMedicine = db.Medicines.Where(p => p.MedicalRecordId == record.Id).Count();
+                                for (int j = 0; j <= allMedicine; j++)
+                                {
+                                    var medicine = db.Medicines.FirstOrDefault(p => p.MedicalRecordId == record.Id);
+                                    if (medicine != null)
+                                    {
+                                        db.Medicines.Remove(medicine);
+                                    }
+                                }
+                            }
+                            db.MedicalRecords.Remove(record);
+                        }
+                    }
+                }
+                db.MedicalСards.Remove(medicalCard);
+                db.SaveChanges();
+            }
+        }
+
+
+        //Удаление всех лекарств по Id записи в мед карте
+        public static void DeleteAllMedicineByMedicalRecordId(MedicalRecord selectedMedicalRecord)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var allMedicine = db.Medicines.Where(p => p.MedicalRecordId == selectedMedicalRecord.Id);
+                db.Medicines.RemoveRange(allMedicine);
+                db.SaveChanges();
+            }
+        }
+
+
+
+        public static List<MedicalRecord> GetMedicalRecordByMedicalСardId(MedicalCard selectedMedicalCard)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var result = db.MedicalRecords.Where(p => p.MedicalСardId == selectedMedicalCard.Id).ToList();
+                return result;
+            }
+        }
+
+        public static string DeleteMedicalRecord(MedicalCard selectedMedicalCard, MedicalRecord selectedMedicalRecord)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var medicalRecord = db.MedicalRecords.FirstOrDefault(p => p.MedicalСardId == selectedMedicalCard.Id &&
+                    p.Id == selectedMedicalRecord.Id);
+                db.MedicalRecords.Remove(medicalRecord);
+
+                var medicine = db.Medicines.Where(p => p.MedicalRecordId == selectedMedicalRecord.Id);
+                db.Medicines.RemoveRange(medicine);
+                db.SaveChanges();
+
+                var result = "Страница удалена";
+                return result;
+            }
+        }
+
+
+        public static bool BoolGetMedicalRecordByMedicalСardId(MedicalCard selectedMedicalCard)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var result = db.MedicalRecords.Any(p => p.MedicalСardId == selectedMedicalCard.Id);
+                return result;
+            }
+        }
+
+        public static void AddNewMedicalRecord(MedicalCard selectedMedicalCard,
+            Doctor selectedDoctor, string diagnosis, DateTime startOfTreatment,
             DateTime? endOfTreatment)
         {
             using (ApplicationContext db = new ApplicationContext())
@@ -24,10 +110,24 @@ namespace Diploma.Command
                 };
                 db.MedicalRecords.Add(medicalRecord);
                 db.SaveChanges();
-                return medicalRecord;
             }
         }
 
+        public static void EditMedicalRecord(MedicalRecord selectedMedicalRecord, MedicalCard selectedMedicalCard,
+            Doctor selectedDoctor, string diagnosis, DateTime startOfTreatment,
+            DateTime? endOfTreatment)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                MedicalRecord medicalRecord = db.MedicalRecords.FirstOrDefault(p => p.Id == selectedMedicalRecord.Id);
+                medicalRecord.MedicalСardId = selectedMedicalCard.Id;
+                medicalRecord.DoctorId = selectedDoctor.Id;
+                medicalRecord.Diagnosis = diagnosis;
+                medicalRecord.StartOfTreatment = startOfTreatment;
+                medicalRecord.EndOfTreatment = endOfTreatment;
+                db.SaveChanges();
+            }
+        }
 
 
 
@@ -85,11 +185,11 @@ namespace Diploma.Command
 
         #region[Список по Id]
         //Лекарства по Id мед карты
-        public static List<Medicine> GetAllMedicinesByMedicalRecordId(int Id)
+        public static List<Medicine> GetAllMedicinesByMedicalRecordId(MedicalRecord medicalRecord)
         {
             using (ApplicationContext db = new ApplicationContext())
             {
-                var result = db.Medicines.Where(p => p.MedicalRecordId == Id).ToList();
+                var result = db.Medicines.Where(p => p.MedicalRecordId == medicalRecord.Id).ToList();
                 return result;
             }
         }
@@ -99,7 +199,7 @@ namespace Diploma.Command
 
 
         //Мед карты по Id пациента
-        public static bool GetMedicalСardByPatientId(Patient selectedPatient)
+        public static bool BoolGetMedicalСardByPatientId(Patient selectedPatient)
         {
             using (ApplicationContext db = new ApplicationContext())
             {
@@ -107,8 +207,8 @@ namespace Diploma.Command
                 return medicalСard;
             }
         }
-        
-        public static MedicalCard GetMedicalСardByPatient(Patient selectedPatient)
+
+        public static MedicalCard GetMedicalСardByPatientId(Patient selectedPatient)
         {
             using (ApplicationContext db = new ApplicationContext())
             {
@@ -410,11 +510,10 @@ namespace Diploma.Command
 
         #region[Лекарства]
         //Добавление
-        public static string AddNewMedicine(MedicalCard selectedMedicalRecord, string titl)
+        public static void AddNewMedicine(MedicalRecord selectedMedicalRecord, string titl)
         {
             using (ApplicationContext db = new ApplicationContext())
             {
-                var result = "Данная запись уже существует";
                 bool examination = db.Medicines.Any(p => p.MedicalRecordId == selectedMedicalRecord.Id && p.Titl == titl);
                 if (!examination)
                 {
@@ -425,18 +524,15 @@ namespace Diploma.Command
                     };
                     db.Medicines.Add(medicine);
                     db.SaveChanges();
-                    result = "Запись добавлена";
                 }
-                return result;
             }
         }
 
         //Редактирование
-        public static string EditMedicine(Medicine selectedMedicine, MedicalCard selectedMedicalRecord, string titl)
+        public static void EditMedicine(Medicine selectedMedicine, MedicalRecord selectedMedicalRecord, string titl)
         {
             using (ApplicationContext db = new ApplicationContext())
             {
-                var result = "Данная запись уже существует";
                 bool examination = db.Medicines.Any(p => p.MedicalRecordId == selectedMedicalRecord.Id &&
                     p.Titl == titl && p.Id == selectedMedicine.Id);
 
@@ -448,27 +544,19 @@ namespace Diploma.Command
                         medicine.MedicalRecordId = selectedMedicalRecord.Id;
                         medicine.Titl = titl;
                         db.SaveChanges();
-                        result = "Запись изменена";
-                    }
-                    else
-                    {
-                        result = "Ошибка";
                     }
                 }
-                return result;
             }
         }
 
         //Удаление
-        public static string DeleteMedicine(Medicine selectedMedicine)
+        public static void DeleteMedicine(Medicine selectedMedicine)
         {
             using (ApplicationContext db = new ApplicationContext())
             {
                 var medicine = db.Medicines.FirstOrDefault(p => p.Id == selectedMedicine.Id);
                 db.Medicines.Remove(medicine);
                 db.SaveChanges();
-                var result = "Запись удалена";
-                return result;
             }
         }
         #endregion

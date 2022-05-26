@@ -63,6 +63,11 @@ namespace Diploma.ViewModel
                 {
                     if (SelectedPatient != null)
                     {
+                        var medicalCard = DataWorker.GetMedicalСardByPatientId(SelectedPatient);
+                        if (medicalCard != null)
+                        {
+                            DataWorker.DeleteMedicalCard(medicalCard);
+                        }
                         var result = DataWorker.DeletePatient(SelectedPatient);
                         ShowMessageToUser(result);
                         SelectedPatient = null;
@@ -81,7 +86,7 @@ namespace Diploma.ViewModel
                     if (SelectedPatient != null)
                     {
                         MedicalCardPage medicalCardPage = new MedicalCardPage(SelectedPatient);
-                        Page = medicalCardPage;
+                        MainWindow.FramePage.Content = medicalCardPage;
                     }
                 });
             }

@@ -9,10 +9,12 @@ namespace Diploma.View
     /// </summary>
     public partial class MedicalCardPage : Page
     {
+        public static ListView MedicineList { get; set; }
         public MedicalCardPage(Patient selectedPatient)
         {
             InitializeComponent();
             DataContext = new DataMedicalCardVM(selectedPatient);
+            //MedicineList = MedicineBlock;
         }
     }
 }

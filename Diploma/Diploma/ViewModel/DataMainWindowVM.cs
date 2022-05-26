@@ -15,7 +15,7 @@ namespace Diploma.ViewModel
                 return null ?? new RelayCommand(obj =>
                 {
                     DoctorPage doctorPage = new DoctorPage();
-                    Page = doctorPage;
+                    MainWindow.FramePage.Content = doctorPage;
                 });
             }
         }
@@ -27,7 +27,7 @@ namespace Diploma.ViewModel
                 return null ?? new RelayCommand(obj =>
                 {
                     PatientPage patientPage = new PatientPage();
-                    Page = patientPage;
+                    MainWindow.FramePage.Content = patientPage;
                 });
             }
         }

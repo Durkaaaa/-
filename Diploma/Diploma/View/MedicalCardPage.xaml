@@ -34,7 +34,10 @@
                 </TabItem.Header>
 
                 <Grid>
-                    
+                    <ListView x:Name="MedicineBlock"
+                              ItemsSource="{Binding AllMedicine}">
+                        
+                    </ListView>
                 </Grid>
             </TabItem>
         </TabControl>

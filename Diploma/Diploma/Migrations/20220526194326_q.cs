@@ -105,19 +105,11 @@ namespace Diploma.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PatientId = table.Column<int>(nullable: false),
-                    DoctorId = table.Column<int>(nullable: false),
-                    Diagnosis = table.Column<string>(nullable: true)
+                    PatientId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MedicalСards", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_MedicalСards_Doctors_DoctorId",
-                        column: x => x.DoctorId,
-                        principalTable: "Doctors",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_MedicalСards_Patients_PatientId",
                         column: x => x.PatientId,
@@ -161,21 +153,50 @@ namespace Diploma.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Medicines",
+                name: "MedicalRecords",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     MedicalСardId = table.Column<int>(nullable: false),
+                    DoctorId = table.Column<int>(nullable: false),
+                    Diagnosis = table.Column<string>(nullable: true),
+                    StartOfTreatment = table.Column<DateTime>(nullable: false),
+                    EndOfTreatment = table.Column<DateTime>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MedicalRecords", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MedicalRecords_Doctors_DoctorId",
+                        column: x => x.DoctorId,
+                        principalTable: "Doctors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MedicalRecords_MedicalСards_MedicalСardId",
+                        column: x => x.MedicalСardId,
+                        principalTable: "MedicalСards",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Medicines",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MedicalRecordId = table.Column<int>(nullable: false),
                     Titl = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Medicines", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Medicines_MedicalСards_MedicalСardId",
-                        column: x => x.MedicalСardId,
-                        principalTable: "MedicalСards",
+                        name: "FK_Medicines_MedicalRecords_MedicalRecordId",
+                        column: x => x.MedicalRecordId,
+                        principalTable: "MedicalRecords",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -186,9 +207,14 @@ namespace Diploma.Migrations
                 column: "SpecialityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MedicalСards_DoctorId",
-                table: "MedicalСards",
+                name: "IX_MedicalRecords_DoctorId",
+                table: "MedicalRecords",
                 column: "DoctorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MedicalRecords_MedicalСardId",
+                table: "MedicalRecords",
+                column: "MedicalСardId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MedicalСards_PatientId",
@@ -196,9 +222,9 @@ namespace Diploma.Migrations
                 column: "PatientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Medicines_MedicalСardId",
+                name: "IX_Medicines_MedicalRecordId",
                 table: "Medicines",
-                column: "MedicalСardId");
+                column: "MedicalRecordId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Patients_GenderId",
@@ -230,7 +256,7 @@ namespace Diploma.Migrations
                 name: "Ticket");
 
             migrationBuilder.DropTable(
-                name: "MedicalСards");
+                name: "MedicalRecords");
 
             migrationBuilder.DropTable(
                 name: "Cabinets");
@@ -239,10 +265,13 @@ namespace Diploma.Migrations
                 name: "Doctors");
 
             migrationBuilder.DropTable(
-                name: "Patients");
+                name: "MedicalСards");
 
             migrationBuilder.DropTable(
                 name: "Speciality");
+
+            migrationBuilder.DropTable(
+                name: "Patients");
 
             migrationBuilder.DropTable(
                 name: "Genders");

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Diploma.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220523075241_q")]
+    [Migration("20220526194326_q")]
     partial class q
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -86,7 +86,24 @@ namespace Diploma.Migrations
                     b.ToTable("Genders");
                 });
 
-            modelBuilder.Entity("Diploma.Model.MedicalСard", b =>
+            modelBuilder.Entity("Diploma.Model.MedicalCard", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("PatientId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PatientId");
+
+                    b.ToTable("MedicalСards");
+                });
+
+            modelBuilder.Entity("Diploma.Model.MedicalRecord", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -99,16 +116,22 @@ namespace Diploma.Migrations
                     b.Property<int>("DoctorId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PatientId")
+                    b.Property<DateTime?>("EndOfTreatment")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("MedicalСardId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("StartOfTreatment")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
                     b.HasIndex("DoctorId");
 
-                    b.HasIndex("PatientId");
+                    b.HasIndex("MedicalСardId");
 
-                    b.ToTable("MedicalСards");
+                    b.ToTable("MedicalRecords");
                 });
 
             modelBuilder.Entity("Diploma.Model.Medicine", b =>
@@ -118,7 +141,7 @@ namespace Diploma.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("MedicalСardId")
+                    b.Property<int>("MedicalRecordId")
                         .HasColumnType("int");
 
                     b.Property<string>("Titl")
@@ -126,7 +149,7 @@ namespace Diploma.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MedicalСardId");
+                    b.HasIndex("MedicalRecordId");
 
                     b.ToTable("Medicines");
                 });
@@ -229,14 +252,8 @@ namespace Diploma.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Diploma.Model.MedicalСard", b =>
+            modelBuilder.Entity("Diploma.Model.MedicalCard", b =>
                 {
-                    b.HasOne("Diploma.Model.Doctor", "Doctor")
-                        .WithMany()
-                        .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Diploma.Model.Patient", "Patient")
                         .WithMany()
                         .HasForeignKey("PatientId")
@@ -244,11 +261,26 @@ namespace Diploma.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Diploma.Model.Medicine", b =>
+            modelBuilder.Entity("Diploma.Model.MedicalRecord", b =>
                 {
-                    b.HasOne("Diploma.Model.MedicalСard", "MedicalСard")
+                    b.HasOne("Diploma.Model.Doctor", "Doctor")
+                        .WithMany()
+                        .HasForeignKey("DoctorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Diploma.Model.MedicalCard", "MedicalСard")
                         .WithMany()
                         .HasForeignKey("MedicalСardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Diploma.Model.Medicine", b =>
+                {
+                    b.HasOne("Diploma.Model.MedicalRecord", "MedicalRecord")
+                        .WithMany()
+                        .HasForeignKey("MedicalRecordId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
