@@ -5,18 +5,48 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Diploma.View"
         mc:Ignorable="d"
-        Title="Главная" 
-        Height="450"
-        Width="800"
-        x:Name="MainWnd">
-    
+        Title="Регистратура" 
+        Height="625"
+        Width="1100"
+        x:Name="MainWnd"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="Background" Value="AliceBlue"/>
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+        </Style>
+
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+            <Setter Property="Background" Value="AliceBlue"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#CEFFF9"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.25*"/>
+            <ColumnDefinition Width="0.225*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Border>
+        <Border Background="LightGray"
+                BorderBrush="Black"
+                BorderThickness="0,0,2,0">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -26,25 +56,27 @@
 
                 <StackPanel Grid.Row="1"
                             VerticalAlignment="Center"
-                            Margin="5">
+                            HorizontalAlignment="Center">
                     
                     <Button Content="Все врачи"
-                            Width="150" 
-                            Height="40"
-                            Margin="5"
+                            Background="Transparent"
+                            Width="170" 
+                            Height="50"
                             Command="{Binding OpenDoctorPage}"
                             CommandParameter="{Binding ElementName=MainWnd}"/>
                     
                     <Button Content="Все пациенты"
-                            Width="150" 
-                            Height="40"
-                            Margin="5"
+                            Background="Transparent"
+                            Width="170" 
+                            Height="50"
                             Command="{Binding OpenPatientPage}"
                             CommandParameter="{Binding ElementName=MainWnd}"/>
-                    
-                    <Button Width="150" 
-                            Height="40"
-                            Margin="5"/>
+
+                    <Button Background="Transparent"
+                            Width="170" 
+                            Height="50"
+                            Command="{Binding }"
+                            CommandParameter="{Binding ElementName=MainWnd}"/>
                 </StackPanel>
             </Grid>    
         </Border>

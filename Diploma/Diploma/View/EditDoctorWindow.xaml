@@ -6,35 +6,72 @@
         xmlns:local="clr-namespace:Diploma.View"
         mc:Ignorable="d"
         Title="Редактирование доктора"
-        Height="350"
+        Height="400"
         Width="250"
         x:Name="EditDoctorWnd">
+
+    <Window.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="Background" Value="AliceBlue"/>
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+        </Style>
+
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+            <Setter Property="Background" Value="AliceBlue"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#CEFFF9"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="0.15*"/>
         </Grid.RowDefinitions>
 
         <StackPanel VerticalAlignment="Center"
-                    HorizontalAlignment="Center">
+                    HorizontalAlignment="Center"
+                    Width="150">
             <TextBlock Text="Фамилия"/>
             <TextBox x:Name="SurnameBlock"
-                     Text="{Binding Surname}"/>
+                     Text="{Binding Surname}"
+                     BorderBrush="Black"/>
 
             <TextBlock Text="Имя"/>
             <TextBox x:Name="NameBlock"
-                     Text="{Binding Name}"/>
+                     Text="{Binding Name}"
+                     BorderBrush="Black"/>
 
             <TextBlock Text="Отчество"/>
             <TextBox x:Name="LastnameBlock"
-                     Text="{Binding Lastname}"/>
+                     Text="{Binding Lastname}"
+                     BorderBrush="Black"/>
 
             <TextBlock Text="Специальность"/>
             <ComboBox ItemsSource="{Binding AllSpeciality}"
                       SelectedItem="{Binding SelectedSpeciality}"
                       DisplayMemberPath="Titl"
                       SelectedIndex="{Binding IndexSpeciality}"/>
+
+            <TextBlock Text="Кабинет"/>
+            <ComboBox ItemsSource="{Binding AllCabinet}"
+                      SelectedItem="{Binding SelectedCabinet}"
+                      DisplayMemberPath="Titl"
+                      SelectedIndex="{Binding IndexCabinet}"/>
 
             <TextBlock Text="Дата приема на работу"/>
             <DatePicker SelectedDate="{Binding DateOfEmployment}"
@@ -45,12 +82,14 @@
             <StackPanel Orientation="Horizontal">
                 <TextBox x:Name="WorkWithHourBlock"
                          Text="{Binding WorkWithHour}"
+                         BorderBrush="Black"
                          Width="20"/>
 
                 <TextBlock Text=":"/>
 
                 <TextBox x:Name="WorkWithMinuteBlock"
                          Text="{Binding WorkWithMinute}"
+                         BorderBrush="Black"
                          Width="20"/>
             </StackPanel>
 
@@ -58,12 +97,14 @@
             <StackPanel Orientation="Horizontal">
                 <TextBox x:Name="WorkUntilHourBlock"
                          Text="{Binding WorkUntilHour}"
+                         BorderBrush="Black"
                          Width="20"/>
 
                 <TextBlock Text=":"/>
 
                 <TextBox x:Name="WorkUntilMinuteBlock"
                          Text="{Binding WorkUntilMinute}"
+                         BorderBrush="Black"
                          Width="20"/>
             </StackPanel>
         </StackPanel>

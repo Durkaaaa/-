@@ -1,14 +1,14 @@
-﻿<Window x:Class="Diploma.View.AddNewMedicalRecordWindow"
+﻿<Window x:Class="Diploma.View.AddNewTicketWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Diploma.View"
         mc:Ignorable="d"
-        Title="Добавление страницы" 
-        Height="250"
+        Title="Запись" 
+        Height="250" 
         Width="250"
-        Name="AddNewMedicalRecordWnd">
+        x:Name="AddNewTicketWnd">
 
     <Window.Resources>
         <Style TargetType="TextBox">
@@ -39,13 +39,49 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="0.3*"/>
         </Grid.RowDefinitions>
-        
+
         <StackPanel VerticalAlignment="Center"
                     HorizontalAlignment="Center"
                     Width="150">
+            <TextBlock Text="Пациент"/>
+            <ComboBox ItemsSource="{Binding AllPatient}"
+                      DisplayMemberPath="Surname"
+                      SelectedItem="{Binding SelectedPatient}">
+                <ComboBox.Resources>
+                    <Style TargetType="ComboBoxItem">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <Border>
+                                        <Grid Background="{TemplateBinding Background}">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="{Binding Surname}"/>
+                                            <TextBlock Grid.Column="2" Text="{Binding Name}"/>
+                                            <TextBlock Grid.Column="4" Text="{Binding Lastname}"/>
+                                        </Grid>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#CEFFF9"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ComboBox.Resources>
+            </ComboBox>
+
             <TextBlock Text="Врач"/>
             <ComboBox ItemsSource="{Binding AllDoctor}"
                       DisplayMemberPath="Surname"
@@ -82,23 +118,32 @@
                 </ComboBox.Resources>
             </ComboBox>
 
-            <TextBlock Text="Диагноз"/>
-            <TextBox x:Name="DiagnosisBlock"
-                     Text="{Binding Diagnosis}"
-                     BorderBrush="Black"/>
-
-            <TextBlock Text="Конец лечения"/>
-            <DatePicker x:Name="EndOfTreatmentBlock" 
-                        SelectedDate="{Binding EndOfTreatment}" 
+            <TextBlock Text="Дата приёма"/>
+            <DatePicker x:Name="StartOfReceptionBlock" 
+                        SelectedDate="{Binding StartOfReception}" 
                         IsDropDownOpen="True" 
                         SelectedDateFormat="Short" 
                         BorderBrush="Black"/>
+
+            <TextBlock Text="Начало приёма"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBox x:Name="StartOfReceptionHourBlock"
+                         Text="{Binding StartOfReceptionHour}"
+                         BorderBrush="Black"
+                         Width="20"/>
+
+                <TextBlock Text=":"/>
+
+                <TextBox x:Name="StartOfReceptionMinuteBlock"
+                         Text="{Binding StartOfReceptionMinute}"
+                         BorderBrush="Black"
+                         Width="20"/>
+            </StackPanel>
         </StackPanel>
 
         <Button Content="Добавить"
                 Grid.Row="1"
-                Margin="5"
-                Command="{Binding AddNewMedicalRecord}"
-                CommandParameter="{Binding ElementName=AddNewMedicalRecordWnd}"/>
+                Command="{Binding AddNewTicket}"
+                CommandParameter="{Binding ElementName=AddNewTicketWnd}"/>
     </Grid>
 </Window>

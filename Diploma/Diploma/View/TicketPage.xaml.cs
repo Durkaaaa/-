@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Diploma.View
 {
     /// <summary>
-    /// Логика взаимодействия для BlankPage.xaml
+    /// Логика взаимодействия для TicketPage.xaml
     /// </summary>
-    public partial class BlankPage : Page
+    public partial class TicketPage : Page
     {
-        public BlankPage()
+        public TicketPage()
         {
             InitializeComponent();
         }

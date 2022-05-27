@@ -9,7 +9,30 @@
       d:DesignWidth="800"
       Title="DoctorPage">
 
-    <Grid Background="White">
+    <Page.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+            <Setter Property="Background" Value="AliceBlue"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#CEFFF9"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+
+    <Grid Background="LightGray">
         <Grid.RowDefinitions>
             <RowDefinition Height="0.1*"/>
             <RowDefinition Height="*"/>
@@ -19,8 +42,9 @@
         <TextBlock Text="Врачи"
                    VerticalAlignment="Center"
                    HorizontalAlignment="Center"
-                   FontSize="20"/>
-        
+                   FontSize="20"
+                   FontWeight="Bold"/>
+
         <ListView x:Name="DoctorListBlock"
                   Grid.Row="1"
                   ItemsSource="{Binding AllDoctor}"
@@ -28,68 +52,90 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Surname}"
-                                    Width="100">
-                        Фамилия
+                                    Width="140">
+                        <GridViewColumn.Header>
+                            <TextBlock TextAlignment="Center"
+                                       FontSize="12"
+                                       Text="Фамилия"/>
+                        </GridViewColumn.Header>
                     </GridViewColumn>
 
                     <GridViewColumn DisplayMemberBinding="{Binding Name}"
-                                    Width="80">
-                        Имя
+                                    Width="140">
+                        <GridViewColumn.Header>
+                            <TextBlock TextAlignment="Center"
+                                       FontSize="12"
+                                       Text="Имя"/>
+                        </GridViewColumn.Header>
                     </GridViewColumn>
 
                     <GridViewColumn DisplayMemberBinding="{Binding Lastname}"
-                                    Width="100">
-                        Отчество
+                                    Width="140">
+                        <GridViewColumn.Header>
+                            <TextBlock TextAlignment="Center"
+                                       FontSize="12"
+                                       Text="Отчество"/>
+                        </GridViewColumn.Header>
                     </GridViewColumn>
 
                     <GridViewColumn DisplayMemberBinding="{Binding DoctorSpeciality.Titl}"
-                                    Width="100">
-                        Специальность
+                                    Width="140">
+                        <GridViewColumn.Header>
+                            <TextBlock TextAlignment="Center"
+                                       FontSize="12"
+                                       Text="Специальность"/>
+                        </GridViewColumn.Header>
                     </GridViewColumn>
 
                     <GridViewColumn DisplayMemberBinding="{Binding DateOfEmployment, StringFormat=dd.MM.yyyy}"
-                                    Width="80">
-                        Дата приема на работу
+                                    Width="95">
+                        <GridViewColumn.Header>
+                            <TextBlock TextAlignment="Center"
+                                       FontSize="12">
+                                Дата приема<LineBreak/>
+                                на работу
+                            </TextBlock>
+                        </GridViewColumn.Header>
                     </GridViewColumn>
 
                     <GridViewColumn DisplayMemberBinding="{Binding WorkWith, StringFormat=HH:mm}"
-                                    Width="70">
-                        График работы с:
+                                    Width="100">
+                        <GridViewColumn.Header>
+                            <TextBlock TextAlignment="Center"
+                                       FontSize="12">
+                                График работы <LineBreak/>
+                                с:
+                            </TextBlock>
+                        </GridViewColumn.Header>
                     </GridViewColumn>
 
                     <GridViewColumn DisplayMemberBinding="{Binding WorkUntil, StringFormat=HH:mm}"
-                                    Width="70">
-                        График работы до:
+                                    Width="100">
+                        <GridViewColumn.Header>
+                            <TextBlock TextAlignment="Center"
+                                       FontSize="12">
+                                График работы <LineBreak/>
+                                до:
+                            </TextBlock>
+                        </GridViewColumn.Header>
                     </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
 
-        <Grid Grid.Row="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.1*"/>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="0.1*"/>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="0.1*"/>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="0.1*"/>
-            </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="2"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
 
             <Button Content="Добавить"
-                    Grid.Column="1"
-                    Margin="10"
                     Command="{Binding AddNewDoctor}"/>
 
             <Button Content="Редактировать"
-                    Grid.Column="3"
-                    Margin="10"
                     Command="{Binding EditDoctor}"/>
 
             <Button Content="Удалить"
-                    Grid.Column="5"
-                    Margin="10"
                     Command="{Binding DeleteDoctor}"/>
-        </Grid>
+        </StackPanel>
     </Grid>
 </Page>

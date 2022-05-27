@@ -11,17 +11,6 @@ namespace Diploma.ViewModel
 {
     public class ViewModelBase : INotifyPropertyChanged
     {
-        private Page _page;
-        public Page Page
-        {
-            get => _page;
-            set
-            {
-                _page = value;
-                NotifyPropertyChanged(nameof(Page));
-            }
-        }
-
         private List<Doctor> _listDoctor;
         public List<Doctor> ListDoctor
         {

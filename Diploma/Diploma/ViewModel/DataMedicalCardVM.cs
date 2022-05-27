@@ -139,8 +139,22 @@ namespace Diploma.ViewModel
                 {
                     AddNewMedicalRecordWindow addNewMedicalRecordWindow = new AddNewMedicalRecordWindow(SelectedMedicalCard);
                     SetCenterPositionAndOpen(addNewMedicalRecordWindow);
-                    MedicalRecordNumber();
-                    UpdateAllMedicalRecord();
+                    AllMedicalRecord = DataWorker.GetMedicalRecordByMedicalСardId(SelectedMedicalCard);
+                    int count = AllMedicalRecord.Count();
+                    if (AllMedicalRecord != null && count > IndexMedicalRecord + 1)
+                    {
+                        IndexMedicalRecord += 1;
+                        MedicalRecordNumber();
+                        UpdateAllMedicalRecord();
+                    }
+                    else
+                    {
+                        if (AllMedicalRecord != null && count > IndexMedicalRecord)
+                        {
+                            MedicalRecordNumber();
+                            UpdateAllMedicalRecord();
+                        }
+                    }
                 });
             }
         }
@@ -179,11 +193,6 @@ namespace Diploma.ViewModel
                         {
                             IndexMedicalRecord--;
                             MedicalRecordNumber();
-                        }
-                        else
-                        {
-                            BlankPage blankPage = new BlankPage();
-                            Page = blankPage;
                         }
                     }
                 });

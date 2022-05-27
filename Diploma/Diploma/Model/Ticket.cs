@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Diploma.Command;
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Diploma.Model
 {
@@ -9,8 +11,25 @@ namespace Diploma.Model
         public virtual Patient Patient { get; set; }
         public int DoctorId { get; set; }
         public virtual Doctor Doctor { get; set; }
-        public DateTime DateOfReceipt { get; set; }
-        public int CabinetId { get; set; }
-        public virtual Cabinet Cabinet { get; set; }
+        public DateTime StartOfReception { get; set; }
+        public DateTime EndOfReception { get; set; }
+
+        [NotMapped]
+        public Patient TicketPatient
+        {
+            get
+            {
+                return DataWorker.GetPatientById(PatientId);
+            }
+        }
+
+        [NotMapped]
+        public Doctor TicketDoctor
+        {
+            get
+            {
+                return DataWorker.GetDoctorById(DoctorId);
+            }
+        }
     }
 }

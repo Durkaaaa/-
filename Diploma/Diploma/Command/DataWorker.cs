@@ -8,7 +8,14 @@ namespace Diploma.Command
 {
     public class DataWorker
     {
-
+        public static Cabinet GetCabinetById(int Id)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var result = db.Cabinets.FirstOrDefault(p => p.Id == Id);
+                return result;
+            }
+        }
         public static bool BoolGetAllMedicineByMedicanRecordId(MedicalRecord medicalRecord)
         {
             using (ApplicationContext db = new ApplicationContext())

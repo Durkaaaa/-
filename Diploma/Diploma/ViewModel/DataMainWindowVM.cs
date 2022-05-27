@@ -6,7 +6,22 @@ namespace Diploma.ViewModel
 {
     public class DataMainWindowVM : ViewModelBase
     {
-        public DataMainWindowVM() { }
+        public DataMainWindowVM()
+        {
+            PatientPage patientPage = new PatientPage();
+            Page = patientPage;
+        }
+
+        private Page _page;
+        public Page Page
+        {
+            get => _page;
+            set
+            {
+                _page = value;
+                NotifyPropertyChanged(nameof(Page));
+            }
+        }
 
         public RelayCommand OpenDoctorPage
         {

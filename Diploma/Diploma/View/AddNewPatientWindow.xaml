@@ -6,28 +6,60 @@
         xmlns:local="clr-namespace:Diploma.View"
         mc:Ignorable="d"
         Title="Добавление пациента" 
-        Height="450" 
+        Height="500" 
         Width="250"
         x:Name="AddNewPatientWnd">
 
+    <Window.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="Background" Value="AliceBlue"/>
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+        </Style>
+
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+            <Setter Property="Background" Value="AliceBlue"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#CEFFF9"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.9*"/>
-            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="0.15*"/>
         </Grid.RowDefinitions>
+        
         <StackPanel HorizontalAlignment="Center"
-                    VerticalAlignment="Center">
+                    VerticalAlignment="Center"
+                    Width="150">
             <TextBlock Text="Фамилия"/>
             <TextBox x:Name="SurnameBlock"
-                     Text="{Binding Surname}"/>
+                     Text="{Binding Surname}"
+                     BorderBrush="Black"/>
 
             <TextBlock Text="Имя"/>
             <TextBox x:Name="NameBlock" 
-                     Text="{Binding Name}"/>
+                     Text="{Binding Name}"
+                     BorderBrush="Black"/>
 
             <TextBlock Text="Отчество"/>
             <TextBox x:Name="LastnameBlock"
-                     Text="{Binding Lastname}"/>
+                     Text="{Binding Lastname}"
+                     BorderBrush="Black"/>
 
             <TextBlock Text="Пол"/>
             <ComboBox ItemsSource="{Binding AllGender}"
@@ -43,23 +75,28 @@
 
             <TextBlock Text="ПОЛИС"/>
             <TextBox x:Name="PolicyBlock"
-                     Text="{Binding Policy}"/>
+                     Text="{Binding Policy}"
+                     BorderBrush="Black"/>
 
             <TextBlock Text="СНИЛС"/>
             <TextBox x:Name="SnilsBlock"
-                     Text="{Binding Snils}"/>
+                     Text="{Binding Snils}"
+                     BorderBrush="Black"/>
 
             <TextBlock Text="Серия паспорта"/>
             <TextBox x:Name="PassportSeriesBlock"
-                     Text="{Binding PassportSeries}"/>
+                     Text="{Binding PassportSeries}"
+                     BorderBrush="Black"/>
 
             <TextBlock Text="Номер паспорта"/>
             <TextBox x:Name="PassportNumberBlock"
-                     Text="{Binding PassportNumber}"/>
+                     Text="{Binding PassportNumber}"
+                     BorderBrush="Black"/>
 
             <TextBlock Text="Место прописки"/>
             <TextBox x:Name="AddressBlock"
-                     Text="{Binding Address}"/>
+                     Text="{Binding Address}"
+                     BorderBrush="Black"/>
         </StackPanel>
 
         <Button Content="Добавить"

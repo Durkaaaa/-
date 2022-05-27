@@ -5,8 +5,101 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Diploma.View"
         mc:Ignorable="d"
-        Title="EditMedicalRecordWindow" Height="450" Width="800">
+        Title="Редактирование страницы"
+        Height="250" 
+        Width="250"
+        x:Name="EditMedicalRecordWnd">
+
+    <Window.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="Background" Value="AliceBlue"/>
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+        </Style>
+
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+            <Setter Property="Background" Value="AliceBlue"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#CEFFF9"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="0.3*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Width="150">
+            <TextBlock Text="Врач"/>
+            <ComboBox ItemsSource="{Binding AllDoctor}"
+                      DisplayMemberPath="Surname"
+                      SelectedItem="{Binding SelectedDoctor}"
+                      SelectedIndex="{Binding IndexDoctor}">
+                <ComboBox.Resources>
+                    <Style TargetType="ComboBoxItem">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <Border>
+                                        <Grid Background="{TemplateBinding Background}">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="{Binding Surname}"/>
+                                            <TextBlock Grid.Column="2" Text="{Binding Name}"/>
+                                            <TextBlock Grid.Column="4" Text="{Binding Lastname}"/>
+                                        </Grid>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#CEFFF9"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ComboBox.Resources>
+            </ComboBox>
+
+            <TextBlock Text="Диагноз"/>
+            <TextBox x:Name="DiagnosisBlock"
+                     Text="{Binding Diagnosis}"
+                     BorderBrush="Black"/>
+
+            <TextBlock Text="Конец лечения"/>
+            <DatePicker x:Name="EndOfTreatmentBlock" 
+                        SelectedDate="{Binding EndOfTreatment}" 
+                        IsDropDownOpen="True" 
+                        SelectedDateFormat="Short" 
+                        BorderBrush="Black"/>
+        </StackPanel>
+
+        <Button Content="Изменить"
+                Grid.Row="1"
+                Margin="5"
+                Command="{Binding EditMedicalRecord}"
+                CommandParameter="{Binding ElementName=EditMedicalRecordWnd}"/>
     </Grid>
 </Window>

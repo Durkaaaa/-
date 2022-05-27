@@ -205,9 +205,6 @@
     <Compile Include="View\AddNewPatientWindow.xaml.cs">
       <DependentUpon>AddNewPatientWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\BlankPage.xaml.cs">
-      <DependentUpon>BlankPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\DoctorPage.xaml.cs">
       <DependentUpon>DoctorPage.xaml</DependentUpon>
     </Compile>
@@ -280,10 +277,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\AddNewPatientWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\BlankPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
