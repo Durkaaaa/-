@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Diploma.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220526194326_q")]
+    [Migration("20220527101538_q")]
     partial class q
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

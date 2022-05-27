@@ -178,9 +178,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Command\DataWorker.cs" />
-    <Compile Include="Migrations\20220526194326_q.cs" />
-    <Compile Include="Migrations\20220526194326_q.designer.cs">
-      <DependentUpon>20220526194326_q.cs</DependentUpon>
+    <Compile Include="Migrations\20220527101538_q.cs" />
+    <Compile Include="Migrations\20220527101538_q.designer.cs">
+      <DependentUpon>20220527101538_q.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\ApplicationContextModelSnapshot.cs" />
     <Compile Include="Model\MedicalRecord.cs" />

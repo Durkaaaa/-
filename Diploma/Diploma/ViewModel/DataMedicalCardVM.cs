@@ -10,12 +10,14 @@ namespace Diploma.ViewModel
     public class DataMedicalCardVM : ViewModelBase
     {
         #region[Свойства для мед карты]
+        public static List<Medicine> AllMedicine { get; set; }
         public static MedicalCard SelectedMedicalCard { get; set; }
         public static MedicalRecord SelectedMedicalRecord { get; set; }
         public static List<MedicalRecord> AllMedicalRecord { get; set; }
 
-        public static DateTime StartOfTreatment { get; set; }
-        public static DateTime? EndOfTreatment { get; set; }
+        public static string Diagnosis { get; set; }
+        public static string StartOfTreatment { get; set; }
+        public static string EndOfTreatment { get; set; }
         public static int IndexMedicalRecord { get; set; }
         #endregion
 
@@ -24,7 +26,7 @@ namespace Diploma.ViewModel
         public static string PatientSurname { get; set; }
         public static string PatientName { get; set; }
         public static string PatientLastname { get; set; }
-        public static DateTime PatientDateOfBirth { get; set; }
+        public static string PatientDateOfBirth { get; set; }
         public static string PatientGender { get; set; }
         #endregion
 
@@ -44,12 +46,22 @@ namespace Diploma.ViewModel
         {
             SelectedPatient = selectedPatient;
             IndexMedicalRecord = 0;
+            PatientSurname = null;
+            PatientName = null;
+            PatientLastname = null;
+            PatientDateOfBirth = null;
+            PatientGender = null;
+            DoctorSurname = null;
+            DoctorName = null;
+            DoctorLastname = null;
+            DoctorSpeciality = null;
+            StartOfTreatment = null;
+            EndOfTreatment = null;
+            Diagnosis = null;
             bool medicalCard = DataWorker.BoolGetMedicalСardByPatientId(SelectedPatient);
             if (!medicalCard)
             {
                 SelectedMedicalCard = DataWorker.AddNewMedicalСard(SelectedPatient);
-                BlankPage blankPage = new BlankPage();
-                MainWindow.FramePage.Content = blankPage;
             }
             else
             {
@@ -58,28 +70,19 @@ namespace Diploma.ViewModel
                 bool medicalRecord = DataWorker.BoolGetMedicalRecordByMedicalСardId(SelectedMedicalCard);
                 if (medicalRecord)
                 {
+                    AllMedicalRecord = DataWorker.GetMedicalRecordByMedicalСardId(SelectedMedicalCard);
+                    SelectedMedicalRecord = DataWorker.GetMedicalRecordsByMedicalCardId(SelectedMedicalCard)[IndexMedicalRecord];
+                    bool boolMedicine = DataWorker.BoolGetAllMedicineByMedicanRecordId(SelectedMedicalRecord);
+                    if (boolMedicine)
+                    {
+                        AllMedicine = DataWorker.GetAllMedicinesByMedicalRecordId(SelectedMedicalRecord);
+                    }
                     MedicalRecordNumber();
-                }
-                else
-                {
-                    BlankPage blankPage = new BlankPage();
-                    MainWindow.FramePage.Content = blankPage;
                 }
             }
         }
 
         #region[Лекарства]
-        private List<Medicine> _allMedicine;
-        public List<Medicine> AllMedicine
-        {
-            get { return _allMedicine; }
-            set
-            {
-                _allMedicine = value;
-                NotifyPropertyChanged("AllMedicine");
-            }
-        }
-
         public RelayCommand AddNewMedicine
         {
             get
@@ -87,7 +90,7 @@ namespace Diploma.ViewModel
                 return null ?? new RelayCommand(obj =>
                 {
                     DataWorker.AddNewMedicine(SelectedMedicalRecord, Medicine);
-                    UpdateAllMedicine();
+                    UpdateAllMedicalRecord();
                     Medicine = null;
                 });
             }
@@ -102,7 +105,7 @@ namespace Diploma.ViewModel
                     if (SelectedMedicine != null)
                     {
                         DataWorker.EditMedicine(SelectedMedicine, SelectedMedicalRecord, Medicine);
-                        UpdateAllMedicine();
+                        UpdateAllMedicalRecord();
                         SelectedMedicine = null;
                         Medicine = null;
                     }
@@ -119,7 +122,7 @@ namespace Diploma.ViewModel
                     if (SelectedMedicine != null)
                     {
                         DataWorker.DeleteMedicine(SelectedMedicine);
-                        UpdateAllMedicine();
+                        UpdateAllMedicalRecord();
                         SelectedMedicine = null;
                     }
                 });
@@ -136,8 +139,8 @@ namespace Diploma.ViewModel
                 {
                     AddNewMedicalRecordWindow addNewMedicalRecordWindow = new AddNewMedicalRecordWindow(SelectedMedicalCard);
                     SetCenterPositionAndOpen(addNewMedicalRecordWindow);
-                    IndexMedicalRecord++;
                     MedicalRecordNumber();
+                    UpdateAllMedicalRecord();
                 });
             }
         }
@@ -199,8 +202,9 @@ namespace Diploma.ViewModel
                     int count = AllMedicalRecord.Count();
                     if (AllMedicalRecord != null && count > IndexMedicalRecord + 1)
                     {
-                        IndexMedicalRecord++;
+                        IndexMedicalRecord += 1;
                         MedicalRecordNumber();
+                        UpdateAllMedicalRecord();
                     }
                 });
             }
@@ -217,6 +221,7 @@ namespace Diploma.ViewModel
                     {
                         IndexMedicalRecord--;
                         MedicalRecordNumber();
+                        UpdateAllMedicalRecord();
                     }
                 });
             }
@@ -227,29 +232,53 @@ namespace Diploma.ViewModel
         {
             AllMedicalRecord = DataWorker.GetMedicalRecordByMedicalСardId(SelectedMedicalCard);
             SelectedMedicalRecord = DataWorker.GetMedicalRecordsByMedicalCardId(SelectedMedicalCard)[IndexMedicalRecord];
+            bool boolMedicine = DataWorker.BoolGetAllMedicineByMedicanRecordId(SelectedMedicalRecord);
+            if (boolMedicine)
+            {
+                AllMedicine = DataWorker.GetAllMedicinesByMedicalRecordId(SelectedMedicalRecord);
+            }
 
-            PatientSurname = SelectedMedicalRecord.MedicalСard.Patient.Surname;
-            PatientName = SelectedMedicalRecord.MedicalСard.Patient.Name;
-            PatientLastname = SelectedMedicalRecord.MedicalСard.Patient.Lastname;
-            PatientDateOfBirth = SelectedMedicalRecord.MedicalСard.Patient.DateOfBirth;
-            PatientGender = SelectedMedicalRecord.MedicalСard.Patient.Gender.Titl;
+            if (SelectedMedicalRecord != null)
+            {
+                var patient = DataWorker.GetPatientByMedicalRecord(SelectedMedicalRecord);
+                PatientSurname = patient.Surname;
+                PatientName = patient.Name;
+                PatientLastname = patient.Lastname;
+                PatientDateOfBirth = patient.DateOfBirth.ToShortDateString().ToString();
+                PatientGender = patient.PatientGender.Titl;
 
-            DoctorSurname = SelectedMedicalRecord.Doctor.Surname;
-            DoctorName = SelectedMedicalRecord.Doctor.Name;
-            DoctorLastname = SelectedMedicalRecord.Doctor.Lastname;
-            DoctorSpeciality = SelectedMedicalRecord.Doctor.Speciality.Titl;
+                var doctor = DataWorker.GetDoctorByMedicalRecord(SelectedMedicalRecord);
+                DoctorSurname = doctor.Surname;
+                DoctorName = doctor.Name;
+                DoctorLastname = doctor.Lastname;
+                DoctorSpeciality = doctor.DoctorSpeciality.Titl;
 
-            StartOfTreatment = SelectedMedicalRecord.StartOfTreatment;
-            EndOfTreatment = SelectedMedicalRecord.EndOfTreatment;
+                Diagnosis = SelectedMedicalRecord.Diagnosis;
+                StartOfTreatment = SelectedMedicalRecord.StartOfTreatment.ToShortDateString().ToString();
+                Diagnosis = SelectedMedicalRecord.Diagnosis;
+                EndOfTreatment = SelectedMedicalRecord.EndOfTreatment.ToString();
+                if (EndOfTreatment != "")
+                {
+                    EndOfTreatment = EndOfTreatment.Substring(0, 10);
+                }
+            }
         }
 
-        private void UpdateAllMedicine()
+        private void UpdateAllMedicalRecord()
         {
-            AllMedicine = DataWorker.GetAllMedicinesByMedicalRecordId(SelectedMedicalRecord);
-            MedicalCardPage.MedicineList.ItemsSource = null;
-            MedicalCardPage.MedicineList.Items.Clear();
+            MedicalCardPage.PatientSurnameCard.Text = PatientSurname;
+            MedicalCardPage.PatientNameCard.Text = PatientName;
+            MedicalCardPage.PatientLastnameCard.Text = PatientLastname;
+            MedicalCardPage.PatientDateOfBirthCard.Text = PatientDateOfBirth;
+            MedicalCardPage.PatientGenderCard.Text = PatientGender;
+            MedicalCardPage.DoctorSurnameCard.Text = DoctorSurname;
+            MedicalCardPage.DoctorNameCard.Text = DoctorName;
+            MedicalCardPage.DoctorLastnameCard.Text = DoctorLastname;
+            MedicalCardPage.DoctorSpecialityCard.Text = DoctorSpeciality;
+            MedicalCardPage.StartOfTreatmentCard.Text = StartOfTreatment;
+            MedicalCardPage.EndOfTreatmentCard.Text = EndOfTreatment;
+            MedicalCardPage.DiagnosisCard.Text = Diagnosis;
             MedicalCardPage.MedicineList.ItemsSource = AllMedicine;
-            MedicalCardPage.MedicineList.Items.Refresh();
         }
     }
 }

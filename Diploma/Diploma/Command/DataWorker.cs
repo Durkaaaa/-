@@ -8,6 +8,43 @@ namespace Diploma.Command
 {
     public class DataWorker
     {
+
+        public static bool BoolGetAllMedicineByMedicanRecordId(MedicalRecord medicalRecord)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var medicine = db.Medicines.Any(p => p.MedicalRecordId == medicalRecord.Id);
+                return medicine;
+            }
+        }
+
+
+
+
+
+        public static Patient GetPatientByMedicalRecord(MedicalRecord selectedMedicalRecord)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var medicalRecord = db.MedicalRecords.FirstOrDefault(p => p.Id == selectedMedicalRecord.Id);
+                var medicalСard = medicalRecord.MedicalСardId;
+                var patient = db.Patients.FirstOrDefault(p => p.Id == medicalСard);
+                return patient;
+            }
+        }
+        
+        public static Doctor GetDoctorByMedicalRecord(MedicalRecord selectedMedicalRecord)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var medicalRecord = db.MedicalRecords.FirstOrDefault(p => p.Id == selectedMedicalRecord.Id);
+                var doctorId = medicalRecord.DoctorId;
+                var doctor = db.Doctors.FirstOrDefault(p => p.Id == doctorId);
+                return doctor;
+            }
+        }
+
+
         //Удаление мед карты
         public static void DeleteMedicalCard(MedicalCard medicalCard)
         {
