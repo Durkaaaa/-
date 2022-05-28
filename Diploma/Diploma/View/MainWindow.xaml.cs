@@ -14,11 +14,8 @@ namespace Diploma.View
         public MainWindow()
         {
             InitializeComponent();
-            //DataContext = new DataMainWindowVM();
+            DataContext = new DataMainWindowVM();
             FramePage = FrameBlock;
-            ApplicationContext db = new ApplicationContext();
-            db.Database.EnsureDeleted();
-            db.Database.EnsureCreated();
         }
     }
 }

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Diploma.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220528003459_full")]
+    [Migration("20220528085315_full")]
     partial class full
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

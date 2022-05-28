@@ -46,7 +46,7 @@
         
         <StackPanel VerticalAlignment="Center"
                     HorizontalAlignment="Center"
-                    Width="150">
+                    Width="180">
             <TextBlock Text="Фамилия"/>
             <TextBox x:Name="SurnameBlock"
                      Text="{Binding Surname}"

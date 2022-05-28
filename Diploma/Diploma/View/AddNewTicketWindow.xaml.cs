@@ -11,7 +11,7 @@ namespace Diploma.View
         public AddNewTicketWindow()
         {
             InitializeComponent();
-            //DataContext = new DataAddNewTicketVM();
+            DataContext = new DataAddNewTicketVM();
         }
     }
 }

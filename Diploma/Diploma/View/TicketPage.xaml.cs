@@ -12,8 +12,8 @@ namespace Diploma.View
         public TicketPage()
         {
             InitializeComponent();
-            //DataContext = new DataTicketVM();
-            //TicketLiset = TicketListBlock;
+            DataContext = new DataTicketVM();
+            TicketList = TicketListBlock;
         }
     }
 }

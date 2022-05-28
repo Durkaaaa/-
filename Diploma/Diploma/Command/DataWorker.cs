@@ -8,6 +8,31 @@ namespace Diploma.Command
 {
     public class DataWorker
     {
+        public static bool BoolPatient(Patient selectedPatient, DateTime startOfReception)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var result = db.Patients.ToList();
+                var countTicket = db.Ticket.Count();
+                if (countTicket > 0)
+                {
+                    for (int i = 0; i < countTicket; i++)
+                    {
+                        var boolTicket = db.Ticket.Any(p => p.PatientId == selectedPatient.Id);
+                        if (boolTicket)
+                        {
+                            var ticket = db.Ticket.FirstOrDefault(p => p.PatientId == selectedPatient.Id);
+                            if (ticket.StartOfReception.AddHours(1) != startOfReception ||
+                                ticket.StartOfReception.AddHours(1) > startOfReception)
+                            {
+                                result.Remove();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         public static string DeleteTicket(Ticket selectedTicket)
         {
             using (ApplicationContext db = new ApplicationContext())

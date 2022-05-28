@@ -57,7 +57,7 @@
                         <Setter.Value>
                             <ControlTemplate>
                                 <Border BorderBrush="Black" BorderThickness="1">
-                                    <Grid>
+                                    <Grid Background="{TemplateBinding Background}">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="0.1*"/>
                                             <ColumnDefinition Width="*"/>

@@ -128,14 +128,14 @@
             <TextBlock Text="Начало приёма"/>
             <StackPanel Orientation="Horizontal">
                 <TextBox x:Name="StartOfReceptionHourBlock"
-                         Text="{Binding StartOfReceptionHour}"
+                         Text="{Binding ElementName=StartOfReceptionHour, Path=Value, UpdateSourceTrigger=PropertyChanged}"
                          BorderBrush="Black"
                          Width="20"/>
-
+                
                 <TextBlock Text=":"/>
 
                 <TextBox x:Name="StartOfReceptionMinuteBlock"
-                         Text="{Binding StartOfReceptionMinute}"
+                         Text="{Binding ElementName=StartOfReceptionMinute, Path=Value, UpdateSourceTrigger=PropertyChanged}"
                          BorderBrush="Black"
                          Width="20"/>
             </StackPanel>
