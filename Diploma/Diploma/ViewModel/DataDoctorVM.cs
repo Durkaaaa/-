@@ -9,12 +9,8 @@ namespace Diploma.ViewModel
     {
         public static Doctor SelectedDoctor { get; set; }
 
-        public DataDoctorVM()
-        {
-            _allDoctor = DataWorker.GetAllDoctor();
-        }
 
-        private List<Doctor> _allDoctor;
+        private List<Doctor> _allDoctor = DataWorker.GetAllDoctor();
         public List<Doctor> AllDoctor
         {
             get => _allDoctor;

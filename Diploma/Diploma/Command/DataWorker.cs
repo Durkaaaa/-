@@ -8,6 +8,26 @@ namespace Diploma.Command
 {
     public class DataWorker
     {
+        public static string DeleteTicket(Ticket selectedTicket)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var ticket = db.Ticket.FirstOrDefault(p => p.Id == selectedTicket.Id);
+                db.Ticket.Remove(ticket);
+                db.SaveChanges();
+                var result = "Табон удален";
+                return result;
+            }
+        }
+
+        public static List<Ticket> GetAllTicket()
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var result = db.Ticket.ToList();
+                return result;
+            }
+        }
         public static int GetIndexCabinet(int Id, List<Cabinet> cabinetsList)
         {
             using (ApplicationContext db = new ApplicationContext())
@@ -497,38 +517,33 @@ namespace Diploma.Command
         }
 
         //Редактирование
-        public static string EditDoctor(Doctor selectedDoctor, string surname, string name, 
-            string lastname, Speciality selectedSpeciality, Cabinet selectedCabinet, 
+        public static string EditDoctor(Doctor selectedDoctor, string surname, string name,
+            string lastname, Speciality selectedSpeciality, Cabinet selectedCabinet,
             DateTime dateOfEmployment, DateTime workWith, DateTime workUntil)
         {
             using (ApplicationContext db = new ApplicationContext())
             {
-                var result = "Кабинет занят";
-                bool examinationCabinet = db.Doctors.Any(p => p.CabinetId == selectedCabinet.Id);
-                if (!examinationCabinet)
-                {
-                    result = "Данная запись уже существует";
-                    bool examination = db.Doctors.Any(p => p.Surname == surname && p.Name == name &&
-                        p.Lastname == lastname && p.SpecialityId == selectedSpeciality.Id &&
-                        p.DateOfEmployment == dateOfEmployment && p.WorkWith == workWith &&
-                        p.WorkUntil == workUntil && p.Id == selectedDoctor.Id);
+                var result = "Данная запись уже существует";
+                bool examination = db.Doctors.Any(p => p.Surname == surname && p.Name == name &&
+                    p.Lastname == lastname && p.SpecialityId == selectedSpeciality.Id &&
+                    p.DateOfEmployment == dateOfEmployment && p.WorkWith == workWith &&
+                    p.WorkUntil == workUntil && p.Id == selectedDoctor.Id);
 
-                    if (!examination)
+                if (!examination)
+                {
+                    var doctor = db.Doctors.FirstOrDefault(p => p.Id == selectedDoctor.Id);
+                    if (doctor != null)
                     {
-                        var doctor = db.Doctors.FirstOrDefault(p => p.Id == selectedDoctor.Id);
-                        if (doctor != null)
-                        {
-                            doctor.Surname = surname;
-                            doctor.Name = name;
-                            doctor.Lastname = lastname;
-                            doctor.SpecialityId = selectedSpeciality.Id;
-                            doctor.CabinetId = selectedCabinet.Id;
-                            doctor.DateOfEmployment = dateOfEmployment;
-                            doctor.WorkWith = workWith;
-                            doctor.WorkUntil = workUntil;
-                            db.SaveChanges();
-                            result = "Запись изменена";
-                        }
+                        doctor.Surname = surname;
+                        doctor.Name = name;
+                        doctor.Lastname = lastname;
+                        doctor.SpecialityId = selectedSpeciality.Id;
+                        doctor.CabinetId = selectedCabinet.Id;
+                        doctor.DateOfEmployment = dateOfEmployment;
+                        doctor.WorkWith = workWith;
+                        doctor.WorkUntil = workUntil;
+                        db.SaveChanges();
+                        result = "Запись изменена";
                     }
                 }
                 return result;

@@ -72,10 +72,11 @@
                             Command="{Binding OpenPatientPage}"
                             CommandParameter="{Binding ElementName=MainWnd}"/>
 
-                    <Button Background="Transparent"
+                    <Button Content="Таболны"
+                            Background="Transparent"
                             Width="170" 
                             Height="50"
-                            Command="{Binding }"
+                            Command="{Binding OpenTicketPage}"
                             CommandParameter="{Binding ElementName=MainWnd}"/>
                 </StackPanel>
             </Grid>    

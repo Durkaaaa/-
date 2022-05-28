@@ -11,6 +11,17 @@ namespace Diploma.ViewModel
 {
     public class ViewModelBase : INotifyPropertyChanged
     {
+        private List<Ticket> _listTicket;
+        public List<Ticket> ListTicket
+        {
+            get => _listTicket;
+            set
+            {
+                _listTicket = value;
+                NotifyPropertyChanged(nameof(ListTicket));
+            }
+        }
+
         private List<Doctor> _listDoctor;
         public List<Doctor> ListDoctor
         {
@@ -31,6 +42,15 @@ namespace Diploma.ViewModel
                 _listPatient = value;
                 NotifyPropertyChanged(nameof(ListPatient));
             }
+        }
+
+        public void UpdateAllTicketPage()
+        {
+            ListTicket = DataWorker.GetAllTicket();
+            TicketPage.TicketList.ItemsSource = null;
+            TicketPage.TicketList.Items.Clear();
+            TicketPage.TicketList.ItemsSource = ListTicket;
+            TicketPage.TicketList.Items.Refresh();
         }
 
         public void UpdateAllDoctorPage()

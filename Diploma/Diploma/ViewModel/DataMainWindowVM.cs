@@ -46,5 +46,17 @@ namespace Diploma.ViewModel
                 });
             }
         }
+
+        public RelayCommand OpenTicketPage
+        {
+            get
+            {
+                return null ?? new RelayCommand(obj =>
+                {
+                    TicketPage ticketPage = new TicketPage();
+                    MainWindow.FramePage.Content = ticketPage;
+                });
+            }
+        }
     }
 }

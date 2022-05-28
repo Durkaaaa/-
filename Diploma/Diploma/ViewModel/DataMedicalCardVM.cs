@@ -3,7 +3,6 @@ using Diploma.Model;
 using Diploma.View;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows;
 using System.Windows.Controls;
 
 namespace Diploma.ViewModel
@@ -184,6 +183,7 @@ namespace Diploma.ViewModel
                         EditMedicalRecordWindow editMedicalRecordWindow = new EditMedicalRecordWindow(SelectedMedicalCard, SelectedMedicalRecord);
                         SetCenterPositionAndOpen(editMedicalRecordWindow);
                         MedicalRecordNumber();
+                        UpdateAllMedicalRecord();
                     }
                 });
             }

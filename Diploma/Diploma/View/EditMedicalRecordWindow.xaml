@@ -56,18 +56,23 @@
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate>
-                                    <Border>
+                                    <Border BorderBrush="Black"
+                                            BorderThickness="1">
                                         <Grid Background="{TemplateBinding Background}">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition/>
-                                                <ColumnDefinition/>
-                                                <ColumnDefinition/>
-                                                <ColumnDefinition/>
-                                                <ColumnDefinition/>
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock Grid.Column="0" Text="{Binding Surname}"/>
-                                            <TextBlock Grid.Column="2" Text="{Binding Name}"/>
-                                            <TextBlock Grid.Column="4" Text="{Binding Lastname}"/>
+                                            <StackPanel>
+                                                <TextBlock Text="{Binding DoctorSpeciality.Titl}"
+                                                           FontWeight="Bold"
+                                                           FontSize="12"/>
+
+                                                <TextBlock Text="{Binding Surname}"
+                                                           FontSize="12"/>
+
+                                                <TextBlock Text="{Binding Name}"
+                                                           FontSize="12"/>
+
+                                                <TextBlock Text="{Binding Lastname}"
+                                                           FontSize="12"/>
+                                            </StackPanel>
                                         </Grid>
                                     </Border>
                                 </ControlTemplate>

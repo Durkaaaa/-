@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Diploma.Model;
+using Diploma.ViewModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Diploma.View
 {
@@ -19,9 +9,10 @@ namespace Diploma.View
     /// </summary>
     public partial class EditTicketWindow : Window
     {
-        public EditTicketWindow()
+        public EditTicketWindow(Ticket selectedTicket)
         {
             InitializeComponent();
+            DataContext = new DataEditTicketVM(selectedTicket);
         }
     }
 }
