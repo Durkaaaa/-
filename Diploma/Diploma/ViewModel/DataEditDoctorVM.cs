@@ -12,27 +12,32 @@ namespace Diploma.ViewModel
         public static string Name { get; set; }
         public static string Lastname { get; set; }
         public static Speciality SelectedSpeciality { get; set; }
+        public static Cabinet SelectedCabinet { get; set; }
         public static DateTime DateOfEmployment { get; set; }
         public static int WorkWithHour { get; set; }
         public static int WorkWithMinute { get; set; }
         public static int WorkUntilHour { get; set; }
         public static int WorkUntilMinute { get; set; }
         public static int IndexSpeciality { get; set; }
-        public Doctor SelectedDoctor { get; set; }
+        public static int IndexCabinet { get; set; }
+        public static Doctor SelectedDoctor { get; set; }
 
         public DataEditDoctorVM(Doctor selectedDoctor)
         {
             SelectedDoctor = selectedDoctor;
+            _allCabinet = DataWorker.GetAllCabinet(SelectedDoctor);
             Surname = SelectedDoctor.Surname;
             Name = SelectedDoctor.Name;
             Lastname = SelectedDoctor.Lastname;
             SelectedSpeciality = SelectedDoctor.Speciality;
+            SelectedCabinet = SelectedDoctor.Cabinet;
             DateOfEmployment = SelectedDoctor.DateOfEmployment;
             WorkWithHour = SelectedDoctor.WorkWith.Hour;
             WorkWithMinute = SelectedDoctor.WorkWith.Minute;
             WorkUntilHour = SelectedDoctor.WorkUntil.Hour;
             WorkUntilMinute = SelectedDoctor.WorkUntil.Minute;
             IndexSpeciality = DataWorker.GetIndexSpeciality(SelectedDoctor.SpecialityId);
+            IndexCabinet = DataWorker.GetIndexCabinet(SelectedDoctor.CabinetId, _allCabinet);
         }
 
         private List<Speciality> _allSpeciality = DataWorker.GetAllSpeciality();
@@ -43,6 +48,17 @@ namespace Diploma.ViewModel
             {
                 _allSpeciality = value;
                 NotifyPropertyChanged("AllSpeciality");
+            }
+        }
+
+        private List<Cabinet> _allCabinet;
+        public List<Cabinet> AllCabinet
+        {
+            get { return _allCabinet; }
+            set
+            {
+                _allCabinet = value;
+                NotifyPropertyChanged("AllCabinet");
             }
         }
 
@@ -59,11 +75,16 @@ namespace Diploma.ViewModel
                             Name == null || Name.Replace(" ", "").Length == 0 ||
                             Lastname == null || Lastname.Replace(" ", "").Length == 0 ||
                             SelectedSpeciality == null ||
+                            SelectedCabinet == null ||
                             DateOfEmployment > DateTime.Now ||
                             WorkWithHour >= 24 ||
+                            WorkWithHour < 0 ||
                             WorkWithMinute >= 60 ||
+                            WorkWithMinute < 0 ||
                             WorkUntilHour >= 24 ||
-                            WorkUntilMinute >= 60)
+                            WorkUntilHour < 0 ||
+                            WorkUntilMinute >= 60 ||
+                            WorkUntilMinute < 0)
                         {
                             if (Surname == null || Surname.Replace(" ", "").Length == 0)
                                 SetRedBlockControll(window, "SurnameBlock");
@@ -82,6 +103,9 @@ namespace Diploma.ViewModel
 
                             if (SelectedSpeciality == null)
                                 ShowMessageToUser("Не выбрана специальность");
+
+                            if (SelectedCabinet == null)
+                                ShowMessageToUser("Не выбран кабинет");
 
                             if (DateOfEmployment > DateTime.Now)
                                 ShowMessageToUser("Неправильная дата");
@@ -129,7 +153,7 @@ namespace Diploma.ViewModel
                                 SetBlackBlockControll(window, "WorkUntilHourBlock");
                                 SetBlackBlockControll(window, "WorkUntilMinuteBlock");
                                 var result = DataWorker.EditDoctor(SelectedDoctor, Surname, Name, Lastname,
-                                SelectedSpeciality, DateOfEmployment, workWith, workUntil);
+                                SelectedSpeciality, SelectedCabinet, DateOfEmployment, workWith, workUntil);
                                 ShowMessageToUser(result);
                                 Zeroing();
                                 window.Close();
@@ -146,6 +170,7 @@ namespace Diploma.ViewModel
             Name = null;
             Lastname = null;
             SelectedSpeciality = null;
+            SelectedCabinet = null;
             DateOfEmployment = DateTime.Now;
             WorkWithHour = 0;
             WorkWithMinute = 0;

@@ -6,15 +6,16 @@
         xmlns:local="clr-namespace:Diploma.View"
         mc:Ignorable="d"
         Title="Редактирование пациента" 
-        Height="500" 
+        Height="600" 
         Width="250"
         x:Name="EditPatientWnd">
 
     <Window.Resources>
         <Style TargetType="TextBox">
             <Setter Property="Background" Value="AliceBlue"/>
-            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="FontSize" Value="15"/>
             <Setter Property="FontFamily" Value="Comic Sans MS"/>
+            <Setter Property="Height" Value="25"/>
         </Style>
 
         <Style TargetType="TextBlock">
@@ -49,17 +50,20 @@
             <TextBlock Text="Фамилия"/>
             <TextBox x:Name="SurnameBlock"
                      Text="{Binding Surname}"
-                     BorderBrush="Black"/>
+                     BorderBrush="Black"
+                     VerticalAlignment="Center"/>
 
             <TextBlock Text="Имя"/>
             <TextBox x:Name="NameBlock" 
                      Text="{Binding Name}"
-                     BorderBrush="Black"/>
+                     BorderBrush="Black"
+                     VerticalAlignment="Center"/>
 
             <TextBlock Text="Отчество"/>
             <TextBox x:Name="LastnameBlock"
                      Text="{Binding Lastname}"
-                     BorderBrush="Black"/>
+                     BorderBrush="Black"
+                     VerticalAlignment="Center"/>
 
             <TextBlock Text="Пол"/>
             <ComboBox ItemsSource="{Binding AllGender}"
@@ -77,27 +81,32 @@
             <TextBlock Text="ПОЛИС"/>
             <TextBox x:Name="PolicyBlock"
                      Text="{Binding Policy}"
-                     BorderBrush="Black"/>
+                     BorderBrush="Black"
+                     VerticalAlignment="Center"/>
 
             <TextBlock Text="СНИЛС"/>
             <TextBox x:Name="SnilsBlock"
                      Text="{Binding Snils}"
-                     BorderBrush="Black"/>
+                     BorderBrush="Black"
+                     VerticalAlignment="Center"/>
 
             <TextBlock Text="Серия паспорта"/>
             <TextBox x:Name="PassportSeriesBlock"
                      Text="{Binding PassportSeries}"
-                     BorderBrush="Black"/>
+                     BorderBrush="Black"
+                     VerticalAlignment="Center"/>
 
             <TextBlock Text="Номер паспорта"/>
             <TextBox x:Name="PassportNumberBlock"
                      Text="{Binding PassportNumber}"
-                     BorderBrush="Black"/>
+                     BorderBrush="Black"
+                     VerticalAlignment="Center"/>
 
             <TextBlock Text="Место прописки"/>
             <TextBox x:Name="AddressBlock"
                      Text="{Binding Address}"
-                     BorderBrush="Black"/>
+                     BorderBrush="Black"
+                     VerticalAlignment="Center"/>
         </StackPanel>
 
         <Button Content="Изменить"

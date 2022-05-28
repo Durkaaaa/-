@@ -52,7 +52,7 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Surname}"
-                                    Width="140">
+                                    Width="120">
                         <GridViewColumn.Header>
                             <TextBlock TextAlignment="Center"
                                        FontSize="12"
@@ -61,7 +61,7 @@
                     </GridViewColumn>
 
                     <GridViewColumn DisplayMemberBinding="{Binding Name}"
-                                    Width="140">
+                                    Width="120">
                         <GridViewColumn.Header>
                             <TextBlock TextAlignment="Center"
                                        FontSize="12"
@@ -70,7 +70,7 @@
                     </GridViewColumn>
 
                     <GridViewColumn DisplayMemberBinding="{Binding Lastname}"
-                                    Width="140">
+                                    Width="120">
                         <GridViewColumn.Header>
                             <TextBlock TextAlignment="Center"
                                        FontSize="12"
@@ -79,11 +79,20 @@
                     </GridViewColumn>
 
                     <GridViewColumn DisplayMemberBinding="{Binding DoctorSpeciality.Titl}"
-                                    Width="140">
+                                    Width="120">
                         <GridViewColumn.Header>
                             <TextBlock TextAlignment="Center"
                                        FontSize="12"
                                        Text="Специальность"/>
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+
+                    <GridViewColumn DisplayMemberBinding="{Binding DoctorCabinet.Titl}"
+                                    Width="95">
+                        <GridViewColumn.Header>
+                            <TextBlock TextAlignment="Center"
+                                       FontSize="12"
+                                       Text="Кабинет"/>
                         </GridViewColumn.Header>
                     </GridViewColumn>
 

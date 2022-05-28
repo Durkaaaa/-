@@ -60,6 +60,20 @@ namespace Diploma.ViewModel
         }
 
         //Изменение цвета TextBox на черный
+        public void SetBlackBlockControll(Page page, string blockName)
+        {
+            Control block = page.FindName(blockName) as Control;
+            block.BorderBrush = Brushes.Black;
+        }
+
+        //Изменение цвета TextBox на красный
+        public void SetRedBlockControll(Page page, string blockName)
+        {
+            Control block = page.FindName(blockName) as Control;
+            block.BorderBrush = Brushes.Red;
+        }
+
+        //Изменение цвета TextBox на черный
         public void SetBlackBlockControll(Window window, string blockName)
         {
             Control block = window.FindName(blockName) as Control;

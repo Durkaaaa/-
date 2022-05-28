@@ -12,6 +12,7 @@ namespace Diploma.ViewModel
         public static string Name { get; set; }
         public static string Lastname { get; set; }
         public static Speciality SelectedSpeciality { get; set; }
+        public static Cabinet SelectedCabinet { get; set; }
         public static DateTime DateOfEmployment { get; set; }
         public static int WorkWithHour { get; set; }
         public static int WorkWithMinute { get; set; }
@@ -34,6 +35,17 @@ namespace Diploma.ViewModel
             }
         }
 
+        private List<Cabinet> _allCabinet = DataWorker.GetAllCabinet();
+        public List<Cabinet> AllCabinet
+        {
+            get { return _allCabinet; }
+            set
+            {
+                _allCabinet = value;
+                NotifyPropertyChanged("AllCabinet");
+            }
+        }
+
         public RelayCommand AddNewDoctor
         {
             get
@@ -45,11 +57,16 @@ namespace Diploma.ViewModel
                         Name == null || Name.Replace(" ", "").Length == 0 ||
                         Lastname == null || Lastname.Replace(" ", "").Length == 0 ||
                         SelectedSpeciality == null ||
+                        SelectedCabinet == null ||
                         DateOfEmployment > DateTime.Now ||
                         WorkWithHour >= 24 ||
+                        WorkWithHour < 0 ||
                         WorkWithMinute >= 60 ||
+                        WorkWithMinute < 0 ||
                         WorkUntilHour >= 24 ||
-                        WorkUntilMinute >= 60)
+                        WorkUntilHour < 0 ||
+                        WorkUntilMinute >= 60 ||
+                        WorkUntilMinute < 0)
                     {
                         if (Surname == null || Surname.Replace(" ", "").Length == 0)
                             SetRedBlockControll(window, "SurnameBlock");
@@ -68,6 +85,9 @@ namespace Diploma.ViewModel
 
                         if (SelectedSpeciality == null)
                             ShowMessageToUser("Не выбрана специальность");
+
+                        if (SelectedCabinet == null)
+                            ShowMessageToUser("Не выбран кабинет");
 
                         if (DateOfEmployment > DateTime.Now)
                             ShowMessageToUser("Неправильная дата");
@@ -115,7 +135,7 @@ namespace Diploma.ViewModel
                             SetBlackBlockControll(window, "WorkUntilHourBlock");
                             SetBlackBlockControll(window, "WorkUntilMinuteBlock");
                             var result = DataWorker.AddNewDoctor(Surname, Name, Lastname,
-                                SelectedSpeciality, DateOfEmployment, workWith, workUntil);
+                                SelectedSpeciality, SelectedCabinet, DateOfEmployment, workWith, workUntil);
                             ShowMessageToUser(result);
                             Zeroing();
                             window.Close();
@@ -131,6 +151,7 @@ namespace Diploma.ViewModel
             Name = null;
             Lastname = null;
             SelectedSpeciality = null;
+            SelectedCabinet = null;
             DateOfEmployment = DateTime.Now;
             WorkWithHour = 0;
             WorkWithMinute = 0;

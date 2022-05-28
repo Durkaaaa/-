@@ -6,15 +6,16 @@
         xmlns:local="clr-namespace:Diploma.View"
         mc:Ignorable="d"
         Title="Добавление врача" 
-        Height="400"
+        Height="470"
         Width="250"
         x:Name="AddNewDoctorWnd">
 
     <Window.Resources>
         <Style TargetType="TextBox">
             <Setter Property="Background" Value="AliceBlue"/>
-            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="FontSize" Value="15"/>
             <Setter Property="FontFamily" Value="Comic Sans MS"/>
+            <Setter Property="Height" Value="25"/>
         </Style>
 
         <Style TargetType="TextBlock">
@@ -49,17 +50,20 @@
             <TextBlock Text="Фамилия"/>
             <TextBox x:Name="SurnameBlock"
                      Text="{Binding Surname}"
-                     BorderBrush="Black"/>
+                     BorderBrush="Black"
+                     VerticalAlignment="Center"/>
             
             <TextBlock Text="Имя"/>
             <TextBox x:Name="NameBlock"
                      Text="{Binding Name}"
-                     BorderBrush="Black"/>
+                     BorderBrush="Black"
+                     VerticalAlignment="Center"/>
             
             <TextBlock Text="Отчество"/>
             <TextBox x:Name="LastnameBlock"
                      Text="{Binding Lastname}"
-                     BorderBrush="Black"/>
+                     BorderBrush="Black"
+                     VerticalAlignment="Center"/>
             
             <TextBlock Text="Специальность"/>
             <ComboBox ItemsSource="{Binding AllSpeciality}"
@@ -82,14 +86,18 @@
                 <TextBox x:Name="WorkWithHourBlock"
                          Text="{Binding WorkWithHour}"
                          BorderBrush="Black"
-                         Width="20"/>
+                         Width="25"
+                         VerticalAlignment="Center"
+                         HorizontalAlignment="Center"/>
                 
                 <TextBlock Text=":"/>
                 
                 <TextBox x:Name="WorkWithMinuteBlock"
                          Text="{Binding WorkWithMinute}"
                          BorderBrush="Black"
-                         Width="20"/>
+                         Width="25"
+                         VerticalAlignment="Center"
+                         HorizontalAlignment="Center"/>
             </StackPanel>
 
             <TextBlock Text="Время работы до:"/>
@@ -97,14 +105,18 @@
                 <TextBox x:Name="WorkUntilHourBlock"
                          Text="{Binding WorkUntilHour}"
                          BorderBrush="Black"
-                         Width="20"/>
+                         Width="25"
+                         VerticalAlignment="Center"
+                         HorizontalAlignment="Center"/>
 
                 <TextBlock Text=":"/>
 
                 <TextBox x:Name="WorkUntilMinuteBlock"
                          Text="{Binding WorkUntilMinute}"
                          BorderBrush="Black"
-                         Width="20"/>
+                         Width="25"
+                         VerticalAlignment="Center"
+                         HorizontalAlignment="Center"/>
             </StackPanel>
         </StackPanel>
 

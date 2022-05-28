@@ -20,11 +20,10 @@ namespace Diploma.ViewModel
         {
             SelectedMedicalCard = selectedMedicalCard;
             SelectedMedicalRecord = selectedMedicalRecord;
-            SelectedDoctor = SelectedMedicalRecord.Doctor;
             Diagnosis = SelectedMedicalRecord.Diagnosis;
             StartOfTreatment = SelectedMedicalRecord.StartOfTreatment;
             EndOfTreatment = SelectedMedicalRecord.EndOfTreatment;
-            IndexDoctor = DataWorker.GetIndexDoctor(SelectedDoctor.Id);
+            IndexDoctor = DataWorker.GetIndexDoctor(SelectedMedicalRecord.DoctorId);
         }
 
         private List<Doctor> _allDoctor = DataWorker.GetAllDoctor();
@@ -56,7 +55,8 @@ namespace Diploma.ViewModel
                         }
 
                         if (SelectedDoctor == null ||
-                            Diagnosis == null || Diagnosis.Replace(" ", "").Length == 0)
+                            Diagnosis == null || Diagnosis.Replace(" ", "").Length == 0 ||
+                            (EndOfTreatment != null && EndOfTreatment <= StartOfTreatment))
                         {
                             if (SelectedDoctor == null)
                                 ShowMessageToUser("Не выбран доктор");
@@ -65,6 +65,9 @@ namespace Diploma.ViewModel
                                 SetRedBlockControll(window, "DiagnosisBlock");
                             else
                                 SetBlackBlockControll(window, "DiagnosisBlock");
+
+                            if (EndOfTreatment != null && EndOfTreatment <= StartOfTreatment)
+                                ShowMessageToUser("Не правильная дата");
                         }
                         else
                         {

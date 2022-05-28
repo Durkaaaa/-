@@ -13,7 +13,7 @@
     <Window.Resources>
         <Style TargetType="TextBox">
             <Setter Property="Background" Value="AliceBlue"/>
-            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="FontSize" Value="15"/>
             <Setter Property="FontFamily" Value="Comic Sans MS"/>
         </Style>
 

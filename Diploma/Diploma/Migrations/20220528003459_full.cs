@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Diploma.Migrations
 {
-    public partial class q : Migration
+    public partial class full : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -84,6 +84,7 @@ namespace Diploma.Migrations
                     Name = table.Column<string>(nullable: true),
                     Lastname = table.Column<string>(nullable: true),
                     SpecialityId = table.Column<int>(nullable: false),
+                    CabinetId = table.Column<int>(nullable: false),
                     DateOfEmployment = table.Column<DateTime>(nullable: false),
                     WorkWith = table.Column<DateTime>(nullable: false),
                     WorkUntil = table.Column<DateTime>(nullable: false)
@@ -91,6 +92,12 @@ namespace Diploma.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Doctors", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Doctors_Cabinets_CabinetId",
+                        column: x => x.CabinetId,
+                        principalTable: "Cabinets",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Doctors_Speciality_SpecialityId",
                         column: x => x.SpecialityId,
@@ -126,18 +133,12 @@ namespace Diploma.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PatientId = table.Column<int>(nullable: false),
                     DoctorId = table.Column<int>(nullable: false),
-                    DateOfReceipt = table.Column<DateTime>(nullable: false),
-                    CabinetId = table.Column<int>(nullable: false)
+                    StartOfReception = table.Column<DateTime>(nullable: false),
+                    EndOfReception = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Ticket", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Ticket_Cabinets_CabinetId",
-                        column: x => x.CabinetId,
-                        principalTable: "Cabinets",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Ticket_Doctors_DoctorId",
                         column: x => x.DoctorId,
@@ -202,6 +203,11 @@ namespace Diploma.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Doctors_CabinetId",
+                table: "Doctors",
+                column: "CabinetId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Doctors_SpecialityId",
                 table: "Doctors",
                 column: "SpecialityId");
@@ -232,11 +238,6 @@ namespace Diploma.Migrations
                 column: "GenderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Ticket_CabinetId",
-                table: "Ticket",
-                column: "CabinetId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Ticket_DoctorId",
                 table: "Ticket",
                 column: "DoctorId");
@@ -259,13 +260,13 @@ namespace Diploma.Migrations
                 name: "MedicalRecords");
 
             migrationBuilder.DropTable(
-                name: "Cabinets");
-
-            migrationBuilder.DropTable(
                 name: "Doctors");
 
             migrationBuilder.DropTable(
                 name: "MedicalСards");
+
+            migrationBuilder.DropTable(
+                name: "Cabinets");
 
             migrationBuilder.DropTable(
                 name: "Speciality");

@@ -6,9 +6,17 @@
       xmlns:local="clr-namespace:Diploma.View"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="MedicalCardPage">
+      Title="MedicalCardPage"
+      x:Name="MedicalCardPg">
 
     <Page.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="Background" Value="AliceBlue"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+            <Setter Property="Height" Value="25"/>
+        </Style>
+        
         <Style TargetType="TextBlock">
             <Setter Property="FontSize" Value="17"/>
             <Setter Property="FontFamily" Value="Comic Sans MS"/>
@@ -306,6 +314,8 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="0.05*"/>
                 <RowDefinition Height="0.1*"/>
+                <RowDefinition Height="0.05*"/>
+                <RowDefinition Height="0.1*"/>
             </Grid.RowDefinitions>
 
             <Border BorderBrush="Black"
@@ -347,8 +357,14 @@
                 </ListView.View>
             </ListView>
 
+            <TextBox Text="{Binding AEMedicine}" 
+                     x:Name="AEMedicineBlock"
+                     Grid.Row="4"
+                     BorderBrush="Black"
+                     VerticalAlignment="Center"/>
+
             <StackPanel Orientation="Horizontal"
-                        Grid.Row="4"
+                        Grid.Row="6"
                         HorizontalAlignment="Center">
 
                 <Button Content="+"
@@ -356,21 +372,24 @@
                         Height="Auto"
                         Margin="5,0,5,0"
                         FontSize="10"
-                        Command="{Binding AddNewMedicine}"/>
+                        Command="{Binding AddNewMedicine}"
+                        CommandParameter="{Binding ElementName=MedicalCardPg}"/>
 
                 <Button Content="-"
                         Width="40"
                         Height="Auto"
                         Margin="5,0,5,0"
                         FontSize="10"
-                        Command="{Binding DeleteMedicine}"/>
+                        Command="{Binding DeleteMedicine}"
+                        CommandParameter="{Binding ElementName=MedicalCardPg}"/>
 
                 <Button Content="Edit"
                         Width="40"
                         Height="Auto"
                         Margin="5,0,5,0"
                         FontSize="10"
-                        Command="{Binding EditMedicine}"/>
+                        Command="{Binding EditMedicine}"
+                        CommandParameter="{Binding ElementName=MedicalCardPg}"/>
             </StackPanel>
         </Grid>
 

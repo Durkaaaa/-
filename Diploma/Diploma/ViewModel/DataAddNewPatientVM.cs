@@ -19,6 +19,11 @@ namespace Diploma.ViewModel
         public static string PassportNumber { get; set; }
         public static string Address { get; set; }
 
+        public DataAddNewPatientVM()
+        {
+            DateOfBirth = DateTime.Now;
+        }
+
         private List<Gender> _allGender = DataWorker.GetAllGender();
         public List<Gender> AllGender
         {

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Diploma.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220527101538_q")]
-    partial class q
+    [Migration("20220528003459_full")]
+    partial class full
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -43,6 +43,9 @@ namespace Diploma.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("CabinetId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("DateOfEmployment")
                         .HasColumnType("datetime2");
 
@@ -65,6 +68,8 @@ namespace Diploma.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CabinetId");
 
                     b.HasIndex("SpecialityId");
 
@@ -220,21 +225,19 @@ namespace Diploma.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CabinetId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DateOfReceipt")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("DoctorId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("EndOfReception")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("PatientId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<DateTime>("StartOfReception")
+                        .HasColumnType("datetime2");
 
-                    b.HasIndex("CabinetId");
+                    b.HasKey("Id");
 
                     b.HasIndex("DoctorId");
 
@@ -245,6 +248,12 @@ namespace Diploma.Migrations
 
             modelBuilder.Entity("Diploma.Model.Doctor", b =>
                 {
+                    b.HasOne("Diploma.Model.Cabinet", "Cabinet")
+                        .WithMany()
+                        .HasForeignKey("CabinetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Diploma.Model.Speciality", "Speciality")
                         .WithMany()
                         .HasForeignKey("SpecialityId")
@@ -296,12 +305,6 @@ namespace Diploma.Migrations
 
             modelBuilder.Entity("Diploma.Model.Ticket", b =>
                 {
-                    b.HasOne("Diploma.Model.Cabinet", "Cabinet")
-                        .WithMany()
-                        .HasForeignKey("CabinetId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Diploma.Model.Doctor", "Doctor")
                         .WithMany()
                         .HasForeignKey("DoctorId")

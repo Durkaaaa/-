@@ -21,6 +21,7 @@ namespace Diploma.View
         public static TextBlock StartOfTreatmentCard;
         public static TextBlock EndOfTreatmentCard;
         public static TextBlock DiagnosisCard;
+        public static TextBox AEMedicine;
         public static ListView MedicineList;
         public MedicalCardPage(Patient selectedPatient)
         {
@@ -39,6 +40,7 @@ namespace Diploma.View
             StartOfTreatmentCard = StartOfTreatmentBlock;
             EndOfTreatmentCard = EndOfTreatmentBlock;
             DiagnosisCard = DiagnosisBlock;
+            AEMedicine = AEMedicineBlock;
         }
     }
 }

@@ -8,6 +8,63 @@ namespace Diploma.Command
 {
     public class DataWorker
     {
+        public static int GetIndexCabinet(int Id, List<Cabinet> cabinetsList)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var row = cabinetsList.FirstOrDefault(p => p.Id == Id);
+                int index = cabinetsList.IndexOf(row);
+                return index;
+            }
+        }
+
+        public static List<Cabinet> GetAllCabinet()
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                List<Cabinet> cabinet = db.Cabinets.ToList();
+                List<Cabinet> result = db.Cabinets.ToList();
+                int allCabinet = db.Cabinets.Count() - 1;
+                for (int i = 0; i < allCabinet; i++)
+                {
+                    var selectedCabinet = cabinet[i];
+                    if (selectedCabinet != null)
+                    {
+                        bool examinationCabinet = db.Doctors.Any(p => p.CabinetId == selectedCabinet.Id);
+                        if (examinationCabinet)
+                        {
+                            result.Remove(selectedCabinet);
+                        }
+                    }
+                }
+                return result;
+            }
+        }
+
+        public static List<Cabinet> GetAllCabinet(Doctor selectedDoctor)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                List<Cabinet> cabinet = db.Cabinets.ToList();
+                List<Cabinet> result = db.Cabinets.ToList();
+                var doctor = db.Doctors.FirstOrDefault(p => p.Id == selectedDoctor.Id);
+                int allCabinet = db.Cabinets.Count() - 1;
+                for (int i = 0; i < allCabinet; i++)
+                {
+                    var selectedCabinet = cabinet[i];
+                    if (selectedCabinet != null)
+                    {
+                        bool examinationCabinet = db.Doctors.Any(p => p.CabinetId == selectedCabinet.Id);
+                        if (examinationCabinet && selectedCabinet != doctor.Cabinet)
+                        {
+                            result.Remove(selectedCabinet);
+                        }
+                    }
+                }
+                return result;
+            }
+        }
+
         public static Cabinet GetCabinetById(int Id)
         {
             using (ApplicationContext db = new ApplicationContext())
@@ -39,7 +96,7 @@ namespace Diploma.Command
                 return patient;
             }
         }
-        
+
         public static Doctor GetDoctorByMedicalRecord(MedicalRecord selectedMedicalRecord)
         {
             using (ApplicationContext db = new ApplicationContext())
@@ -88,20 +145,6 @@ namespace Diploma.Command
             }
         }
 
-
-        //Удаление всех лекарств по Id записи в мед карте
-        public static void DeleteAllMedicineByMedicalRecordId(MedicalRecord selectedMedicalRecord)
-        {
-            using (ApplicationContext db = new ApplicationContext())
-            {
-                var allMedicine = db.Medicines.Where(p => p.MedicalRecordId == selectedMedicalRecord.Id);
-                db.Medicines.RemoveRange(allMedicine);
-                db.SaveChanges();
-            }
-        }
-
-
-
         public static List<MedicalRecord> GetMedicalRecordByMedicalСardId(MedicalCard selectedMedicalCard)
         {
             using (ApplicationContext db = new ApplicationContext())
@@ -111,18 +154,25 @@ namespace Diploma.Command
             }
         }
 
-        public static string DeleteMedicalRecord(MedicalCard selectedMedicalCard, MedicalRecord selectedMedicalRecord)
+        public static string DeleteMedicalRecord(MedicalRecord selectedMedicalRecord)
         {
             using (ApplicationContext db = new ApplicationContext())
             {
-                var medicalRecord = db.MedicalRecords.FirstOrDefault(p => p.MedicalСardId == selectedMedicalCard.Id &&
-                    p.Id == selectedMedicalRecord.Id);
-                db.MedicalRecords.Remove(medicalRecord);
-
-                var medicine = db.Medicines.Where(p => p.MedicalRecordId == selectedMedicalRecord.Id);
-                db.Medicines.RemoveRange(medicine);
+                bool boolMedicine = db.Medicines.Any(p => p.Id == selectedMedicalRecord.Id);
+                if (boolMedicine)
+                {
+                    int countMedicine = db.Medicines.Where(p => p.Id == selectedMedicalRecord.Id).Count();
+                    for (int i = 0; i < countMedicine; i++)
+                    {
+                        var medicine = db.Medicines.FirstOrDefault(p => p.Id == selectedMedicalRecord.Id);
+                        if (medicine != null)
+                        {
+                            db.Medicines.Remove(medicine);
+                        }
+                    }
+                }
+                db.MedicalRecords.Remove(selectedMedicalRecord);
                 db.SaveChanges();
-
                 var result = "Страница удалена";
                 return result;
             }
@@ -409,67 +459,76 @@ namespace Diploma.Command
         #region[Врачи]
         //Добавление
         public static string AddNewDoctor(string surname, string name, string lastname,
-            Speciality selectedSpeciality, DateTime dateOfEmployment, DateTime workWith,
-            DateTime workUntil)
+            Speciality selectedSpeciality, Cabinet selectedCabinet, DateTime dateOfEmployment,
+            DateTime workWith, DateTime workUntil)
         {
             using (ApplicationContext db = new ApplicationContext())
             {
-                var result = "Данная запись уже существует";
-                bool examination = db.Doctors.Any(p => p.Surname == surname && p.Name == name &&
-                    p.Lastname == lastname && p.SpecialityId == selectedSpeciality.Id &&
-                    p.DateOfEmployment == dateOfEmployment && p.WorkWith == workWith &&
-                    p.WorkUntil == workUntil);
-
-                if (!examination)
+                var result = "Кабинет занят";
+                bool examinationCabinet = db.Doctors.Any(p => p.CabinetId == selectedCabinet.Id);
+                if (!examinationCabinet)
                 {
-                    Doctor doctor = new Doctor
+                    result = "Данная запись уже существует";
+                    bool examination = db.Doctors.Any(p => p.Surname == surname && p.Name == name &&
+                        p.Lastname == lastname && p.SpecialityId == selectedSpeciality.Id &&
+                        p.DateOfEmployment == dateOfEmployment && p.WorkWith == workWith &&
+                        p.WorkUntil == workUntil);
+
+                    if (!examination)
                     {
-                        Surname = surname,
-                        Name = name,
-                        Lastname = lastname,
-                        SpecialityId = selectedSpeciality.Id,
-                        DateOfEmployment = dateOfEmployment,
-                        WorkWith = workWith,
-                        WorkUntil = workUntil
-                    };
-                    db.Doctors.Add(doctor);
-                    db.SaveChanges();
-                    result = "Запись добавлена";
+                        Doctor doctor = new Doctor
+                        {
+                            Surname = surname,
+                            Name = name,
+                            Lastname = lastname,
+                            SpecialityId = selectedSpeciality.Id,
+                            CabinetId = selectedCabinet.Id,
+                            DateOfEmployment = dateOfEmployment,
+                            WorkWith = workWith,
+                            WorkUntil = workUntil
+                        };
+                        db.Doctors.Add(doctor);
+                        db.SaveChanges();
+                        result = "Запись добавлена";
+                    }
                 }
                 return result;
             }
         }
 
         //Редактирование
-        public static string EditDoctor(Doctor selectedDoctor, string surname, string name, string lastname,
-            Speciality selectedSpeciality, DateTime dateOfEmployment, DateTime workWith, DateTime workUntil)
+        public static string EditDoctor(Doctor selectedDoctor, string surname, string name, 
+            string lastname, Speciality selectedSpeciality, Cabinet selectedCabinet, 
+            DateTime dateOfEmployment, DateTime workWith, DateTime workUntil)
         {
             using (ApplicationContext db = new ApplicationContext())
             {
-                var result = "Данная запись уже существует";
-                bool examination = db.Doctors.Any(p => p.Surname == surname && p.Name == name &&
-                    p.Lastname == lastname && p.SpecialityId == selectedSpeciality.Id &&
-                    p.DateOfEmployment == dateOfEmployment && p.WorkWith == workWith &&
-                    p.WorkUntil == workUntil && p.Id == selectedDoctor.Id);
-
-                if (!examination)
+                var result = "Кабинет занят";
+                bool examinationCabinet = db.Doctors.Any(p => p.CabinetId == selectedCabinet.Id);
+                if (!examinationCabinet)
                 {
-                    var doctor = db.Doctors.FirstOrDefault(p => p.Id == selectedDoctor.Id);
-                    if (doctor != null)
+                    result = "Данная запись уже существует";
+                    bool examination = db.Doctors.Any(p => p.Surname == surname && p.Name == name &&
+                        p.Lastname == lastname && p.SpecialityId == selectedSpeciality.Id &&
+                        p.DateOfEmployment == dateOfEmployment && p.WorkWith == workWith &&
+                        p.WorkUntil == workUntil && p.Id == selectedDoctor.Id);
+
+                    if (!examination)
                     {
-                        doctor.Surname = surname;
-                        doctor.Name = name;
-                        doctor.Lastname = lastname;
-                        doctor.SpecialityId = selectedSpeciality.Id;
-                        doctor.DateOfEmployment = dateOfEmployment;
-                        doctor.WorkWith = workWith;
-                        doctor.WorkUntil = workUntil;
-                        db.SaveChanges();
-                        result = "Запись изменена";
-                    }
-                    else
-                    {
-                        result = "Ошибка";
+                        var doctor = db.Doctors.FirstOrDefault(p => p.Id == selectedDoctor.Id);
+                        if (doctor != null)
+                        {
+                            doctor.Surname = surname;
+                            doctor.Name = name;
+                            doctor.Lastname = lastname;
+                            doctor.SpecialityId = selectedSpeciality.Id;
+                            doctor.CabinetId = selectedCabinet.Id;
+                            doctor.DateOfEmployment = dateOfEmployment;
+                            doctor.WorkWith = workWith;
+                            doctor.WorkUntil = workUntil;
+                            db.SaveChanges();
+                            result = "Запись изменена";
+                        }
                     }
                 }
                 return result;
@@ -568,27 +627,6 @@ namespace Diploma.Command
                     };
                     db.Medicines.Add(medicine);
                     db.SaveChanges();
-                }
-            }
-        }
-
-        //Редактирование
-        public static void EditMedicine(Medicine selectedMedicine, MedicalRecord selectedMedicalRecord, string titl)
-        {
-            using (ApplicationContext db = new ApplicationContext())
-            {
-                bool examination = db.Medicines.Any(p => p.MedicalRecordId == selectedMedicalRecord.Id &&
-                    p.Titl == titl && p.Id == selectedMedicine.Id);
-
-                if (!examination)
-                {
-                    var medicine = db.Medicines.FirstOrDefault(p => p.Id == selectedMedicine.Id);
-                    if (medicine != null)
-                    {
-                        medicine.MedicalRecordId = selectedMedicalRecord.Id;
-                        medicine.Titl = titl;
-                        db.SaveChanges();
-                    }
                 }
             }
         }

@@ -178,9 +178,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Command\DataWorker.cs" />
-    <Compile Include="Migrations\20220527101538_q.cs" />
-    <Compile Include="Migrations\20220527101538_q.designer.cs">
-      <DependentUpon>20220527101538_q.cs</DependentUpon>
+    <Compile Include="Migrations\20220528003459_full.cs" />
+    <Compile Include="Migrations\20220528003459_full.designer.cs">
+      <DependentUpon>20220528003459_full.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\ApplicationContextModelSnapshot.cs" />
     <Compile Include="Model\MedicalRecord.cs" />
@@ -205,6 +205,9 @@
     <Compile Include="View\AddNewPatientWindow.xaml.cs">
       <DependentUpon>AddNewPatientWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\AddNewTicketWindow.xaml.cs">
+      <DependentUpon>AddNewTicketWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\DoctorPage.xaml.cs">
       <DependentUpon>DoctorPage.xaml</DependentUpon>
     </Compile>
@@ -217,6 +220,9 @@
     <Compile Include="View\EditPatientWindow.xaml.cs">
       <DependentUpon>EditPatientWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\EditTicketWindow.xaml.cs">
+      <DependentUpon>EditTicketWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -228,6 +234,9 @@
     </Compile>
     <Compile Include="View\PatientPage.xaml.cs">
       <DependentUpon>PatientPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TicketPage.xaml.cs">
+      <DependentUpon>TicketPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -280,6 +289,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\AddNewTicketWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\DoctorPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -296,6 +309,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\EditTicketWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -309,6 +326,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\PatientPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TicketPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

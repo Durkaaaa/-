@@ -1,9 +1,10 @@
 ﻿using Diploma.Command;
 using Diploma.Model;
 using Diploma.View;
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace Diploma.ViewModel
 {
@@ -39,7 +40,7 @@ namespace Diploma.ViewModel
 
         #region[Свойства для лекарств]        
         public static Medicine SelectedMedicine { get; set; }
-        public static string Medicine { get; set; }
+        public static string AEMedicine { get; set; }
         #endregion
 
         public DataMedicalCardVM(Patient selectedPatient)
@@ -89,9 +90,18 @@ namespace Diploma.ViewModel
             {
                 return null ?? new RelayCommand(obj =>
                 {
-                    DataWorker.AddNewMedicine(SelectedMedicalRecord, Medicine);
-                    UpdateAllMedicalRecord();
-                    Medicine = null;
+                    Page page = obj as Page;
+                    if (AEMedicine == null || AEMedicine.Replace(" ", "").Length == 0)
+                    {
+                        SetRedBlockControll(page, "AEMedicineBlock");
+                    }
+                    else
+                    {
+                        SetBlackBlockControll(page, "AEMedicineBlock");
+                        DataWorker.AddNewMedicine(SelectedMedicalRecord, AEMedicine);
+                        UpdateAllMedicalRecord();
+                        AEMedicine = null;
+                    }
                 });
             }
         }
@@ -104,10 +114,14 @@ namespace Diploma.ViewModel
                 {
                     if (SelectedMedicine != null)
                     {
-                        DataWorker.EditMedicine(SelectedMedicine, SelectedMedicalRecord, Medicine);
-                        UpdateAllMedicalRecord();
+                        Page page = obj as Page;
+                        MedicalCardPage.AEMedicine.Text = SelectedMedicine.Titl;
+                        AEMedicine = SelectedMedicine.Titl;
+                        DataWorker.DeleteMedicine(SelectedMedicine);
+                        AllMedicine = DataWorker.GetAllMedicinesByMedicalRecordId(SelectedMedicalRecord);
+                        MedicalCardPage.MedicineList.ItemsSource = AllMedicine;
+                        MedicalCardPage.MedicineList.Items.Refresh();
                         SelectedMedicine = null;
-                        Medicine = null;
                     }
                 });
             }
@@ -143,7 +157,7 @@ namespace Diploma.ViewModel
                     int count = AllMedicalRecord.Count();
                     if (AllMedicalRecord != null && count > IndexMedicalRecord + 1)
                     {
-                        IndexMedicalRecord += 1;
+                        IndexMedicalRecord = count - 1;
                         MedicalRecordNumber();
                         UpdateAllMedicalRecord();
                     }
@@ -170,7 +184,6 @@ namespace Diploma.ViewModel
                         EditMedicalRecordWindow editMedicalRecordWindow = new EditMedicalRecordWindow(SelectedMedicalCard, SelectedMedicalRecord);
                         SetCenterPositionAndOpen(editMedicalRecordWindow);
                         MedicalRecordNumber();
-                        SelectedMedicalRecord = null;
                     }
                 });
             }
@@ -184,16 +197,16 @@ namespace Diploma.ViewModel
                 {
                     if (SelectedMedicalRecord != null)
                     {
-                        DataWorker.DeleteAllMedicineByMedicalRecordId(SelectedMedicalRecord);
-                        var result = DataWorker.DeleteMedicalRecord(SelectedMedicalCard, SelectedMedicalRecord);
+                        var result = DataWorker.DeleteMedicalRecord(SelectedMedicalRecord);
                         ShowMessageToUser(result);
-                        SelectedMedicalRecord = null;
                         AllMedicalRecord = DataWorker.GetMedicalRecordByMedicalСardId(SelectedMedicalCard);
                         if (AllMedicalRecord != null && 0 <= IndexMedicalRecord - 1)
                         {
                             IndexMedicalRecord--;
                             MedicalRecordNumber();
+                            UpdateAllMedicalRecord();
                         }
+                        MedicalRecordNumber();
                     }
                 });
             }
@@ -240,15 +253,23 @@ namespace Diploma.ViewModel
         private void MedicalRecordNumber()
         {
             AllMedicalRecord = DataWorker.GetMedicalRecordByMedicalСardId(SelectedMedicalCard);
-            SelectedMedicalRecord = DataWorker.GetMedicalRecordsByMedicalCardId(SelectedMedicalCard)[IndexMedicalRecord];
-            bool boolMedicine = DataWorker.BoolGetAllMedicineByMedicanRecordId(SelectedMedicalRecord);
-            if (boolMedicine)
+            if (AllMedicalRecord.Count() > 0)
             {
-                AllMedicine = DataWorker.GetAllMedicinesByMedicalRecordId(SelectedMedicalRecord);
+                SelectedMedicalRecord = DataWorker.GetMedicalRecordsByMedicalCardId(SelectedMedicalCard)[IndexMedicalRecord];
+            }
+            else
+            {
+                SelectedMedicalRecord = null;
             }
 
             if (SelectedMedicalRecord != null)
             {
+                bool boolMedicine = DataWorker.BoolGetAllMedicineByMedicanRecordId(SelectedMedicalRecord);
+                if (boolMedicine)
+                {
+                    AllMedicine = DataWorker.GetAllMedicinesByMedicalRecordId(SelectedMedicalRecord);
+                }
+
                 var patient = DataWorker.GetPatientByMedicalRecord(SelectedMedicalRecord);
                 PatientSurname = patient.Surname;
                 PatientName = patient.Name;
@@ -271,6 +292,36 @@ namespace Diploma.ViewModel
                     EndOfTreatment = EndOfTreatment.Substring(0, 10);
                 }
             }
+            else
+            {
+                PatientSurname = null;
+                PatientName = null;
+                PatientLastname = null;
+                PatientDateOfBirth = null;
+                PatientGender = null;
+                DoctorSurname = null;
+                DoctorName = null;
+                DoctorLastname = null;
+                DoctorSpeciality = null;
+                StartOfTreatment = null;
+                EndOfTreatment = null;
+                Diagnosis = null;
+                MedicalCardPage.PatientSurnameCard.Text = PatientSurname;
+                MedicalCardPage.PatientNameCard.Text = PatientName;
+                MedicalCardPage.PatientLastnameCard.Text = PatientLastname;
+                MedicalCardPage.PatientDateOfBirthCard.Text = PatientDateOfBirth;
+                MedicalCardPage.PatientGenderCard.Text = PatientGender;
+                MedicalCardPage.DoctorSurnameCard.Text = DoctorSurname;
+                MedicalCardPage.DoctorNameCard.Text = DoctorName;
+                MedicalCardPage.DoctorLastnameCard.Text = DoctorLastname;
+                MedicalCardPage.DoctorSpecialityCard.Text = DoctorSpeciality;
+                MedicalCardPage.StartOfTreatmentCard.Text = StartOfTreatment;
+                MedicalCardPage.EndOfTreatmentCard.Text = EndOfTreatment;
+                MedicalCardPage.DiagnosisCard.Text = Diagnosis;
+                MedicalCardPage.MedicineList.ItemsSource = null;
+                MedicalCardPage.MedicineList.Items.Refresh();
+                MedicalCardPage.AEMedicine.Text = null;
+            }
         }
 
         private void UpdateAllMedicalRecord()
@@ -287,7 +338,10 @@ namespace Diploma.ViewModel
             MedicalCardPage.StartOfTreatmentCard.Text = StartOfTreatment;
             MedicalCardPage.EndOfTreatmentCard.Text = EndOfTreatment;
             MedicalCardPage.DiagnosisCard.Text = Diagnosis;
+            AllMedicine = DataWorker.GetAllMedicinesByMedicalRecordId(SelectedMedicalRecord);
             MedicalCardPage.MedicineList.ItemsSource = AllMedicine;
+            MedicalCardPage.MedicineList.Items.Refresh();
+            MedicalCardPage.AEMedicine.Text = null;
         }
     }
 }
