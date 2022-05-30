@@ -16,6 +16,7 @@ namespace Diploma.ViewModel
         public DataAddNewTicketVM()
         {
             Date = DateTime.Now;
+            _allSpeciality = DataWorker.GetAllSpecialityTicket();
         }
 
         private List<ReceptionHour> _allReceptionHour = DataWorker.GetAllReceptionHour();
@@ -29,14 +30,14 @@ namespace Diploma.ViewModel
             }
         }
 
-        private List<Speciality> _allSpeciality = DataWorker.GetAllSpeciality();
+        private List<Speciality> _allSpeciality;
         public List<Speciality> AllSpeciality
         {
             get { return _allSpeciality; }
             set
             {
                 _allSpeciality = value;
-                NotifyPropertyChanged("AllSpeciality ");
+                NotifyPropertyChanged("AllSpeciality");
             }
         }
 

@@ -20,6 +20,7 @@ namespace Diploma.ViewModel
         {
             SelectedTicket = selectedTicket;
             Date = SelectedTicket.Date;
+            _allSpeciality = DataWorker.GetAllSpecialityTicket();
             IndexReceptionHour = DataWorker.GetIndexReceptionHour(SelectedTicket.ReceptionHourId);
             IndexSpeciality = DataWorker.GetIndexSpecialityByDoctor(SelectedTicket.DoctorId);
         }
@@ -35,7 +36,7 @@ namespace Diploma.ViewModel
             }
         }
 
-        private List<Speciality> _allSpeciality = DataWorker.GetAllSpeciality();
+        private List<Speciality> _allSpeciality;
         public List<Speciality> AllSpeciality
         {
             get { return _allSpeciality; }

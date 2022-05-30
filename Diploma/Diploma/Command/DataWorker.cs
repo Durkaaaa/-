@@ -72,6 +72,24 @@ namespace Diploma.Command
             }
         }
 
+        public static List<Speciality> GetAllSpecialityTicket()
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var speciality = db.Speciality.ToList();
+                for (int i = 0; i < speciality.Count(); i++)
+                {
+                    var selectedSpeciality = speciality[i];
+                    bool examination = db.Doctors.Any(p => p.SpecialityId == selectedSpeciality.Id);
+                    if (!examination)
+                    {
+                        speciality.Remove(selectedSpeciality);
+                    }
+                }
+                return speciality;
+            }
+        }
+
         public static List<Patient> GetPatientForTicket(DateTime date, ReceptionHour selectedReceptionHour)
         {
             using (ApplicationContext db = new ApplicationContext())
