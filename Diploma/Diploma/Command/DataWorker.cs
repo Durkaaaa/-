@@ -385,7 +385,7 @@ namespace Diploma.Command
             }
         }
 
-        //Все пациенты
+        //Все пациенты=================================================================
         public static List<Patient> GetAllPatient()
         {
             using (ApplicationContext db = new ApplicationContext())
@@ -415,7 +415,7 @@ namespace Diploma.Command
             }
         }
 
-        //Все пола
+        //Все пола=================================================================
         public static List<Gender> GetAllGender()
         {
             using (ApplicationContext db = new ApplicationContext())
@@ -427,7 +427,7 @@ namespace Diploma.Command
         #endregion
 
         #region[Пациенты]
-        //Добавление
+        //Добавление=================================================================
         public static string AddNewPatient(string surname, string name, string lastname,
             Gender selectedGender, DateTime dateOfBirth, string policy, string snils,
             string passportSeries, string passportNumber, string address)
@@ -463,7 +463,7 @@ namespace Diploma.Command
             }
         }
 
-        //Редактирование
+        //Редактирование=================================================================
         public static string EditPatient(Patient selectedPatient, string surname, string name,
             string lastname, Gender selectedGender, DateTime dateOfBirth, string policy,
             string snils, string passportSeries, string passportNumber, string address)
@@ -479,25 +479,18 @@ namespace Diploma.Command
                 if (!examination)
                 {
                     var patient = db.Patients.FirstOrDefault(p => p.Id == selectedPatient.Id);
-                    if (patient != null)
-                    {
-                        patient.Surname = surname;
-                        patient.Name = name;
-                        patient.Lastname = lastname;
-                        patient.GenderId = selectedGender.Id;
-                        patient.DateOfBirth = dateOfBirth;
-                        patient.Policy = policy;
-                        patient.Snils = snils;
-                        patient.PassportSeries = passportSeries;
-                        patient.PassportNumber = passportNumber;
-                        patient.Address = address;
-                        db.SaveChanges();
-                        result = "Запись изменена";
-                    }
-                    else
-                    {
-                        result = "Ошибка";
-                    }
+                    patient.Surname = surname;
+                    patient.Name = name;
+                    patient.Lastname = lastname;
+                    patient.GenderId = selectedGender.Id;
+                    patient.DateOfBirth = dateOfBirth;
+                    patient.Policy = policy;
+                    patient.Snils = snils;
+                    patient.PassportSeries = passportSeries;
+                    patient.PassportNumber = passportNumber;
+                    patient.Address = address;
+                    db.SaveChanges();
+                    result = "Запись изменена";
                 }
                 return result;
             }
@@ -511,18 +504,24 @@ namespace Diploma.Command
                 var result = "Ошибка";
                 if (selectedPatient != null)
                 {
-                    bool examination = db.Ticket.Any(p => p.PatientId == selectedPatient.Id);
-                    if (examination)
-                    {
-                        for (int i = 0; i < db.Ticket.Count(); i++)
-                        {
-                            var ticket = db.Ticket.FirstOrDefault(p => p.PatientId == selectedPatient.Id);
-                            db.Ticket.Remove(ticket);
-                        }
-                    }
+                    //var selectedMedicalСard = db.MedicalСards.FirstOrDefault(p => p.PatientId == selectedPatient.Id);
+                    //MedicalRecord medicalRecord = db.MedicalRecords.Where(p => p.MedicalСardId == selectedMedicalСard.Id).FirstOrDefault();
+                    //Medicine medicine = db.Medicines.Where(p => p.MedicalRecordId == medicalRecord.Id).FirstOrDefault();
+                    //db.Medicines.Remove(medicine);
+                    //db.MedicalRecords.Remove(medicalRecord);
+                    //db.MedicalСards.Remove(selectedMedicalСard);
 
-                    var patient = db.Patients.FirstOrDefault(p => p.Id == selectedPatient.Id);
-                    db.Patients.Remove(patient);
+                    //Ticket ticket = db.Ticket.Where(p => p.PatientId == selectedPatient.Id).FirstOrDefault();
+                    //db.Ticket.Remove(ticket);
+                    //var patient = db.Patients.FirstOrDefault(p => p.Id == selectedPatient.Id);
+                    //db.Patients.Remove(patient);
+
+                    // Medicine medicine = db.Medicines.Where(p => p.Id == )
+                    //Patient patient = db.Patients.FirstOrDefault(p => p.Id == selectedPatient.Id);
+                    //db.Entry(patient).Collection(p => p.Id == p.);
+
+
+                    
                     db.SaveChanges();
                     result = "Запись удалена";
                 }
@@ -613,15 +612,8 @@ namespace Diploma.Command
                 var result = "Ошибка";
                 if (selectedDoctor != null)
                 {
-                    bool examination = db.Ticket.Any(p => p.DoctorId == selectedDoctor.Id);
-                    if (examination)
-                    {
-                        for (int i = 0; i < db.Ticket.Count(); i++)
-                        {
-                            var ticket = db.Ticket.FirstOrDefault(p => p.DoctorId == selectedDoctor.Id);
-                            db.Ticket.Remove(ticket);
-                        }
-                    }
+                    Ticket ticket = db.Ticket.Where(p => p.DoctorId == selectedDoctor.Id).FirstOrDefault();
+                    db.Ticket.Remove(ticket);
 
                     var doctor = db.Doctors.FirstOrDefault(p => p.Id == selectedDoctor.Id);
                     db.Doctors.Remove(doctor);
@@ -737,41 +729,7 @@ namespace Diploma.Command
             }
         }
 
-        //Удаление всего что связано с мед картой
-        public static void DeleteMedicalCard(MedicalCard medicalCard)
-        {
-            using (ApplicationContext db = new ApplicationContext())
-            {
-                bool boolMedicalRecord = db.MedicalRecords.Any(p => p.MedicalСardId == medicalCard.Id);
-                if (boolMedicalRecord)
-                {
-                    int allRecord = db.MedicalRecords.Where(p => p.MedicalСardId == medicalCard.Id).Count();
-                    for (int i = 0; i <= allRecord; i++)
-                    {
-                        var record = db.MedicalRecords.FirstOrDefault(p => p.MedicalСardId == medicalCard.Id);
-                        if (record != null)
-                        {
-                            bool boolMedicine = db.Medicines.Any(p => p.MedicalRecordId == record.Id);
-                            if (boolMedicine)
-                            {
-                                int allMedicine = db.Medicines.Where(p => p.MedicalRecordId == record.Id).Count();
-                                for (int j = 0; j <= allMedicine; j++)
-                                {
-                                    var medicine = db.Medicines.FirstOrDefault(p => p.MedicalRecordId == record.Id);
-                                    if (medicine != null)
-                                    {
-                                        db.Medicines.Remove(medicine);
-                                    }
-                                }
-                            }
-                            db.MedicalRecords.Remove(record);
-                        }
-                    }
-                }
-                db.MedicalСards.Remove(medicalCard);
-                db.SaveChanges();
-            }
-        }
+
         #endregion
 
         #region[Лекарства]
@@ -860,13 +818,13 @@ namespace Diploma.Command
             }
         }
 
-        //Получение Index по Id пола
+        //Получение Index по Id пола=================================================================
         public static int GetIndexGender(int Id)
         {
             using (ApplicationContext db = new ApplicationContext())
             {
                 List<Gender> genders = db.Genders.ToList();
-                var row = db.Genders.FirstOrDefault(p => p.Id == Id);
+                var row = genders.FirstOrDefault(p => p.Id == Id);
                 int index = genders.IndexOf(row);
                 return index;
             }

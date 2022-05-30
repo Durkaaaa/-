@@ -1,14 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
   <Import Project="..\packages\Microsoft.EntityFrameworkCore.Design.3.1.25\build\net461\Microsoft.EntityFrameworkCore.Design.props" Condition="Exists('..\packages\Microsoft.EntityFrameworkCore.Design.3.1.25\build\net461\Microsoft.EntityFrameworkCore.Design.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E9484C30-2D8A-4E9E-AA94-5EDB3336D434}</ProjectGuid>
+    <ProjectGuid>{FCADE7DD-6E77-44E9-9963-2A0E404E711F}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Diploma</RootNamespace>
-    <AssemblyName>Diploma</AssemblyName>
+    <RootNamespace>Diplom</RootNamespace>
+    <AssemblyName>Diplom</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -38,6 +39,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.1\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
@@ -178,39 +185,15 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Command\DataWorker.cs" />
-    <Compile Include="Model\MedicalRecord.cs" />
-    <Compile Include="Model\Medicine.cs" />
-    <Compile Include="Model\ReceptionHour.cs" />
-    <Compile Include="ViewModel\DataAddNewDoctorVM.cs" />
-    <Compile Include="ViewModel\DataAddNewMedicalRecordVM.cs" />
-    <Compile Include="ViewModel\DataAddNewPatientVM.cs" />
-    <Compile Include="ViewModel\DataAddNewTicketPatientDoctorVM.cs" />
-    <Compile Include="ViewModel\DataAddNewTicketVM.cs" />
+    <Compile Include="Command\RelayCommand.cs" />
     <Compile Include="ViewModel\DataDoctorVM.cs" />
-    <Compile Include="ViewModel\DataEditDoctorVM.cs" />
-    <Compile Include="ViewModel\DataEditMedicalRecordVM.cs" />
-    <Compile Include="ViewModel\DataEditPatientVM.cs" />
-    <Compile Include="ViewModel\DataEditTicketPatientDoctorVM.cs" />
-    <Compile Include="ViewModel\DataEditTicketVM.cs" />
-    <Compile Include="ViewModel\DataMainWindowVM.cs" />
-    <Compile Include="ViewModel\DataMedicalCardVM.cs" />
-    <Compile Include="ViewModel\DataPatientVM.cs" />
-    <Compile Include="ViewModel\DataTicketVM.cs" />
+    <Compile Include="ViewModel\DataMainVM.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\AddNewDoctorWindow.xaml.cs">
       <DependentUpon>AddNewDoctorWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\AddNewMedicalRecordWindow.xaml.cs">
-      <DependentUpon>AddNewMedicalRecordWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\AddNewPatientWindow.xaml.cs">
       <DependentUpon>AddNewPatientWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\AddNewTicketPatientDoctorWindow.xaml.cs">
-      <DependentUpon>AddNewTicketPatientDoctorWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\AddNewTicketWindow.xaml.cs">
-      <DependentUpon>AddNewTicketWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DoctorPage.xaml.cs">
       <DependentUpon>DoctorPage.xaml</DependentUpon>
@@ -218,26 +201,14 @@
     <Compile Include="View\EditDoctorWindow.xaml.cs">
       <DependentUpon>EditDoctorWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\EditMedicalRecordWindow.xaml.cs">
-      <DependentUpon>EditMedicalRecordWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\EditPatientWindow.xaml.cs">
       <DependentUpon>EditPatientWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\EditTicketPatientDoctorWindow.xaml.cs">
-      <DependentUpon>EditTicketPatientDoctorWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\EditTicketWindow.xaml.cs">
-      <DependentUpon>EditTicketWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MedicalCardPage.xaml.cs">
       <DependentUpon>MedicalCardPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\MessageWindow.xaml.cs">
-      <DependentUpon>MessageWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\PatientPage.xaml.cs">
       <DependentUpon>PatientPage.xaml</DependentUpon>
@@ -247,13 +218,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Command\RelayCommand.cs" />
     <Compile Include="Model\Cabinet.cs" />
     <Compile Include="Model\Data\ApplicationContext.cs" />
     <Compile Include="Model\Doctor.cs" />
     <Compile Include="Model\Gender.cs" />
-    <Compile Include="Model\Patient.cs" />
     <Compile Include="Model\MedicalCard.cs" />
+    <Compile Include="Model\MedicalRecord.cs" />
+    <Compile Include="Model\Medicine.cs" />
+    <Compile Include="Model\Patient.cs" />
+    <Compile Include="Model\ReceptionHour.cs" />
     <Compile Include="Model\Speciality.cs" />
     <Compile Include="Model\Ticket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -283,26 +256,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Migrations\" />
-  </ItemGroup>
-  <ItemGroup>
     <Page Include="View\AddNewDoctorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\AddNewMedicalRecordWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="View\AddNewPatientWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\AddNewTicketPatientDoctorWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\AddNewTicketWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -314,19 +272,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\EditMedicalRecordWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="View\EditPatientWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\EditTicketPatientDoctorWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\EditTicketWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -335,10 +281,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\MedicalCardPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\MessageWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -358,6 +300,9 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.EntityFrameworkCore.Design.3.1.25\build\net461\Microsoft.EntityFrameworkCore.Design.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.EntityFrameworkCore.Design.3.1.25\build\net461\Microsoft.EntityFrameworkCore.Design.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.Data.SqlClient.SNI.1.1.0\build\net46\Microsoft.Data.SqlClient.SNI.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Data.SqlClient.SNI.1.1.0\build\net46\Microsoft.Data.SqlClient.SNI.targets'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
   </Target>
   <Import Project="..\packages\Microsoft.Data.SqlClient.SNI.1.1.0\build\net46\Microsoft.Data.SqlClient.SNI.targets" Condition="Exists('..\packages\Microsoft.Data.SqlClient.SNI.1.1.0\build\net46\Microsoft.Data.SqlClient.SNI.targets')" />
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
 </Project>

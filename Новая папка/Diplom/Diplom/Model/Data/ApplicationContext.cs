@@ -1,9 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Diploma.Model.Data
+namespace Diplom.Model.Data
 {
     public class ApplicationContext : DbContext
     {
+        public ApplicationContext()
+        {
+            Database.EnsureDeleted();
+            Database.EnsureCreated();
+        }
+
         public DbSet<Patient> Patients { get; set; }
         public DbSet<Gender> Genders { get; set; }
         public DbSet<Doctor> Doctors { get; set; }

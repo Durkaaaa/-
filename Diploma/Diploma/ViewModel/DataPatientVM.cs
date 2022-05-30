@@ -63,11 +63,6 @@ namespace Diploma.ViewModel
                 {
                     if (SelectedPatient != null)
                     {
-                        var medicalCard = DataWorker.GetMedicalСardByPatientId(SelectedPatient);
-                        if (medicalCard != null)
-                        {
-                            DataWorker.DeleteMedicalCard(medicalCard);
-                        }
                         var result = DataWorker.DeletePatient(SelectedPatient);
                         ShowMessageToUser(result);
                         SelectedPatient = null;
