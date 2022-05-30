@@ -47,8 +47,8 @@ namespace Diploma.ViewModel
                 return null ?? new RelayCommand(obj =>
                 {
                     Window window = obj as Window;
-                    DateTime dateTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day - 1, 0, 0, 0);
-                    DateTime dateTime1 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day - 7, 0, 0, 0);
+                    DateTime dateTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0).AddDays(-1);
+                    DateTime dateTime1 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0).AddDays(7);
                     if (Date <= dateTime ||
                         Date >= dateTime1 ||
                         SelectedSpeciality == null ||
