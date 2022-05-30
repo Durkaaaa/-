@@ -11,13 +11,14 @@ namespace Diplom.ViewModel
 {
     public class DataMainVM : ViewModelBase
     {
+        private Page _page;
+
         public DataMainVM()
         {
             PatientPage patientPage = new PatientPage();
             Page = patientPage;
         }
 
-        private Page _page;
         public Page Page
         {
             get => _page;
