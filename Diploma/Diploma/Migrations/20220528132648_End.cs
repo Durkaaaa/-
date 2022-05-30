@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Diploma.Migrations
 {
-    public partial class full : Migration
+    public partial class End : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -31,6 +31,20 @@ namespace Diploma.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Genders", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ReceptionHours",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StartOfReception = table.Column<DateTime>(nullable: false),
+                    EndOfReception = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ReceptionHours", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -133,8 +147,8 @@ namespace Diploma.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PatientId = table.Column<int>(nullable: false),
                     DoctorId = table.Column<int>(nullable: false),
-                    StartOfReception = table.Column<DateTime>(nullable: false),
-                    EndOfReception = table.Column<DateTime>(nullable: false)
+                    Date = table.Column<DateTime>(nullable: false),
+                    ReceptionHourId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -149,6 +163,12 @@ namespace Diploma.Migrations
                         name: "FK_Ticket_Patients_PatientId",
                         column: x => x.PatientId,
                         principalTable: "Patients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Ticket_ReceptionHours_ReceptionHourId",
+                        column: x => x.ReceptionHourId,
+                        principalTable: "ReceptionHours",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -246,6 +266,11 @@ namespace Diploma.Migrations
                 name: "IX_Ticket_PatientId",
                 table: "Ticket",
                 column: "PatientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Ticket_ReceptionHourId",
+                table: "Ticket",
+                column: "ReceptionHourId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -258,6 +283,9 @@ namespace Diploma.Migrations
 
             migrationBuilder.DropTable(
                 name: "MedicalRecords");
+
+            migrationBuilder.DropTable(
+                name: "ReceptionHours");
 
             migrationBuilder.DropTable(
                 name: "Doctors");

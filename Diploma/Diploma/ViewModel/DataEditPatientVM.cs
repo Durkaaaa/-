@@ -61,6 +61,7 @@ namespace Diploma.ViewModel
                             Name == null || Name.Replace(" ", "").Length == 0 ||
                             Lastname == null || Lastname.Replace(" ", "").Length == 0 ||
                             SelectedGender == null ||
+                            DateOfBirth > DateTime.Now ||
                             Policy == null || Policy.Replace(" ", "").Length == 0 ||
                             Snils == null || Snils.Replace(" ", "").Length == 0 ||
                             PassportSeries == null || PassportSeries.Replace(" ", "").Length == 0 ||

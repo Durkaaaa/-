@@ -14,5 +14,12 @@ namespace Diploma.View
             InitializeComponent();
             DataContext = new DataEditTicketVM(selectedTicket);
         }
+        
+        public EditTicketWindow(Ticket selectedTicket, Window window)
+        {
+            InitializeComponent();
+            window.Close();
+            DataContext = new DataEditTicketVM(selectedTicket);
+        }
     }
 }

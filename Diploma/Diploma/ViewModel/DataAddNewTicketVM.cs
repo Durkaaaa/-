@@ -1,76 +1,84 @@
 ﻿using Diploma.Command;
 using Diploma.Model;
+using Diploma.View;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
 
 namespace Diploma.ViewModel
 {
     public class DataAddNewTicketVM : ViewModelBase
     {
-        public static Patient SelectedPatient { get; set; }
-        public static Doctor SelectedDoctor { get; set; }
-        public static DateTime StartOfReception { get; set; }
-
-        private int _startOfReceptionHour;
-        public int StartOfReceptionHour
-        {
-            get { return _startOfReceptionHour; }
-            set
-            {
-                _startOfReceptionHour = value;
-                NotifyPropertyChanged("StartOfReceptionHour");
-            }
-        }
-
-        private int _startOfReceptionMinute;
-        public int StartOfReceptionMinute
-        {
-            get { return _startOfReceptionMinute; }
-            set
-            {
-                _startOfReceptionMinute= value; ;
-                NotifyPropertyChanged("StartOfReceptionMinute");
-            }
-        }
+        public static DateTime Date { get; set; }
+        public static ReceptionHour SelectedReceptionHour { get; set; }
+        public static Speciality SelectedSpeciality { get; set; }
 
         public DataAddNewTicketVM()
         {
-            StartOfReception = DateTime.Now;
+            Date = DateTime.Now;
         }
 
-        private List<Patient> _allPatient;
-        public List<Patient> AllPatient
+        private List<ReceptionHour> _allReceptionHour = DataWorker.GetAllReceptionHour();
+        public List<ReceptionHour> AllReceptionHour
         {
-            get { return _allPatient; }
+            get { return _allReceptionHour; }
             set
             {
-                _allPatient = value;
-                NotifyPropertyChanged("Allpatient");
+                _allReceptionHour = value;
+                NotifyPropertyChanged("AllReceptionHour");
             }
         }
 
-        private List<Doctor> _allDoctor;
-        public List<Doctor> AllDoctor
+        private List<Speciality> _allSpeciality = DataWorker.GetAllSpeciality();
+        public List<Speciality> AllSpeciality
         {
-            get { return _allDoctor; }
+            get { return _allSpeciality; }
             set
             {
-                _allDoctor = value;
-                NotifyPropertyChanged("AllDoctor");
+                _allSpeciality = value;
+                NotifyPropertyChanged("AllSpeciality ");
             }
         }
 
-        public RelayCommand AddNewTicket
+        public RelayCommand AddNewTicketDateTime
         {
             get
             {
                 return null ?? new RelayCommand(obj =>
                 {
-                    DateTime startOfReception = new DateTime(1, 1, 1, StartOfReceptionHour, StartOfReceptionMinute, 00);
-                    var boolPatient = DataWorker.BoolPatient(SelectedPatient, startOfReception);
+                    Window window = obj as Window;
+                    DateTime dateTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day - 1, 0, 0, 0);
+                    DateTime dateTime1 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day - 7, 0, 0, 0);
+                    if (Date <= dateTime ||
+                        Date >= dateTime1 ||
+                        SelectedSpeciality == null ||
+                        SelectedReceptionHour == null)
+                    {
+                        if (Date <= dateTime || Date > dateTime1)
+                            ShowMessageToUser("Не правильная дата");
+
+                        if (SelectedReceptionHour == null)
+                            ShowMessageToUser("Не выбрано время");
+
+                        if (SelectedSpeciality == null)
+                            ShowMessageToUser("Не выбрана специальность");
+                    }
+                    else
+                    {
+                        var patient = DataWorker.GetPatientForTicket(Date, SelectedReceptionHour);
+                        var doctor = DataWorker.GetDoctorForTicket(Date, SelectedReceptionHour, SelectedSpeciality);
+                        if (doctor.Count == 0)
+                        {
+                            ShowMessageToUser("На эту дату и время свободных врачей нет");
+                        }
+                        else
+                        {
+                            AddNewTicketPatientDoctorWindow addNewTicketPatientDoctorWindow = new AddNewTicketPatientDoctorWindow(patient, doctor, Date, SelectedReceptionHour, window);
+                            SetCenterPositionAndOpen(addNewTicketPatientDoctorWindow);
+                            SelectedSpeciality = null;
+                            SelectedReceptionHour = null;
+                        }
+                    }
                 });
             }
         }

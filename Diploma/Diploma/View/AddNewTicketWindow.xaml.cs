@@ -13,5 +13,12 @@ namespace Diploma.View
             InitializeComponent();
             DataContext = new DataAddNewTicketVM();
         }
+
+        public AddNewTicketWindow(Window window)
+        {
+            InitializeComponent();
+            window.Close();
+            DataContext = new DataAddNewTicketVM();
+        }
     }
 }

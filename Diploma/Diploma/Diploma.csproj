@@ -178,21 +178,24 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Command\DataWorker.cs" />
-    <Compile Include="Migrations\20220528085315_full.cs" />
-    <Compile Include="Migrations\20220528085315_full.designer.cs">
-      <DependentUpon>20220528085315_full.cs</DependentUpon>
+    <Compile Include="Migrations\20220528132648_End.cs" />
+    <Compile Include="Migrations\20220528132648_End.designer.cs">
+      <DependentUpon>20220528132648_End.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\ApplicationContextModelSnapshot.cs" />
     <Compile Include="Model\MedicalRecord.cs" />
     <Compile Include="Model\Medicine.cs" />
+    <Compile Include="Model\ReceptionHour.cs" />
     <Compile Include="ViewModel\DataAddNewDoctorVM.cs" />
     <Compile Include="ViewModel\DataAddNewMedicalRecordVM.cs" />
     <Compile Include="ViewModel\DataAddNewPatientVM.cs" />
+    <Compile Include="ViewModel\DataAddNewTicketPatientDoctorVM.cs" />
     <Compile Include="ViewModel\DataAddNewTicketVM.cs" />
     <Compile Include="ViewModel\DataDoctorVM.cs" />
     <Compile Include="ViewModel\DataEditDoctorVM.cs" />
     <Compile Include="ViewModel\DataEditMedicalRecordVM.cs" />
     <Compile Include="ViewModel\DataEditPatientVM.cs" />
+    <Compile Include="ViewModel\DataEditTicketPatientDoctorVM.cs" />
     <Compile Include="ViewModel\DataEditTicketVM.cs" />
     <Compile Include="ViewModel\DataMainWindowVM.cs" />
     <Compile Include="ViewModel\DataMedicalCardVM.cs" />
@@ -208,6 +211,9 @@
     <Compile Include="View\AddNewPatientWindow.xaml.cs">
       <DependentUpon>AddNewPatientWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\AddNewTicketPatientDoctorWindow.xaml.cs">
+      <DependentUpon>AddNewTicketPatientDoctorWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\AddNewTicketWindow.xaml.cs">
       <DependentUpon>AddNewTicketWindow.xaml</DependentUpon>
     </Compile>
@@ -222,6 +228,9 @@
     </Compile>
     <Compile Include="View\EditPatientWindow.xaml.cs">
       <DependentUpon>EditPatientWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\EditTicketPatientDoctorWindow.xaml.cs">
+      <DependentUpon>EditTicketPatientDoctorWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\EditTicketWindow.xaml.cs">
       <DependentUpon>EditTicketWindow.xaml</DependentUpon>
@@ -292,6 +301,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\AddNewTicketPatientDoctorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\AddNewTicketWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -309,6 +322,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\EditPatientWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EditTicketPatientDoctorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

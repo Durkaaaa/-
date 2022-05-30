@@ -37,115 +37,77 @@
         </Style>
     </Window.Resources>
 
-    <Grid>
+    <Grid Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="0.3*"/>
+            <RowDefinition Height="0.25*"/>
         </Grid.RowDefinitions>
 
         <StackPanel VerticalAlignment="Center"
                     HorizontalAlignment="Center"
                     Width="150">
-            <TextBlock Text="Пациент"/>
-            <ComboBox ItemsSource="{Binding AllPatient}"
-                      DisplayMemberPath="Surname"
-                      SelectedItem="{Binding SelectedPatient}"
-                      SelectedIndex="{Binding IndexPatient}">
-                <ComboBox.Resources>
-                    <Style TargetType="ComboBoxItem">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate>
-                                    <Border>
-                                        <Grid Background="{TemplateBinding Background}">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition/>
-                                                <ColumnDefinition/>
-                                                <ColumnDefinition/>
-                                                <ColumnDefinition/>
-                                                <ColumnDefinition/>
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock Grid.Column="0" Text="{Binding Surname}"/>
-                                            <TextBlock Grid.Column="2" Text="{Binding Name}"/>
-                                            <TextBlock Grid.Column="4" Text="{Binding Lastname}"/>
-                                        </Grid>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#CEFFF9"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </ComboBox.Resources>
-            </ComboBox>
-
-            <TextBlock Text="Врач"/>
-            <ComboBox ItemsSource="{Binding AllDoctor}"
-                      DisplayMemberPath="Surname"
-                      SelectedItem="{Binding SelectedDoctor}"
-                      SelectedIndex="{Binding IndexDoctor}">
-                <ComboBox.Resources>
-                    <Style TargetType="ComboBoxItem">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate>
-                                    <Border>
-                                        <Grid Background="{TemplateBinding Background}">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition/>
-                                                <ColumnDefinition/>
-                                                <ColumnDefinition/>
-                                                <ColumnDefinition/>
-                                                <ColumnDefinition/>
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock Grid.Column="0" Text="{Binding Surname}"/>
-                                            <TextBlock Grid.Column="2" Text="{Binding Name}"/>
-                                            <TextBlock Grid.Column="4" Text="{Binding Lastname}"/>
-                                        </Grid>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#CEFFF9"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </ComboBox.Resources>
-            </ComboBox>
 
             <TextBlock Text="Дата приёма"/>
             <DatePicker x:Name="StartOfReceptionBlock" 
-                        SelectedDate="{Binding StartOfReception}" 
+                        SelectedDate="{Binding Date}" 
                         IsDropDownOpen="True" 
                         SelectedDateFormat="Short" 
                         BorderBrush="Black"/>
-            
-            <TextBlock Text="Начало приёма"/>
-            <StackPanel Orientation="Horizontal">
-                <TextBox x:Name="StartOfReceptionHourBlock"
-                         Text="{Binding StartOfReceptionHour}"
-                         BorderBrush="Black"
-                         Width="20"/>
 
-                <TextBlock Text=":"/>
+            <TextBlock Text="Время приёма"/>
+            <ComboBox ItemsSource="{Binding AllReceptionHour}"
+                      SelectedItem="{Binding SelectedReceptionHour}"
+                      DisplayMemberPath="StartOfReception"
+                      SelectedIndex="{Binding IndexReceptionHour}"
+                      ItemStringFormat="{}{0:HH:mm}">
+                <ComboBox.Resources>
+                    <Style TargetType="ComboBoxItem">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <Border BorderBrush="Black"
+                                            BorderThickness="1">
+                                        <Grid Background="{TemplateBinding Background}">
+                                            <StackPanel>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="С: "/>
 
-                <TextBox x:Name="StartOfReceptionMinuteBlock"
-                         Text="{Binding StartOfReceptionMinute}"
-                         BorderBrush="Black"
-                         Width="20"/>
-            </StackPanel>
+                                                    <TextBlock Text="{Binding StartOfReception, StringFormat=HH:mm}"
+                                                           FontSize="12"/>
+                                                </StackPanel>
+
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="До: "/>
+
+                                                    <TextBlock Text="{Binding EndOfReception, StringFormat=HH:mm}"
+                                                           FontSize="12"/>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#CEFFF9"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ComboBox.Resources>
+            </ComboBox>
+
+            <TextBlock Text="Специальность"/>
+            <ComboBox ItemsSource="{Binding AllSpeciality}"
+                      SelectedItem="{Binding SelectedSpeciality}"
+                      DisplayMemberPath="Titl"
+                      SelectedIndex="{Binding IndexSpeciality}"/>
         </StackPanel>
 
-        <Button Content="Изменить"
+        <Button Content="Далее"
                 Grid.Row="1"
-                Command="{Binding AddNewTicket}"
-                CommandParameter="{Binding ElementName=AddNewTicketWnd}"/>
+                Command="{Binding EditTicketDateTime}"
+                CommandParameter="{Binding ElementName=EditTicketWnd}"/>
     </Grid>
 </Window>

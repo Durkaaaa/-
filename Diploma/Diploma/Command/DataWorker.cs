@@ -8,31 +8,58 @@ namespace Diploma.Command
 {
     public class DataWorker
     {
-        public static bool BoolPatient(Patient selectedPatient, DateTime startOfReception)
+        #region[Талоны]
+        //Добавление
+        public static string AddNewTicket(Patient selectedPatient, Doctor selectedDoctor,
+            DateTime date, ReceptionHour selectedReceptionHour)
         {
+
             using (ApplicationContext db = new ApplicationContext())
             {
-                var result = db.Patients.ToList();
-                var countTicket = db.Ticket.Count();
-                if (countTicket > 0)
+                var result = "Данная запись уже существует";
+                bool examination = db.Ticket.Any(p => p.PatientId == selectedPatient.Id &&
+                    p.DoctorId == selectedDoctor.Id && p.Date == date && p.ReceptionHour == selectedReceptionHour);
+                if (!examination)
                 {
-                    for (int i = 0; i < countTicket; i++)
+                    Ticket ticket = new Ticket
                     {
-                        var boolTicket = db.Ticket.Any(p => p.PatientId == selectedPatient.Id);
-                        if (boolTicket)
-                        {
-                            var ticket = db.Ticket.FirstOrDefault(p => p.PatientId == selectedPatient.Id);
-                            if (ticket.StartOfReception.AddHours(1) != startOfReception ||
-                                ticket.StartOfReception.AddHours(1) > startOfReception)
-                            {
-                                result.Remove();
-                            }
-                        }
-                    }
+                        PatientId = selectedPatient.Id,
+                        DoctorId = selectedDoctor.Id,
+                        Date = date,
+                        ReceptionHourId = selectedReceptionHour.Id
+                    };
+                    db.Ticket.Add(ticket);
+                    db.SaveChanges();
+                    result = "Запись добавлена";
                 }
+                return result;
             }
         }
 
+        //Редактирование
+        public static string EditTicket(Ticket selectedTicket, Patient selectedPatient, Doctor selectedDoctor,
+            DateTime date, ReceptionHour selectedReceptionHour)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var result = "Данная запись уже существует";
+                bool examination = db.Ticket.Any(p => p.PatientId == selectedPatient.Id &&
+                    p.DoctorId == selectedDoctor.Id && p.Date == date && p.ReceptionHour == selectedReceptionHour);
+                if (!examination)
+                {
+                    var ticket = db.Ticket.FirstOrDefault(p => p.Id == selectedTicket.Id);
+                    ticket.PatientId = selectedPatient.Id;
+                    ticket.DoctorId = selectedDoctor.Id;
+                    ticket.Date = date;
+                    ticket.ReceptionHour = selectedReceptionHour;
+                    db.SaveChanges();
+                    result = "Запись изменена";
+                }
+                return result;
+            }
+        }
+
+        //Удаление
         public static string DeleteTicket(Ticket selectedTicket)
         {
             using (ApplicationContext db = new ApplicationContext())
@@ -40,84 +67,84 @@ namespace Diploma.Command
                 var ticket = db.Ticket.FirstOrDefault(p => p.Id == selectedTicket.Id);
                 db.Ticket.Remove(ticket);
                 db.SaveChanges();
-                var result = "Табон удален";
+                var result = "Талон удален";
                 return result;
             }
         }
 
-        public static List<Ticket> GetAllTicket()
+        public static List<Patient> GetPatientForTicket(DateTime date, ReceptionHour selectedReceptionHour)
         {
             using (ApplicationContext db = new ApplicationContext())
             {
-                var result = db.Ticket.ToList();
-                return result;
-            }
-        }
-        public static int GetIndexCabinet(int Id, List<Cabinet> cabinetsList)
-        {
-            using (ApplicationContext db = new ApplicationContext())
-            {
-                var row = cabinetsList.FirstOrDefault(p => p.Id == Id);
-                int index = cabinetsList.IndexOf(row);
-                return index;
-            }
-        }
-
-        public static List<Cabinet> GetAllCabinet()
-        {
-            using (ApplicationContext db = new ApplicationContext())
-            {
-                List<Cabinet> cabinet = db.Cabinets.ToList();
-                List<Cabinet> result = db.Cabinets.ToList();
-                int allCabinet = db.Cabinets.Count() - 1;
-                for (int i = 0; i < allCabinet; i++)
+                var ticket = db.Ticket.Where(p => p.Date == date && p.ReceptionHourId == selectedReceptionHour.Id).ToList();
+                var patient = db.Patients.ToList();
+                if (patient.Count() > 0 &&
+                    ticket.Count() > 0)
                 {
-                    var selectedCabinet = cabinet[i];
-                    if (selectedCabinet != null)
+                    for (int i = 0; i < patient.Count(); i++)
                     {
-                        bool examinationCabinet = db.Doctors.Any(p => p.CabinetId == selectedCabinet.Id);
-                        if (examinationCabinet)
+                        var selectedPatient = patient[i];
+                        bool exemination = ticket.Any(p => p.PatientId == selectedPatient.Id);
+                        if (exemination)
                         {
-                            result.Remove(selectedCabinet);
+                            patient.Remove(selectedPatient);
                         }
                     }
                 }
-                return result;
+                return patient;
             }
         }
 
-        public static List<Cabinet> GetAllCabinet(Doctor selectedDoctor)
+        public static List<Doctor> GetDoctorForTicket(DateTime date, ReceptionHour selectedReceptionHour, Speciality selectedSpeciality)
         {
             using (ApplicationContext db = new ApplicationContext())
             {
-                List<Cabinet> cabinet = db.Cabinets.ToList();
-                List<Cabinet> result = db.Cabinets.ToList();
-                var doctor = db.Doctors.FirstOrDefault(p => p.Id == selectedDoctor.Id);
-                int allCabinet = db.Cabinets.Count() - 1;
-                for (int i = 0; i < allCabinet; i++)
+                var ticket = db.Ticket.Where(p => p.Date == date && p.ReceptionHourId == selectedReceptionHour.Id).ToList();
+                var doctor = db.Doctors.ToList();
+                if (doctor.Count() > 0 &&
+                    ticket.Count() > 0)
                 {
-                    var selectedCabinet = cabinet[i];
-                    if (selectedCabinet != null)
+                    for (int i = 0; i < doctor.Count(); i++)
                     {
-                        bool examinationCabinet = db.Doctors.Any(p => p.CabinetId == selectedCabinet.Id);
-                        if (examinationCabinet && selectedCabinet != doctor.Cabinet)
+                        var selectedDoctor = doctor[i];
+                        bool exemination = ticket.Any(p => p.DoctorId == selectedDoctor.Id);
+                        if (exemination)
                         {
-                            result.Remove(selectedCabinet);
+                            doctor.Remove(selectedDoctor);
                         }
                     }
                 }
+
+                var start = db.ReceptionHours.FirstOrDefault(p => p.Id == selectedReceptionHour.Id).StartOfReception;
+                var end = db.ReceptionHours.FirstOrDefault(p => p.Id == selectedReceptionHour.Id).EndOfReception;
+                var result = doctor.Where(p => p.WorkWith.Hour <= start.Hour && p.WorkUntil.Hour >= end.Hour &&
+                    p.SpecialityId == selectedSpeciality.Id).ToList();
                 return result;
             }
         }
 
-        public static Cabinet GetCabinetById(int Id)
+        public static List<Patient> AddPatient(Ticket ticket, List<Patient> patientList)
         {
             using (ApplicationContext db = new ApplicationContext())
             {
-                var result = db.Cabinets.FirstOrDefault(p => p.Id == Id);
-                return result;
+                var patient = db.Patients.FirstOrDefault(p => p.Id == ticket.PatientId);
+                patientList.Add(patient);
+                return patientList;
             }
         }
+
+        public static List<Doctor> AddDoctor(Ticket ticket, List<Doctor> doctorList)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var docrot = db.Doctors.FirstOrDefault(p => p.Id == ticket.DoctorId);
+                doctorList.Add(docrot);
+                return doctorList;
+            }
+        }
+        #endregion
+
+        #region[Bool]
         public static bool BoolGetAllMedicineByMedicanRecordId(MedicalRecord medicalRecord)
         {
             using (ApplicationContext db = new ApplicationContext())
@@ -127,9 +154,34 @@ namespace Diploma.Command
             }
         }
 
+        public static bool BoolGetMedicalRecordByMedicalСardId(MedicalCard selectedMedicalCard)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var result = db.MedicalRecords.Any(p => p.MedicalСardId == selectedMedicalCard.Id);
+                return result;
+            }
+        }
 
+        public static bool BoolGetMedicalСardByPatientId(Patient selectedPatient)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var medicalСard = db.MedicalСards.Any(p => p.PatientId == selectedPatient.Id);
+                return medicalСard;
+            }
+        }
+        #endregion
 
-
+        #region[Строка по строке из другой таблицы]
+        public static MedicalCard GetMedicalСardByPatientId(Patient selectedPatient)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var medicalСard = db.MedicalСards.FirstOrDefault(p => p.PatientId == selectedPatient.Id);
+                return medicalСard;
+            }
+        }
 
         public static Patient GetPatientByMedicalRecord(MedicalRecord selectedMedicalRecord)
         {
@@ -152,87 +204,9 @@ namespace Diploma.Command
                 return doctor;
             }
         }
+        #endregion
 
-
-        //Удаление мед карты
-        public static void DeleteMedicalCard(MedicalCard medicalCard)
-        {
-            using (ApplicationContext db = new ApplicationContext())
-            {
-                bool boolMedicalRecord = db.MedicalRecords.Any(p => p.MedicalСardId == medicalCard.Id);
-                if (boolMedicalRecord)
-                {
-                    int allRecord = db.MedicalRecords.Where(p => p.MedicalСardId == medicalCard.Id).Count();
-                    for (int i = 0; i <= allRecord; i++)
-                    {
-                        var record = db.MedicalRecords.FirstOrDefault(p => p.MedicalСardId == medicalCard.Id);
-                        if (record != null)
-                        {
-                            bool boolMedicine = db.Medicines.Any(p => p.MedicalRecordId == record.Id);
-                            if (boolMedicine)
-                            {
-                                int allMedicine = db.Medicines.Where(p => p.MedicalRecordId == record.Id).Count();
-                                for (int j = 0; j <= allMedicine; j++)
-                                {
-                                    var medicine = db.Medicines.FirstOrDefault(p => p.MedicalRecordId == record.Id);
-                                    if (medicine != null)
-                                    {
-                                        db.Medicines.Remove(medicine);
-                                    }
-                                }
-                            }
-                            db.MedicalRecords.Remove(record);
-                        }
-                    }
-                }
-                db.MedicalСards.Remove(medicalCard);
-                db.SaveChanges();
-            }
-        }
-
-        public static List<MedicalRecord> GetMedicalRecordByMedicalСardId(MedicalCard selectedMedicalCard)
-        {
-            using (ApplicationContext db = new ApplicationContext())
-            {
-                var result = db.MedicalRecords.Where(p => p.MedicalСardId == selectedMedicalCard.Id).ToList();
-                return result;
-            }
-        }
-
-        public static string DeleteMedicalRecord(MedicalRecord selectedMedicalRecord)
-        {
-            using (ApplicationContext db = new ApplicationContext())
-            {
-                bool boolMedicine = db.Medicines.Any(p => p.Id == selectedMedicalRecord.Id);
-                if (boolMedicine)
-                {
-                    int countMedicine = db.Medicines.Where(p => p.Id == selectedMedicalRecord.Id).Count();
-                    for (int i = 0; i < countMedicine; i++)
-                    {
-                        var medicine = db.Medicines.FirstOrDefault(p => p.Id == selectedMedicalRecord.Id);
-                        if (medicine != null)
-                        {
-                            db.Medicines.Remove(medicine);
-                        }
-                    }
-                }
-                db.MedicalRecords.Remove(selectedMedicalRecord);
-                db.SaveChanges();
-                var result = "Страница удалена";
-                return result;
-            }
-        }
-
-
-        public static bool BoolGetMedicalRecordByMedicalСardId(MedicalCard selectedMedicalCard)
-        {
-            using (ApplicationContext db = new ApplicationContext())
-            {
-                var result = db.MedicalRecords.Any(p => p.MedicalСardId == selectedMedicalCard.Id);
-                return result;
-            }
-        }
-
+        #region[Страницы в мед карте]
         public static void AddNewMedicalRecord(MedicalCard selectedMedicalCard,
             Doctor selectedDoctor, string diagnosis, DateTime startOfTreatment,
             DateTime? endOfTreatment)
@@ -268,9 +242,61 @@ namespace Diploma.Command
             }
         }
 
+        public static string DeleteMedicalRecord(MedicalRecord selectedMedicalRecord)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                bool boolMedicine = db.Medicines.Any(p => p.Id == selectedMedicalRecord.Id);
+                if (boolMedicine)
+                {
+                    int countMedicine = db.Medicines.Where(p => p.Id == selectedMedicalRecord.Id).Count();
+                    for (int i = 0; i < countMedicine; i++)
+                    {
+                        var medicine = db.Medicines.FirstOrDefault(p => p.Id == selectedMedicalRecord.Id);
+                        if (medicine != null)
+                        {
+                            db.Medicines.Remove(medicine);
+                        }
+                    }
+                }
+                db.MedicalRecords.Remove(selectedMedicalRecord);
+                db.SaveChanges();
+                var result = "Страница удалена";
+                return result;
+            }
+        }
 
+        public static List<MedicalRecord> GetMedicalRecordByMedicalСardId(MedicalCard selectedMedicalCard)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var result = db.MedicalRecords.Where(p => p.MedicalСardId == selectedMedicalCard.Id).ToList();
+                return result;
+            }
+        }
+        #endregion
 
-        #region[Инфо по Id]
+        #region[Строка по Id]
+        //Кабинет по Id
+        public static Cabinet GetCabinetById(int Id)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var result = db.Cabinets.FirstOrDefault(p => p.Id == Id);
+                return result;
+            }
+        }
+
+        //Время по Id
+        public static ReceptionHour GetReceptionHourById(int Id)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var result = db.ReceptionHours.FirstOrDefault(p => p.Id == Id);
+                return result;
+            }
+        }
+
         //Медицинская карта по Id
         public static MedicalCard GetMedicalСardById(int Id)
         {
@@ -322,50 +348,25 @@ namespace Diploma.Command
         }
         #endregion
 
-        #region[Список по Id]
-        //Лекарства по Id мед карты
-        public static List<Medicine> GetAllMedicinesByMedicalRecordId(MedicalRecord medicalRecord)
-        {
-            using (ApplicationContext db = new ApplicationContext())
-            {
-                var result = db.Medicines.Where(p => p.MedicalRecordId == medicalRecord.Id).ToList();
-                return result;
-            }
-        }
-
-
-
-
-
-        //Мед карты по Id пациента
-        public static bool BoolGetMedicalСardByPatientId(Patient selectedPatient)
-        {
-            using (ApplicationContext db = new ApplicationContext())
-            {
-                var medicalСard = db.MedicalСards.Any(p => p.PatientId == selectedPatient.Id);
-                return medicalСard;
-            }
-        }
-
-        public static MedicalCard GetMedicalСardByPatientId(Patient selectedPatient)
-        {
-            using (ApplicationContext db = new ApplicationContext())
-            {
-                var medicalСard = db.MedicalСards.FirstOrDefault(p => p.PatientId == selectedPatient.Id);
-                return medicalСard;
-            }
-        }
-        #endregion
-        public static List<MedicalRecord> GetMedicalRecordsByMedicalCardId(MedicalCard selectedMedicalCard)
-        {
-            using (ApplicationContext db = new ApplicationContext())
-            {
-                var result = db.MedicalRecords.Where(p => p.MedicalСardId == selectedMedicalCard.Id).ToList();
-                return result;
-            }
-        }
-
         #region[Получение полных таблиц]
+        public static List<Ticket> GetAllTicket()
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var result = db.Ticket.ToList();
+                return result;
+            }
+        }
+
+        public static List<ReceptionHour> GetAllReceptionHour()
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var result = db.ReceptionHours.ToList();
+                return result;
+            }
+        }
+
         //Все пациенты
         public static List<Patient> GetAllPatient()
         {
@@ -484,6 +485,7 @@ namespace Diploma.Command
             }
         }
 
+        //Удаление
         public static string DeletePatient(Patient selectedPatient)
         {
             using (ApplicationContext db = new ApplicationContext())
@@ -491,6 +493,16 @@ namespace Diploma.Command
                 var result = "Ошибка";
                 if (selectedPatient != null)
                 {
+                    bool examination = db.Ticket.Any(p => p.PatientId == selectedPatient.Id);
+                    if (examination)
+                    {
+                        for (int i = 0; i < db.Ticket.Count(); i++)
+                        {
+                            var ticket = db.Ticket.FirstOrDefault(p => p.PatientId == selectedPatient.Id);
+                            db.Ticket.Remove(ticket);
+                        }
+                    }
+
                     var patient = db.Patients.FirstOrDefault(p => p.Id == selectedPatient.Id);
                     db.Patients.Remove(patient);
                     db.SaveChanges();
@@ -583,10 +595,67 @@ namespace Diploma.Command
                 var result = "Ошибка";
                 if (selectedDoctor != null)
                 {
+                    bool examination = db.Ticket.Any(p => p.DoctorId == selectedDoctor.Id);
+                    if (examination)
+                    {
+                        for (int i = 0; i < db.Ticket.Count(); i++)
+                        {
+                            var ticket = db.Ticket.FirstOrDefault(p => p.DoctorId == selectedDoctor.Id);
+                            db.Ticket.Remove(ticket);
+                        }
+                    }
+
                     var doctor = db.Doctors.FirstOrDefault(p => p.Id == selectedDoctor.Id);
                     db.Doctors.Remove(doctor);
                     db.SaveChanges();
                     result = "Запись удалена";
+                }
+                return result;
+            }
+        }
+
+        public static List<Cabinet> GetAllCabinet()
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                List<Cabinet> cabinet = db.Cabinets.ToList();
+                List<Cabinet> result = db.Cabinets.ToList();
+                int allCabinet = db.Cabinets.Count() - 1;
+                for (int i = 0; i < allCabinet; i++)
+                {
+                    var selectedCabinet = cabinet[i];
+                    if (selectedCabinet != null)
+                    {
+                        bool examinationCabinet = db.Doctors.Any(p => p.CabinetId == selectedCabinet.Id);
+                        if (examinationCabinet)
+                        {
+                            result.Remove(selectedCabinet);
+                        }
+                    }
+                }
+                return result;
+            }
+        }
+
+        public static List<Cabinet> GetAllCabinet(Doctor selectedDoctor)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                List<Cabinet> cabinet = db.Cabinets.ToList();
+                List<Cabinet> result = db.Cabinets.ToList();
+                var doctor = db.Doctors.FirstOrDefault(p => p.Id == selectedDoctor.Id);
+                int allCabinet = db.Cabinets.Count() - 1;
+                for (int i = 0; i < allCabinet; i++)
+                {
+                    var selectedCabinet = cabinet[i];
+                    if (selectedCabinet != null)
+                    {
+                        bool examinationCabinet = db.Doctors.Any(p => p.CabinetId == selectedCabinet.Id);
+                        if (examinationCabinet && selectedCabinet != doctor.Cabinet)
+                        {
+                            result.Remove(selectedCabinet);
+                        }
+                    }
                 }
                 return result;
             }
@@ -649,6 +718,42 @@ namespace Diploma.Command
                 return result;
             }
         }
+
+        //Удаление всего что связано с мед картой
+        public static void DeleteMedicalCard(MedicalCard medicalCard)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                bool boolMedicalRecord = db.MedicalRecords.Any(p => p.MedicalСardId == medicalCard.Id);
+                if (boolMedicalRecord)
+                {
+                    int allRecord = db.MedicalRecords.Where(p => p.MedicalСardId == medicalCard.Id).Count();
+                    for (int i = 0; i <= allRecord; i++)
+                    {
+                        var record = db.MedicalRecords.FirstOrDefault(p => p.MedicalСardId == medicalCard.Id);
+                        if (record != null)
+                        {
+                            bool boolMedicine = db.Medicines.Any(p => p.MedicalRecordId == record.Id);
+                            if (boolMedicine)
+                            {
+                                int allMedicine = db.Medicines.Where(p => p.MedicalRecordId == record.Id).Count();
+                                for (int j = 0; j <= allMedicine; j++)
+                                {
+                                    var medicine = db.Medicines.FirstOrDefault(p => p.MedicalRecordId == record.Id);
+                                    if (medicine != null)
+                                    {
+                                        db.Medicines.Remove(medicine);
+                                    }
+                                }
+                            }
+                            db.MedicalRecords.Remove(record);
+                        }
+                    }
+                }
+                db.MedicalСards.Remove(medicalCard);
+                db.SaveChanges();
+            }
+        }
         #endregion
 
         #region[Лекарства]
@@ -681,16 +786,57 @@ namespace Diploma.Command
                 db.SaveChanges();
             }
         }
+
+        public static List<Medicine> GetAllMedicinesByMedicalRecordId(MedicalRecord medicalRecord)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var result = db.Medicines.Where(p => p.MedicalRecordId == medicalRecord.Id).ToList();
+                return result;
+            }
+        }
         #endregion
 
         #region[Получение Index по Id]
-        //Получение Index по Id специальности
+        public static int GetIndexCabinet(int Id, List<Cabinet> cabinetsList)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var row = cabinetsList.FirstOrDefault(p => p.Id == Id);
+                int index = cabinetsList.IndexOf(row);
+                return index;
+            }
+        }
+
+        public static int GetIndexReceptionHour(int Id)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                List<ReceptionHour> receptionHour = db.ReceptionHours.ToList();
+                var row = db.ReceptionHours.FirstOrDefault(p => p.Id == Id);
+                int index = receptionHour.IndexOf(row);
+                return index;
+            }
+        }
+
         public static int GetIndexSpeciality(int Id)
         {
             using (ApplicationContext db = new ApplicationContext())
             {
                 List<Speciality> speciality = db.Speciality.ToList();
                 var row = db.Speciality.FirstOrDefault(p => p.Id == Id);
+                int index = speciality.IndexOf(row);
+                return index;
+            }
+        }
+
+        public static int GetIndexSpecialityByDoctor(int Id)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var doctor = db.Doctors.FirstOrDefault(p => p.Id == Id);
+                List<Speciality> speciality = db.Speciality.ToList();
+                var row = db.Speciality.FirstOrDefault(p => p.Id == doctor.SpecialityId);
                 int index = speciality.IndexOf(row);
                 return index;
             }
@@ -720,6 +866,13 @@ namespace Diploma.Command
             }
         }
 
+        public static int GetIndexDoctor(List<Doctor> doctorList, int Id)
+        {
+            var row = doctorList.FirstOrDefault(p => p.Id == Id);
+            int index = doctorList.IndexOf(row);
+            return index;
+        }
+
         //Получение Index по Id пациента
         public static int GetIndexPatient(int Id)
         {
@@ -730,6 +883,13 @@ namespace Diploma.Command
                 int index = patient.IndexOf(row);
                 return index;
             }
+        }
+
+        public static int GetIndexPatient(List<Patient> patientList, int Id)
+        {
+            var row = patientList.FirstOrDefault(p => p.Id == Id);
+            int index = patientList.IndexOf(row);
+            return index;
         }
         #endregion
     }

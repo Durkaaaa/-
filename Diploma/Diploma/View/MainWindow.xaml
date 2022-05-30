@@ -72,7 +72,7 @@
                             Command="{Binding OpenPatientPage}"
                             CommandParameter="{Binding ElementName=MainWnd}"/>
 
-                    <Button Content="Таболны"
+                    <Button Content="Талоны"
                             Background="Transparent"
                             Width="170" 
                             Height="50"

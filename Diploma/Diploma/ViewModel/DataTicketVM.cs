@@ -27,7 +27,7 @@ namespace Diploma.ViewModel
                 return null ?? new RelayCommand(obj =>
                 {
                     AddNewTicketWindow addNewTicketWindow = new AddNewTicketWindow();
-                    MainWindow.FramePage.Content = addNewTicketWindow;
+                    SetCenterPositionAndOpen(addNewTicketWindow);
                     UpdateAllTicketPage();
                 });
             }
@@ -42,7 +42,7 @@ namespace Diploma.ViewModel
                     if (SelectedTicket != null)
                     {
                         EditTicketWindow editTicketWindow = new EditTicketWindow(SelectedTicket);
-                        MainWindow.FramePage.Content = editTicketWindow;
+                        SetCenterPositionAndOpen(editTicketWindow);
                         SelectedTicket = null;
                         UpdateAllTicketPage();
                     }

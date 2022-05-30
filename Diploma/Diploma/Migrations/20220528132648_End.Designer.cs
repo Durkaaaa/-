@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Diploma.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220528085315_full")]
-    partial class full
+    [Migration("20220528132648_End")]
+    partial class End
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -203,6 +203,24 @@ namespace Diploma.Migrations
                     b.ToTable("Patients");
                 });
 
+            modelBuilder.Entity("Diploma.Model.ReceptionHour", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("EndOfReception")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("StartOfReception")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ReceptionHours");
+                });
+
             modelBuilder.Entity("Diploma.Model.Speciality", b =>
                 {
                     b.Property<int>("Id")
@@ -225,23 +243,25 @@ namespace Diploma.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("DoctorId")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("EndOfReception")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("PatientId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("StartOfReception")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("ReceptionHourId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("DoctorId");
 
                     b.HasIndex("PatientId");
+
+                    b.HasIndex("ReceptionHourId");
 
                     b.ToTable("Ticket");
                 });
@@ -314,6 +334,12 @@ namespace Diploma.Migrations
                     b.HasOne("Diploma.Model.Patient", "Patient")
                         .WithMany()
                         .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Diploma.Model.ReceptionHour", "ReceptionHour")
+                        .WithMany()
+                        .HasForeignKey("ReceptionHourId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

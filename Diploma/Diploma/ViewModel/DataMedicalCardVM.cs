@@ -71,7 +71,7 @@ namespace Diploma.ViewModel
                 if (medicalRecord)
                 {
                     AllMedicalRecord = DataWorker.GetMedicalRecordByMedicalСardId(SelectedMedicalCard);
-                    SelectedMedicalRecord = DataWorker.GetMedicalRecordsByMedicalCardId(SelectedMedicalCard)[IndexMedicalRecord];
+                    SelectedMedicalRecord = AllMedicalRecord[IndexMedicalRecord];
                     bool boolMedicine = DataWorker.BoolGetAllMedicineByMedicanRecordId(SelectedMedicalRecord);
                     if (boolMedicine)
                     {
@@ -255,7 +255,7 @@ namespace Diploma.ViewModel
             AllMedicalRecord = DataWorker.GetMedicalRecordByMedicalСardId(SelectedMedicalCard);
             if (AllMedicalRecord.Count() > 0)
             {
-                SelectedMedicalRecord = DataWorker.GetMedicalRecordsByMedicalCardId(SelectedMedicalCard)[IndexMedicalRecord];
+                SelectedMedicalRecord = AllMedicalRecord[IndexMedicalRecord];
             }
             else
             {

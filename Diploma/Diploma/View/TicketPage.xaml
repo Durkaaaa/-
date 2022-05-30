@@ -168,7 +168,7 @@
                                             <TextBlock Text="Начало:" 
                                                        HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"/>
-                                            <TextBlock Text="{Binding StartOfReception}" 
+                                            <TextBlock Text="{Binding TicketReceptionHour.StartOfReception, StringFormat='{}{0: dd.MM.yyyy HH:mm}'}" 
                                                        Grid.Column="1"
                                                        HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"/>
@@ -177,7 +177,7 @@
                                                        Grid.Row="1"
                                                        HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"/>
-                                            <TextBlock Text="{Binding EndOfReception}" 
+                                            <TextBlock Text="{Binding TicketReceptionHour.EndOfReception, StringFormat='{}{0: dd.MM.yyyy HH:mm}'}" 
                                                        Grid.Column="1"
                                                        Grid.Row="1"
                                                        HorizontalAlignment="Center"

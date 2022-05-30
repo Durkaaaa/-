@@ -11,8 +11,9 @@ namespace Diploma.Model
         public virtual Patient Patient { get; set; }
         public int DoctorId { get; set; }
         public virtual Doctor Doctor { get; set; }
-        public DateTime StartOfReception { get; set; }
-        public DateTime EndOfReception { get; set; }
+        public DateTime Date { get; set; }
+        public int ReceptionHourId { get; set; }
+        public virtual ReceptionHour ReceptionHour { get; set; }
 
         [NotMapped]
         public Patient TicketPatient
@@ -29,6 +30,15 @@ namespace Diploma.Model
             get
             {
                 return DataWorker.GetDoctorById(DoctorId);
+            }
+        }
+
+        [NotMapped]
+        public ReceptionHour TicketReceptionHour
+        {
+            get
+            {
+                return DataWorker.GetReceptionHourById(ReceptionHourId);
             }
         }
     }
