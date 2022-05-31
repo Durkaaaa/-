@@ -185,8 +185,16 @@
     </Compile>
     <Compile Include="Command\DataWorker.cs" />
     <Compile Include="Command\RelayCommand.cs" />
+    <Compile Include="Migrations\20220531085602_q.cs" />
+    <Compile Include="Migrations\20220531085602_q.designer.cs">
+      <DependentUpon>20220531085602_q.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\ApplicationContextModelSnapshot.cs" />
+    <Compile Include="ViewModel\DataAddNewDoctorVM.cs" />
     <Compile Include="ViewModel\DataDoctorVM.cs" />
+    <Compile Include="ViewModel\DataEditDoctorVM.cs" />
     <Compile Include="ViewModel\DataMainVM.cs" />
+    <Compile Include="ViewModel\DataMessageVM.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\AddNewDoctorWindow.xaml.cs">
       <DependentUpon>AddNewDoctorWindow.xaml</DependentUpon>
@@ -208,6 +216,9 @@
     </Compile>
     <Compile Include="View\MedicalCardPage.xaml.cs">
       <DependentUpon>MedicalCardPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MessageWindow.xaml.cs">
+      <DependentUpon>MessageWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\PatientPage.xaml.cs">
       <DependentUpon>PatientPage.xaml</DependentUpon>
@@ -283,6 +294,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\MessageWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\PatientPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -292,6 +307,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

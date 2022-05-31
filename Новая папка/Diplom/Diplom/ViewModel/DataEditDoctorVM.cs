@@ -2,20 +2,20 @@
 using Diplom.Model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace Diplom.ViewModel
 {
-    public class DataAddNewDoctorVM : ViewModelBase
+    public class DataEditDoctorVM : ViewModelBase
     {
+        private Doctor _selectedDoctor;
         private string _surname;
         private string _name;
         private string _lastname;
         private Speciality _speciality;
         private Cabinet _cabinet;
+        private int _specialityIndex;
+        private int _cabinetIndex;
         private DateTime _dateOfEmployment;
         private int _workWithHour;
         private int _workWithMinute;
@@ -24,13 +24,34 @@ namespace Diplom.ViewModel
         private List<Speciality> _specialities;
         private List<Cabinet> _cabinets;
 
-        public DataAddNewDoctorVM()
+        public DataEditDoctorVM(Doctor selectedDoctor)
         {
+            SelectedDoctor = selectedDoctor;
+            _surname = SelectedDoctor.Surname;
+            _name = SelectedDoctor.Name;
+            _lastname = SelectedDoctor.Lastname;
+            _speciality = SelectedDoctor.Speciality;
+            _cabinet = SelectedDoctor.Cabinet;
+            _dateOfEmployment = SelectedDoctor.DateOfEmployment;
+            _workWithHour = SelectedDoctor.WorkWith.Hour;
+            _workWithMinute = SelectedDoctor.WorkWith.Minute;
+            _workUntilHour = SelectedDoctor.WorkUntil.Hour;
+            _workUntilMinute = SelectedDoctor.WorkUntil.Minute;
             AllCabinet = DataWorker.GetAllCabinet();
             AllSpeciality = DataWorker.GetAllSpeciality();
         }
 
         #region[Поля]
+        public Doctor SelectedDoctor
+        {
+            get => _selectedDoctor;
+            set
+            {
+                _selectedDoctor = value;
+                NotifyPropertyChanged(nameof(SelectedDoctor));
+            }
+        }
+
         public string Surname
         {
             get => _surname;
@@ -65,6 +86,24 @@ namespace Diplom.ViewModel
             {
                 _speciality = value;
                 NotifyPropertyChanged(nameof(Speciality));
+            }
+        }
+        public int CabinetIndex
+        {
+            get => _cabinetIndex;
+            set
+            {
+                _cabinetIndex = value;
+                NotifyPropertyChanged(nameof(CabinetIndex));
+            }
+        }
+        public int SpecialityIndex
+        {
+            get => _specialityIndex;
+            set
+            {
+                _specialityIndex = value;
+                NotifyPropertyChanged(nameof(SpecialityIndex));
             }
         }
         public Cabinet Cabinet
@@ -146,19 +185,19 @@ namespace Diplom.ViewModel
         }
         #endregion
 
-        public RelayCommand AddNewDoctor
+        public RelayCommand EditDoctor
         {
             get
             {
                 return null ?? new RelayCommand(obj =>
                 {
-                Window window = obj as Window;
+                    Window window = obj as Window;
                     if (Surname == null || Surname.Replace(" ", "").Length == 0 ||
                         Name == null || Name.Replace(" ", "").Length == 0 ||
                         Lastname == null || Lastname.Replace(" ", "").Length == 0 ||
                         Speciality == null ||
                         Cabinet == null ||
-                        DateOfEmployment > DateTime.Now || 
+                        DateOfEmployment > DateTime.Now ||
                         WorkWithHour >= 24 ||
                         WorkWithHour < 0 ||
                         WorkWithMinute >= 60 ||
@@ -234,7 +273,7 @@ namespace Diplom.ViewModel
                             SetBlackBlockControll(window, "WorkWithMinuteBlock");
                             SetBlackBlockControll(window, "WorkUntilHourBlock");
                             SetBlackBlockControll(window, "WorkUntilMinuteBlock");
-                            var result = DataWorker.AddNewDoctor(Surname, Name, Lastname,
+                            var result = DataWorker.EditDoctor(SelectedDoctor, Surname, Name, Lastname,
                                     Speciality, Cabinet, DateOfEmployment, workWith, workUntil);
                             ShowMessageToUser(result);
                             Zeroing();
@@ -257,6 +296,7 @@ namespace Diplom.ViewModel
             WorkWithMinute = 0;
             WorkUntilHour = 0;
             WorkUntilMinute = 0;
+            SelectedDoctor = null;
         }
     }
 }

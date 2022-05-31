@@ -14,7 +14,6 @@ namespace Diplom.ViewModel
     {
         private List<Doctor> _allDoctor;
         private Doctor _selectedDoctor;
-        private RelayCommand _addNewDoctor;
 
         public DataDoctorVM()
         {
@@ -45,12 +44,39 @@ namespace Diplom.ViewModel
         {
             get
             {
-                return _addNewDoctor ?? new RelayCommand(obj =>
+                return null ?? new RelayCommand(obj =>
                 {
                     AddNewDoctorWindow addNewDoctorWindow = new AddNewDoctorWindow();
                     SetCenterPositionAndOpen(addNewDoctorWindow);
+                    UpdateDoctorList();
                 });
             }
+        }
+
+        public RelayCommand EditDoctor
+        {
+            get
+            {
+                return null ?? new RelayCommand(obj =>
+                {
+                    if (SelectedDoctor != null)
+                    {
+                        EditDoctorWindow editDoctorWindow = new EditDoctorWindow(SelectedDoctor);
+                        SetCenterPositionAndOpen(editDoctorWindow);
+                        SelectedDoctor = null;
+                        UpdateDoctorList();
+                    }
+                });
+            }
+        }
+
+        private void UpdateDoctorList()
+        {
+            AllDoctor = DataWorker.GetAllDoctor();
+            DoctorPage.DoctorList.ItemsSource = null;
+            DoctorPage.DoctorList.Items.Clear();
+            DoctorPage.DoctorList.ItemsSource = AllDoctor;
+            DoctorPage.DoctorList.Items.Refresh();
         }
     }
 }

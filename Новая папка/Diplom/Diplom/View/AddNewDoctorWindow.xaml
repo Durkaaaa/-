@@ -67,12 +67,12 @@
 
             <TextBlock Text="Специальность"/>
             <ComboBox ItemsSource="{Binding AllSpeciality}"
-                      SelectedItem="{Binding SelectedSpeciality}"
+                      SelectedItem="{Binding Speciality}"
                       DisplayMemberPath="Titl"/>
 
             <TextBlock Text="Кабинет"/>
             <ComboBox ItemsSource="{Binding AllCabinet}"
-                      SelectedItem="{Binding SelectedCabinet}"
+                      SelectedItem="{Binding Cabinet}"
                       DisplayMemberPath="Titl"/>
 
             <TextBlock Text="Дата приема на работу"/>

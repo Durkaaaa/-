@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Diplom.View;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -38,11 +39,11 @@ namespace Diplom.ViewModel
         #endregion
 
         ////Окно с сообщением для пользователя
-        //public void ShowMessageToUser(string message)
-        //{
-        //    MessageWindow messageWindow = new MessageWindow(message);
-        //    SetCenterPositionAndOpen(messageWindow);
-        //}
+        public void ShowMessageToUser(string message)
+        {
+            MessageWindow messageWindow = new MessageWindow(message);
+            SetCenterPositionAndOpen(messageWindow);
+        }
 
         //Положение окна при открытии
         public void SetCenterPositionAndOpen(Window window)

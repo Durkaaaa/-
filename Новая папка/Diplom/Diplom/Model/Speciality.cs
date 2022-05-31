@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Diplom.Model
 {
@@ -8,6 +9,7 @@ namespace Diplom.Model
         public string Titl { get; set; }
 
         // Ссылка на врачей
+        [NotMapped]
         public List<Doctor> Doctors { get; set; }
     }
 }

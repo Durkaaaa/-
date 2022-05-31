@@ -97,7 +97,7 @@ namespace Diplom.Command
         {
             using (ApplicationContext db = new ApplicationContext())
             {
-                var allSpeciality = db.Speciality.ToList();
+                var allSpeciality = db.Specialities.ToList();
                 return allSpeciality;
             }
         }
@@ -114,15 +114,68 @@ namespace Diplom.Command
         #endregion
 
         #region[Доктор]
+        // Добавление
         public static string AddNewDoctor(string surname, string name, string lastname,
-            int specialityId, int cabinetId, DateTime dateOfEmployment, DateTime workWith,
-            DateTime addNewDoctor)
+            Speciality speciality, Cabinet cabinet, DateTime dateOfEmployment, DateTime workWith,
+            DateTime workUntil)
         {
             using (ApplicationContext db = new ApplicationContext())
             {
+                var result = "Данная запись уже существует";
                 bool examination = db.Doctors.Any(p => p.Surname == surname &&
-                p.Name == name && p.Lastname == lastname && p.Speciality.Id == specialityId &&
-                p.Cabinet == cabinetId;
+                p.Name == name && p.Lastname == lastname && p.SpecialityId == speciality.Id &&
+                p.CabinetId == cabinet.Id && p.DateOfEmployment == dateOfEmployment &&    
+                p.WorkWith == workWith && p.WorkUntil == workUntil);
+
+                if (!examination)
+                {
+                    Doctor doctor = new Doctor
+                    {
+                        Surname = surname,
+                        Name = name,
+                        Lastname = lastname,
+                        SpecialityId = speciality.Id,
+                        CabinetId = cabinet.Id,
+                        DateOfEmployment = dateOfEmployment,
+                        WorkWith = workWith,
+                        WorkUntil = workUntil
+                    };
+                    db.Doctors.Add(doctor);
+                    db.SaveChanges();
+                    result = "Запись добавлена";
+                }
+                return result;
+            }
+        }
+
+        // Редактирвоание
+        public static string EditDoctor(Doctor selectedDoctor, string surname, string name, string lastname,
+            Speciality speciality, Cabinet cabinet, DateTime dateOfEmployment, DateTime workWith,
+            DateTime workUntil)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var result = "Данная запись уже существует";
+                bool examination = db.Doctors.Any(p => p.Surname == surname &&
+                p.Name == name && p.Lastname == lastname && p.SpecialityId == speciality.Id &&
+                p.CabinetId == cabinet.Id && p.DateOfEmployment == dateOfEmployment &&
+                p.WorkWith == workWith && p.WorkUntil == workUntil);
+
+                if (!examination)
+                {
+                    var doctor = db.Doctors.FirstOrDefault(p => p.Id == selectedDoctor.Id);
+                    doctor.Surname = surname;
+                    doctor.Name = name;
+                    doctor.Lastname = lastname;
+                    doctor.SpecialityId = speciality.Id;
+                    doctor.CabinetId = cabinet.Id;
+                    doctor.DateOfEmployment = dateOfEmployment;
+                    doctor.WorkWith = workWith;
+                    doctor.WorkUntil = workUntil;
+                    db.SaveChanges();
+                    result = "Запись изменена";
+                }
+                return result;
             }
         }
         #endregion

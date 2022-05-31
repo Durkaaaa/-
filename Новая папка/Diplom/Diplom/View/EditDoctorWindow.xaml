@@ -67,15 +67,15 @@
 
             <TextBlock Text="Специальность"/>
             <ComboBox ItemsSource="{Binding AllSpeciality}"
-                      SelectedItem="{Binding SelectedSpeciality}"
+                      SelectedItem="{Binding Speciality}"
                       DisplayMemberPath="Titl"
-                      SelectedIndex="{Binding IndexSpeciality}"/>
+                      SelectedIndex="{Binding SpecialityIndex}"/>
 
             <TextBlock Text="Кабинет"/>
             <ComboBox ItemsSource="{Binding AllCabinet}"
-                      SelectedItem="{Binding SelectedCabinet}"
+                      SelectedItem="{Binding Cabinet}"
                       DisplayMemberPath="Titl"
-                      SelectedIndex="{Binding IndexCabinet}"/>
+                      SelectedIndex="{Binding CabinetIndex}"/>
 
             <TextBlock Text="Дата приема на работу"/>
             <DatePicker SelectedDate="{Binding DateOfEmployment}"

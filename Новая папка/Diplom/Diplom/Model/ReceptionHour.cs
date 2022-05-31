@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Diplom.Model
 {
@@ -10,6 +11,7 @@ namespace Diplom.Model
         public DateTime EndOfReception { get; set; }
 
         // Ссылка на табол
+        [NotMapped]
         public List<Ticket> Ticket { get; set; }
     }
 }
