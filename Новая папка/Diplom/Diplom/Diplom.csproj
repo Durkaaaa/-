@@ -191,10 +191,13 @@
     </Compile>
     <Compile Include="Migrations\ApplicationContextModelSnapshot.cs" />
     <Compile Include="ViewModel\DataAddNewDoctorVM.cs" />
+    <Compile Include="ViewModel\DataAddNewPatientVM.cs" />
     <Compile Include="ViewModel\DataDoctorVM.cs" />
     <Compile Include="ViewModel\DataEditDoctorVM.cs" />
+    <Compile Include="ViewModel\DataEditPatientVM.cs" />
     <Compile Include="ViewModel\DataMainVM.cs" />
     <Compile Include="ViewModel\DataMessageVM.cs" />
+    <Compile Include="ViewModel\DataPatientVM.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\AddNewDoctorWindow.xaml.cs">
       <DependentUpon>AddNewDoctorWindow.xaml</DependentUpon>

@@ -27,18 +27,18 @@ namespace Diplom.ViewModel
         public DataEditDoctorVM(Doctor selectedDoctor)
         {
             SelectedDoctor = selectedDoctor;
-            _surname = SelectedDoctor.Surname;
-            _name = SelectedDoctor.Name;
-            _lastname = SelectedDoctor.Lastname;
-            _speciality = SelectedDoctor.Speciality;
-            _cabinet = SelectedDoctor.Cabinet;
-            _dateOfEmployment = SelectedDoctor.DateOfEmployment;
-            _workWithHour = SelectedDoctor.WorkWith.Hour;
-            _workWithMinute = SelectedDoctor.WorkWith.Minute;
-            _workUntilHour = SelectedDoctor.WorkUntil.Hour;
-            _workUntilMinute = SelectedDoctor.WorkUntil.Minute;
+            Surname = SelectedDoctor.Surname;
+            Name = SelectedDoctor.Name;
+            Lastname = SelectedDoctor.Lastname;
+            DateOfEmployment = SelectedDoctor.DateOfEmployment;
+            WorkWithHour = SelectedDoctor.WorkWith.Hour;
+            WorkWithMinute = SelectedDoctor.WorkWith.Minute;
+            WorkUntilHour = SelectedDoctor.WorkUntil.Hour;
+            WorkUntilMinute = SelectedDoctor.WorkUntil.Minute;
             AllCabinet = DataWorker.GetAllCabinet();
             AllSpeciality = DataWorker.GetAllSpeciality();
+            SpecialityIndex = DataWorker.GetSpecialityIndex(AllSpeciality, SelectedDoctor.SpecialityId);
+            CabinetIndex = DataWorker.GetCabinetIndex(AllCabinet, SelectedDoctor.CabinetId);
         }
 
         #region[Поля]

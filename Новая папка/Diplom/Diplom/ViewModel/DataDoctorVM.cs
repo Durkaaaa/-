@@ -1,11 +1,6 @@
-﻿using System;
-using Diplom.Model;
+﻿using Diplom.Model;
 using Diplom.Command;
-using Diplom.ViewModel;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Diplom.View;
 
 namespace Diplom.ViewModel
@@ -20,6 +15,7 @@ namespace Diplom.ViewModel
             AllDoctor = DataWorker.GetAllDoctor();
         }
 
+        #region[Поля]
         public List<Doctor> AllDoctor
         {
             get => _allDoctor;
@@ -39,6 +35,7 @@ namespace Diplom.ViewModel
                 NotifyPropertyChanged(nameof(SelectedDoctor));
             }
         }
+        #endregion
 
         public RelayCommand AddNewDoctor
         {
@@ -63,6 +60,23 @@ namespace Diplom.ViewModel
                     {
                         EditDoctorWindow editDoctorWindow = new EditDoctorWindow(SelectedDoctor);
                         SetCenterPositionAndOpen(editDoctorWindow);
+                        SelectedDoctor = null;
+                        UpdateDoctorList();
+                    }
+                });
+            }
+        }
+
+        public RelayCommand DeleteDoctor
+        {
+            get
+            {
+                return null ?? new RelayCommand(obj =>
+                {
+                    if (SelectedDoctor != null)
+                    {
+                        var result = DataWorker.DeleteDoctor(SelectedDoctor);
+                        ShowMessageToUser(result);
                         SelectedDoctor = null;
                         UpdateDoctorList();
                     }

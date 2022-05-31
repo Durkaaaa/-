@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Diplom.Model;
+using Diplom.ViewModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Diplom.View
 {
@@ -19,9 +9,10 @@ namespace Diplom.View
     /// </summary>
     public partial class EditPatientWindow : Window
     {
-        public EditPatientWindow()
+        public EditPatientWindow(Patient selectedPatient)
         {
             InitializeComponent();
+            DataContext = new DataEditPatientVM(selectedPatient);
         }
     }
 }
