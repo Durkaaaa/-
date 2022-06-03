@@ -188,9 +188,12 @@ namespace Diplom.Command
             using (ApplicationContext db = new ApplicationContext())
             {
                 var ticket = db.Ticket.Where(p => p.DoctorId == selectedDoctor.Id).FirstOrDefault();
+                if (ticket != null)
+                {
+                    db.Ticket.Remove(ticket);
+                }
                 var doctor = db.Doctors.FirstOrDefault(p => p.Id == selectedDoctor.Id);
 
-                db.Ticket.Remove(ticket);
                 db.Doctors.Remove(doctor);
                 db.SaveChanges();
                 return "Врач удален";
@@ -274,15 +277,28 @@ namespace Diplom.Command
             using (ApplicationContext db = new ApplicationContext())
             {
                 var ticket = db.Ticket.Where(p => p.PatientId == selectedPatient.Id).FirstOrDefault();
-                var medicalCard = db.MedicalСards.FirstOrDefault(p => p.PatientId == selectedPatient.Id);
-                var medicalRecord = db.MedicalRecords.Where(p => p.MedicalСardId == medicalCard.Id).FirstOrDefault();
-                var medicine = db.Medicines.Where(p => p.MedicalRecordId == medicalRecord.Id).FirstOrDefault();
-                var patient = db.Patients.FirstOrDefault(p => p.Id == selectedPatient.Id);
+                if (ticket != null)
+                {
+                    db.Ticket.Remove(ticket);
+                }
 
-                db.Ticket.Remove(ticket);
-                db.Medicines.Remove(medicine);
-                db.MedicalRecords.Remove(medicalRecord);
-                db.MedicalСards.Remove(medicalCard);
+                var medicalCard = db.MedicalСards.FirstOrDefault(p => p.PatientId == selectedPatient.Id);
+                if (medicalCard != null)
+                {
+                    var medicalRecord = db.MedicalRecords.Where(p => p.MedicalСardId == medicalCard.Id).FirstOrDefault();
+                    if (medicalRecord != null)
+                    {
+                        var medicine = db.Medicines.Where(p => p.MedicalRecordId == medicalRecord.Id).FirstOrDefault();
+                        if (medicine != null)
+                        {
+                            db.Medicines.Remove(medicine);
+                        }
+                        db.MedicalRecords.Remove(medicalRecord);
+                    }
+                    db.MedicalСards.Remove(medicalCard);
+                }
+                
+                var patient = db.Patients.FirstOrDefault(p => p.Id == selectedPatient.Id);
                 db.Patients.Remove(patient);
                 db.SaveChanges();
                 return "Пациент удален";

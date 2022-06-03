@@ -12,7 +12,7 @@ namespace Diplom.View
         public PatientPage()
         {
             InitializeComponent();
-            DataContext = new DataAddNewPatientVM();
+            DataContext = new DataPatientVM();
             PatientList = PatientListBlock;
         }
     }

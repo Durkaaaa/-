@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Diplom.Migrations
 {
-    public partial class q : Migration
+    public partial class full : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -80,49 +80,6 @@ namespace Diplom.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MedicalRecords",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    MedicalСardId = table.Column<int>(nullable: false),
-                    DoctorId = table.Column<int>(nullable: false),
-                    Diagnosis = table.Column<string>(nullable: true),
-                    StartOfTreatment = table.Column<DateTime>(nullable: false),
-                    EndOfTreatment = table.Column<DateTime>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MedicalRecords", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_MedicalRecords_Doctors_DoctorId",
-                        column: x => x.DoctorId,
-                        principalTable: "Doctors",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Medicines",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    MedicalRecordId = table.Column<int>(nullable: false),
-                    Titl = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Medicines", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Medicines_MedicalRecords_MedicalRecordId",
-                        column: x => x.MedicalRecordId,
-                        principalTable: "MedicalRecords",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Ticket",
                 columns: table => new
                 {
@@ -130,6 +87,7 @@ namespace Diplom.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PatientId = table.Column<int>(nullable: false),
                     DoctorId = table.Column<int>(nullable: false),
+                    CabinetId = table.Column<int>(nullable: false),
                     Date = table.Column<DateTime>(nullable: false),
                     ReceptionHourId = table.Column<int>(nullable: false)
                 },
@@ -219,6 +177,51 @@ namespace Diplom.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "MedicalRecords",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MedicalСardId = table.Column<int>(nullable: false),
+                    DoctorSurname = table.Column<string>(nullable: true),
+                    DoctorName = table.Column<string>(nullable: true),
+                    DoctorLastname = table.Column<string>(nullable: true),
+                    Diagnosis = table.Column<string>(nullable: true),
+                    StartOfTreatment = table.Column<DateTime>(nullable: false),
+                    EndOfTreatment = table.Column<DateTime>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MedicalRecords", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MedicalRecords_MedicalСards_MedicalСardId",
+                        column: x => x.MedicalСardId,
+                        principalTable: "MedicalСards",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Medicines",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MedicalRecordId = table.Column<int>(nullable: false),
+                    Titl = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Medicines", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Medicines_MedicalRecords_MedicalRecordId",
+                        column: x => x.MedicalRecordId,
+                        principalTable: "MedicalRecords",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Doctors_CabinetId",
                 table: "Doctors",
@@ -233,11 +236,6 @@ namespace Diplom.Migrations
                 name: "IX_Doctors_TicketId",
                 table: "Doctors",
                 column: "TicketId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_MedicalRecords_DoctorId",
-                table: "MedicalRecords",
-                column: "DoctorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MedicalRecords_MedicalСardId",
@@ -291,14 +289,6 @@ namespace Diplom.Migrations
                 principalTable: "Ticket",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_MedicalRecords_MedicalСards_MedicalСardId",
-                table: "MedicalRecords",
-                column: "MedicalСardId",
-                principalTable: "MedicalСards",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Ticket_Patients_PatientId",

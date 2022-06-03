@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Diplom.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220531085602_q")]
-    partial class q
+    [Migration("20220603101552_full")]
+    partial class full
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -123,8 +123,14 @@ namespace Diplom.Migrations
                     b.Property<string>("Diagnosis")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("DoctorId")
-                        .HasColumnType("int");
+                    b.Property<string>("DoctorLastname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DoctorName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DoctorSurname")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("EndOfTreatment")
                         .HasColumnType("datetime2");
@@ -136,8 +142,6 @@ namespace Diplom.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DoctorId");
 
                     b.HasIndex("MedicalСardId");
 
@@ -258,6 +262,9 @@ namespace Diplom.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("CabinetId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
@@ -311,12 +318,6 @@ namespace Diplom.Migrations
 
             modelBuilder.Entity("Diplom.Model.MedicalRecord", b =>
                 {
-                    b.HasOne("Diplom.Model.Doctor", "Doctor")
-                        .WithMany()
-                        .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Diplom.Model.MedicalCard", "MedicalСard")
                         .WithMany()
                         .HasForeignKey("MedicalСardId")

@@ -170,7 +170,7 @@ namespace Diplom.ViewModel
         }
         #endregion
 
-        public RelayCommand AddNewPatient
+        public RelayCommand EditPatient
         {
             get
             {

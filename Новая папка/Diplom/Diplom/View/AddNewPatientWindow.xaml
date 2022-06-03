@@ -68,7 +68,7 @@
             <TextBlock Text="Пол"/>
             <ComboBox ItemsSource="{Binding AllGender}"
                       DisplayMemberPath="Titl"
-                      SelectedItem="{Binding SelectedGender}"/>
+                      SelectedItem="{Binding Gender}"/>
 
             <TextBlock Text="Дата рождения"/>
             <DatePicker x:Name="DateOfBirthBlock" 
