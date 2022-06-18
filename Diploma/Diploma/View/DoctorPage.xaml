@@ -83,7 +83,7 @@
                         <GridViewColumn.Header>
                             <TextBlock TextAlignment="Center"
                                        FontSize="12"
-                                       Text="Специальность"/>
+                                       Text="Специализация"/>
                         </GridViewColumn.Header>
                     </GridViewColumn>
 

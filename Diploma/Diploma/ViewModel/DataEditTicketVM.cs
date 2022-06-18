@@ -20,7 +20,7 @@ namespace Diploma.ViewModel
         {
             SelectedTicket = selectedTicket;
             Date = SelectedTicket.Date;
-            _allSpeciality = DataWorker.GetAllSpecialityTicket();
+            _allSpeciality = DataWorker.GetAllSpeciality();
             IndexReceptionHour = DataWorker.GetIndexReceptionHour(SelectedTicket.ReceptionHourId);
             IndexSpeciality = DataWorker.GetIndexSpecialityByDoctor(SelectedTicket.DoctorId);
         }

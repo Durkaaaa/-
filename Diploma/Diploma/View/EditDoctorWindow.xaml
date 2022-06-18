@@ -65,7 +65,7 @@
                      BorderBrush="Black"
                      VerticalAlignment="Center"/>
 
-            <TextBlock Text="Специальность"/>
+            <TextBlock Text="Специализация"/>
             <ComboBox ItemsSource="{Binding AllSpeciality}"
                       SelectedItem="{Binding SelectedSpeciality}"
                       DisplayMemberPath="Titl"

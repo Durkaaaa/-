@@ -16,7 +16,7 @@ namespace Diploma.ViewModel
         public DataAddNewTicketVM()
         {
             Date = DateTime.Now;
-            _allSpeciality = DataWorker.GetAllSpecialityTicket();
+            _allSpeciality = DataWorker.GetAllSpeciality();
         }
 
         private List<ReceptionHour> _allReceptionHour = DataWorker.GetAllReceptionHour();
